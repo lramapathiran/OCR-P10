@@ -1,9 +1,9 @@
-package com.lavanya.web.model;
+package com.lavanya.api.model;
 
 import java.time.LocalDate;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,9 +13,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+property = "id")
+@JsonIdentityReference(alwaysAsId = true)
 public class Lending {
 	
 	@Id
@@ -23,18 +32,26 @@ public class Lending {
 	Integer id;
 	
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
+	@Column(name="lending_date")
 	LocalDate lendingDate;
+	
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
-	Date dueDate;
+	@Column(name="due_date")
+	LocalDate dueDate;
+	
+	@Column(name="is_extended")
 	Boolean isExtended;
+	
 	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id", nullable=false)
+	@JsonBackReference
 	private User user;
 
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", referencedColumnName = "id")
+	@JsonBackReference
 	private Book book;
 	
 	public Lending() {
@@ -56,11 +73,11 @@ public class Lending {
 		this.lendingDate = lendingDate;
 	}
 
-	public Date getDueDate() {
+	public LocalDate getDueDate() {
 		return dueDate;
 	}
 
-	public void setDueDate(Date dueDate) {
+	public void setDueDate(LocalDate dueDate) {
 		this.dueDate = dueDate;
 	}
 

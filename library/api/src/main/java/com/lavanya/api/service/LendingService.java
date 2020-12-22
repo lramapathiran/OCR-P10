@@ -1,12 +1,14 @@
-package com.lavanya.web.service;
+package com.lavanya.api.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import com.lavanya.web.model.Lending;
-import com.lavanya.web.repository.LendingRepository;
+import com.lavanya.api.model.Lending;
+import com.lavanya.api.repository.LendingRepository;
 
+@Service
 public class LendingService {
 	
 	@Autowired
@@ -20,6 +22,6 @@ public class LendingService {
 
 	public Lending getLendingByBookId(int bookId) {
 		
-		return lendingRepository.findAllByBookId(bookId);
+		return lendingRepository.findByBookId(bookId);
 	}
 }

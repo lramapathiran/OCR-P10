@@ -1,4 +1,4 @@
-package com.lavanya.web.controller;
+package com.lavanya.api.controller;
 
 import java.net.URI;
 import java.util.Optional;
@@ -16,8 +16,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import com.lavanya.web.model.User;
-import com.lavanya.web.service.UserService;
+import com.lavanya.api.model.User;
+import com.lavanya.api.service.UserService;
 
 
 /**

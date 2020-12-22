@@ -1,47 +1,29 @@
-package com.lavanya.web.model;
+package com.lavanya.web.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+public class UserDto {
 
-import com.fasterxml.jackson.annotation.JsonFilter;
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-@Entity
-@JsonFilter("userDataFiltered")
-public class User {
-	
-	@Id
-	@GeneratedValue (strategy=GenerationType.AUTO)
 	Integer id;
 	
-	@Column(name="first_name")
+
 	String firstName;
-	@Column(name="last_name")
+
 	String lastName;
-	@Column(name="date_of_birth")
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
-	Date dateOfBirth;
+
+	LocalDate dateOfBirth;
 	String address;
 	String telephone;
 	String email;
-	@Column(name="member_id")
+
 	String memberId;
 	String password;
 	String encodedPassword;
+
+    private List<LendingDto> lendingDto;
 	
-	@OneToMany(mappedBy="lending")
-	@JoinColumn(name = "user_id")
-    private List<Lending> lending;
-	
-	public User() {
+	public UserDto() {
 	}
 
 	public Integer getId() {
@@ -68,11 +50,11 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public Date getDateOfBirth() {
+	public LocalDate getDateOfBirth() {
 		return dateOfBirth;
 	}
 
-	public void setDateOfBirth(Date dateOfBirth) {
+	public void setDateOfBirth(LocalDate dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 
@@ -124,20 +106,18 @@ public class User {
 		this.encodedPassword = encodedPassword;
 	}
 	
-	public List<Lending> getLending() {
-		return lending;
+	public List<LendingDto> getLending() {
+		return lendingDto;
 	}
 
-	public void setLending(List<Lending> lending) {
-		this.lending = lending;
+	public void setLending(List<LendingDto> lendingDto) {
+		this.lendingDto = lendingDto;
 	}
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth=" + dateOfBirth
 				+ ", address=" + address + ", telephone=" + telephone + ", email=" + email + ", memberId=" + memberId
-				+ ", lending=" + lending + "]";
+				+ ", lending=" + lendingDto + "]";
 	}	
-	
-
 }

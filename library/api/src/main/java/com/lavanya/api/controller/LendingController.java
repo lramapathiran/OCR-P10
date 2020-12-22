@@ -1,4 +1,4 @@
-package com.lavanya.web.controller;
+package com.lavanya.api.controller;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lavanya.web.model.Lending;
-import com.lavanya.web.service.LendingService;
+import com.lavanya.api.model.Lending;
+import com.lavanya.api.service.LendingService;
 
 /**
  * Rest Controller used in MVC architecture to control all the requests related to Lending object.
@@ -21,13 +21,13 @@ public class LendingController {
 	LendingService lendingService;
 	
 	/**
-     * GET requests for /showLending endpoint.
+     * GET requests for /lending endpoint.
      * This controller-method retrieves details on a lending of interest.  
      * 
      * @param bookId an int to specify the id of the Book object borrowed by the user.
      * @return Lending object containing details on the lending.
      */	
-	@GetMapping("/showLending")
+	@GetMapping("/user/lending")
 	public	Lending getLendingDetails(@RequestParam ("bookId") int bookId) {
 		
 		return lendingService.getLendingByBookId(bookId);		

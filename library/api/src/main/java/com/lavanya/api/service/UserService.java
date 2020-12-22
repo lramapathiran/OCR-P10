@@ -1,4 +1,4 @@
-package com.lavanya.web.service;
+package com.lavanya.api.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lavanya.web.model.User;
-import com.lavanya.web.repository.UserRepository;
+import com.lavanya.api.model.User;
+import com.lavanya.api.repository.UserRepository;
 
 @Service
 public class UserService {

@@ -1,9 +1,15 @@
-package com.lavanya.web.model;
+package com.lavanya.api.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -16,14 +22,25 @@ public class Book {
 	String title;
 //	author firstName and lastName
 	String author;
-//	ajouter stock par livre
+	
+	@Column(name="remaining_stock")
 	Integer remainingStock;
 	
+	@Column(name="full_stock")
 	Integer fullStock;
 	
-	@OneToOne(mappedBy = "lending")
-	private Lending lending;
+	@OneToMany(mappedBy = "book", fetch = FetchType.LAZY, 
+			cascade = CascadeType.ALL)
+	private List<Lending> lendings;
 	
+	public List<Lending> getLendings() {
+		return lendings;
+	}
+
+	public void setLendings(List<Lending> lendings) {
+		this.lendings = lendings;
+	}
+
 	public Book() {
 	}
 
@@ -67,19 +84,14 @@ public class Book {
 		this.fullStock = fullStock;
 	}
 
-	public Lending getLending() {
-		return lending;
-	}
-
-	public void setLending(Lending lending) {
-		this.lending = lending;
-	}
-
 	@Override
 	public String toString() {
 		return "Book [id=" + id + ", title=" + title + ", author=" + author + ", remainingStock=" + remainingStock
-				+ ", fullStock=" + fullStock + ", lending=" + lending + "]";
+				+ ", fullStock=" + fullStock + ", lendings=" + lendings + "]";
 	}
+
+	
+	
 	
 
 }

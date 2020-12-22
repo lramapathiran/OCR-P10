@@ -7,6 +7,10 @@
   </parent>
   <artifactId>api</artifactId>
   
+  <properties>
+		<spring-cloud.version>Hoxton.SR9</spring-cloud.version>
+  </properties>
+  
   <dependencies>
 	<dependency>
 		<groupId>org.springframework.boot</groupId>
@@ -27,11 +31,7 @@
 	<dependency>
 		<groupId>mysql</groupId>
 		<artifactId>mysql-connector-java</artifactId>
-		</dependency>
-	<dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-thymeleaf</artifactId>
-    </dependency>
+	</dependency>
 	<dependency>
 	    <groupId>org.hibernate</groupId>
 	    <artifactId>hibernate-validator</artifactId>
@@ -52,6 +52,24 @@
 <!-- 	    <groupId>javax.interceptor</groupId> -->
 <!-- 	    <artifactId>javax.interceptor-api</artifactId> -->
 <!-- 	</dependency>	 -->
+
+	<dependency>
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-starter-feign</artifactId>
+	</dependency>
+<!-- 	https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies -->
+	<dependency>
+	    <groupId>org.springframework.cloud</groupId>
+	    <artifactId>spring-cloud-dependencies</artifactId>
+	    <version>${spring-cloud.version}</version>
+	    <type>pom</type>
+	</dependency>
+	
+<!-- 	<dependency> -->
+<!-- 	    <groupId>org.springframework.cloud</groupId> -->
+<!--         <artifactId>spring-cloud-dependencies</artifactId> -->
+<!--         <version>${spring-cloud.version}</version> -->
+<!--     </dependency> -->
   </dependencies>
   
   <build>
