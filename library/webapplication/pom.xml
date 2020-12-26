@@ -50,6 +50,11 @@
 <!-- 	    <groupId>javax.interceptor</groupId> -->
 <!-- 	    <artifactId>javax.interceptor-api</artifactId> -->
 <!-- 	</dependency>	 -->
+
+		<dependency>
+			 <groupId>io.github.openfeign</groupId>
+			 <artifactId>feign-jackson</artifactId>
+		</dependency>
   </dependencies>
   
   <build>

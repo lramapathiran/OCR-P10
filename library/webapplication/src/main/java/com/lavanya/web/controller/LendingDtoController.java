@@ -1,5 +1,7 @@
 package com.lavanya.web.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,4 +27,13 @@ public class LendingDtoController {
 	     return "lending";
 	 }
 
+	 @RequestMapping("/user/lendings")
+	 public String showUserLendingsList(@RequestParam ("userId") int userId, Model model){
+
+		 List<LendingDto> booksList = lendingProxy.showListOfUserLendings(userId);
+
+	     model.addAttribute("list", booksList);
+
+	     return "userLendings";
+	 }
 }

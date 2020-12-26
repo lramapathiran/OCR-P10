@@ -139,6 +139,14 @@
 	            <type>pom</type>
 	            <scope>import</scope>
 	        </dependency>
+	        
+	        <!-- https://mvnrepository.com/artifact/io.github.openfeign/feign-jackson -->
+			<dependency>
+			    <groupId>io.github.openfeign</groupId>
+			    <artifactId>feign-jackson</artifactId>
+			    <version>11.0</version>
+			</dependency>
+	        
 						
 		</dependencies>
 	</dependencyManagement>

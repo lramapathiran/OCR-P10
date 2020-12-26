@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Book {
 	
@@ -31,6 +33,7 @@ public class Book {
 	
 	@OneToMany(mappedBy = "book", fetch = FetchType.LAZY, 
 			cascade = CascadeType.ALL)
+	@JsonBackReference
 	private List<Lending> lendings;
 	
 	public List<Lending> getLendings() {

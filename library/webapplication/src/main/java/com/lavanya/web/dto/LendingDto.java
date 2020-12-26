@@ -3,29 +3,36 @@ package com.lavanya.web.dto;
 import java.time.LocalDate;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 public class LendingDto {
 	
 	Integer id;
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
-	LocalDate lendingDate;
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
-	LocalDate dueDate;
+//	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
+	String lendingDate;
+//	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
+	String dueDate;
 	Boolean isExtended;
+	
+	
 	private UserDto userDto;
+	
+	
 	private BookDto bookDto;
 	
 	public LendingDto() {
 	}
 	
-	@JsonProperty("user_id")
-	private void unpackNested(Integer user_id) {
-	    this.userDto = new UserDto();
-	    bookDto.setId(user_id);
-	}
+//	@JsonProperty("user_id")
+//	private void unpackNested(Integer user_id) {
+//	    this.userDto = new UserDto();
+//	    bookDto.setId(user_id);
+//	}
 
 	public Integer getId() {
 		return id;
@@ -35,19 +42,19 @@ public class LendingDto {
 		this.id = id;
 	}
 
-	public LocalDate getLendingDate() {
+	public String getLendingDate() {
 		return lendingDate;
 	}
 
-	public void setLendingDate(LocalDate lendingDate) {
+	public void setLendingDate(String lendingDate) {
 		this.lendingDate = lendingDate;
 	}
 
-	public LocalDate getDueDate() {
+	public String getDueDate() {
 		return dueDate;
 	}
 
-	public void setDueDate(LocalDate dueDate) {
+	public void setDueDate(String dueDate) {
 		this.dueDate = dueDate;
 	}
 

@@ -22,9 +22,6 @@ import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
-property = "id")
-@JsonIdentityReference(alwaysAsId = true)
 public class Lending {
 	
 	@Id
@@ -49,9 +46,8 @@ public class Lending {
 	private User user;
 
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
     @JoinColumn(name = "book_id", referencedColumnName = "id")
-	@JsonBackReference
 	private Book book;
 	
 	public Lending() {
