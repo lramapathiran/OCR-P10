@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @Entity
 public class Lending {
@@ -28,10 +29,12 @@ public class Lending {
 	@GeneratedValue (strategy=GenerationType.AUTO)
 	Integer id;
 	
+//	@JsonDeserialize(as = LocalDate.class)
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
 	@Column(name="lending_date")
 	LocalDate lendingDate;
 	
+//	@JsonDeserialize(as = LocalDate.class)
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
 	@Column(name="due_date")
 	LocalDate dueDate;

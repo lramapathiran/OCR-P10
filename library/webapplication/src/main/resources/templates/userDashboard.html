@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dashboard</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">		  
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--     <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.0.0-2/css/bootstrap.min.css" /> -->
+
+</head>
+<body>
+
+	<div>
+		<div class="btn-group">
+		  <a th:href="@{/user/lendings}"></a> <button>Accueil</button></a>
+		  <a th:href="@{/user/lending/search}"><button>Rechercher</button></a>
+		  <button>déconnexion</button>
+		</div>		
+	</div>
+
+
+	<div>
+
+    	<h1>Liste des emprunts</h1>
+        <table>
+        	<thead>
+				<tr>
+					<th>N°</th>
+					<th>Titre</th>
+					<th>Auteur</th>
+					<th>Date Limite de Retour</th>
+					<th>Prolongation</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="lendingDto,iterator : ${list}">
+					<td th:text="${iterator.index} +1">...</td>
+					<td th:utext = "${lendingDto.book.title}">...</td>
+					<td th:utext = "${lendingDto.book.author}">...</td>
+					<td th:utext = "${#dates.format(lendingDto.dueDate, 'dd-MM-yyyy')}">...</td>
+					<td th:if="${lendingDto.isExtended ==  false}">
+						<form action="#" th:action="@{/user/lending/extendDate/{id}(id=${lendingDto.id})}" th:method="post">	
+							<input type="hidden" name="lending" th:value = "${lendingDto}"/>
+																	
+							<button type="submit"><img th:src="@{/img/icons8-calendar-48.png}"/></button>
+						</form>						
+					</td>
+					<td th:unless="${lendingDto.isExtended == false}">Déja prolongé</td>
+					
+				</tr>
+			</tbody>
+        </table>
+    </div>
+</body>
+</html>

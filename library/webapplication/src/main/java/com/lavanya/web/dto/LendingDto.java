@@ -9,13 +9,21 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 public class LendingDto {
 	
 	Integer id;
-//	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
+	
+//	@JsonDeserialicze(as = LocalDate.class)
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	String lendingDate;
-//	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
+	
+//	@JsonDeserialize(as = LocalDate.class)
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	String dueDate;
 	Boolean isExtended;
 	
@@ -41,19 +49,25 @@ public class LendingDto {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	
+//	@JsonDeserialize(using = LocalDateDeserializer.class)
+//    @JsonSerialize(using = LocalDateSerializer.class)
 	public String getLendingDate() {
 		return lendingDate;
 	}
-
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	public void setLendingDate(String lendingDate) {
 		this.lendingDate = lendingDate;
 	}
-
+	
+//	@JsonDeserialize(using = LocalDateDeserializer.class)
+//    @JsonSerialize(using = LocalDateSerializer.class)
 	public String getDueDate() {
 		return dueDate;
 	}
-
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	public void setDueDate(String dueDate) {
 		this.dueDate = dueDate;
 	}

@@ -24,4 +24,10 @@ public class LendingService {
 		
 		return lendingRepository.findByBookId(bookId);
 	}
+	
+	public Lending getBookDueDateExtended(Lending lending) {
+		lending.setDueDate(lending.getDueDate().plusWeeks(4));
+		lending.setIsExtended(true);
+		return lendingRepository.save(lending);
+	}
 }

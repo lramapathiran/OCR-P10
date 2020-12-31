@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Rechercher</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">		  
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--     <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.0.0-2/css/bootstrap.min.css" /> -->
+
+</head>
+<body>
+	<div>
+		<div class="btn-group">
+		  <a th:href="@{/user/lendings}"></a> <button>Accueil</button></a>
+		  <a th:href="@{/user/lending/search}"><button>Rechercher</button></a>
+		  <button>déconnexion</button>
+		</div>		
+	</div>
+
+
+	<div>
+		<form  th:action="@{/showBooks/1}" th:object="${keyword}" th:method="get">
+			<div>
+				<label>Rechercher : </label>&nbsp;
+			    <input type="text" name="keyword" th:value="${keyword}"/>
+			    <br>
+			</div>
+			<br/>
+			
+							
+			<div>
+				<input id="clearWrapper" class="buttonWrapper" type="button" value="Effacer" onclick="clearFilter()"/>&nbsp;
+				<button id="searchWrapper" class="buttonWrapper" type="submit"><img th:src="@{/img/icons8-search-24.png}" alt="search logo"/></button>
+			</div>
+   		</form>
+   	</div>
+   	
+   	<script type="text/javascript">
+    	function clearFilter() {
+    		window.location ='/showBooks/1';
+    	}    	
+    </script>
+</body>
+</html>

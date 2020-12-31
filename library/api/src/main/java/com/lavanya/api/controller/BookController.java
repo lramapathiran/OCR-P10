@@ -33,16 +33,19 @@ public class BookController {
 	@GetMapping("showBooks/{pageNumber}")
 	public Page<Book> getBookSearchPage(@PathVariable(value = "pageNumber") int currentPage,@RequestParam(name="keyword", required=false) String keyword){
 			
-		Page<Book> page = bookService.getListOfBooksFiltered(currentPage, keyword);
-
-//					
-//		List<Book> booksPage = page.getContent();
-//		int totalPages = page.getTotalPages();
-//		long totalSites = page.getTotalElements();
-				
-		return page;
+		Page<Book> page = bookService.getAllBooksFiltered(currentPage, keyword);
+		return page;		
 		
-		}	
+	}	
+	
+	@GetMapping("showAllBooks/{pageNumber}")
+	public Page<Book> getAllBooks(@PathVariable(value = "pageNumber") int currentPage){
+			
+		Page<Book> page = bookService.getAllBooks(currentPage);
+				
+		return page;		
+		
+	}
 	
 
 }

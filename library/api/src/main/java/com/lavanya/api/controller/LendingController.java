@@ -2,9 +2,16 @@ package com.lavanya.api.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lavanya.api.model.Lending;
@@ -45,5 +52,10 @@ public class LendingController {
 	public List<Lending> showListOfUserLendings(@RequestParam("userId") int userId){
 		
 		return lendingService.getListOfLendingByUserId(userId);
+	}
+	
+	@PutMapping("user/lending/extendDate/{id}")
+	public Lending updateLending(@Valid @RequestBody Lending lending, @PathVariable ("id") Integer lendingId) {
+		return lendingService.getBookDueDateExtended(lending);
 	}
 }

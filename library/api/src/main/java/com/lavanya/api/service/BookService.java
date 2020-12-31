@@ -18,26 +18,38 @@ public class BookService {
 	@Autowired
 	BookRepository bookRepository;
 	
+	public Optional<Book> getBookById(int id) {
+		return bookRepository.findBookById(id);
+	}
+	
 	/**
 	 * method to retrieve a list of books resulting after filtering and displayed with pagination.
 	 * @param pageNumber, int to access to the number of Books Page to display.
-	 * @param keyword, keyword used as filter element for the search of books.  
+	 * @param keyword, keyword which the search is based on to filter elements in the list of books.  
 	 * @return Page of Book resulting after filtering.
 	 */
-	public Page<Book> getListOfBooksFiltered(int pageNumber, String keyword) {
+	public Page<Book> getAllBooksFiltered(int pageNumber, String keyword) {
 		
 		Sort sort = Sort.by("title").ascending();
 		Pageable pageable = PageRequest.of(pageNumber - 1, 10, sort);
 
 				
-		Page<Book> page = bookRepository.findBooksByKeyword(pageable, keyword);
+		Page<Book> page = bookRepository.findFilteredBook(pageable, keyword);
+		
 		return page;
 	}
 	
-	public Optional<Book> getBookById(int id) {
-		return bookRepository.findBookById(id);
-	}
 	
+	public Page<Book> getAllBooks(int pageNumber) {
+		
+		Sort sort = Sort.by("title").ascending();
+		Pageable pageable = PageRequest.of(pageNumber - 1, 10, sort);
+
+				
+		Page<Book> page = bookRepository.findAll(pageable);
+		
+		return page;
+	}
 	
 
 }
