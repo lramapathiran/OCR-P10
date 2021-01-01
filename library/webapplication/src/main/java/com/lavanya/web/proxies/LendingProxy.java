@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.lavanya.web.dto.LendingDto;
 
-@FeignClient(contextId = "lendingClient", name = "api", url = "localhost:9090")
+@FeignClient(name = "lendingApi", url = "localhost:9090")
 public interface LendingProxy {
 
 	@GetMapping(value = "/user/lending", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)

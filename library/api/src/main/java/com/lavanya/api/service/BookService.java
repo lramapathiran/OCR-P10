@@ -1,5 +1,6 @@
 package com.lavanya.api.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.lavanya.api.model.Book;
 import com.lavanya.api.repository.BookRepository;
 
@@ -34,7 +38,7 @@ public class BookService {
 		Pageable pageable = PageRequest.of(pageNumber - 1, 10, sort);
 
 				
-		Page<Book> page = bookRepository.findFilteredBook(pageable, keyword);
+		Page<Book> page = bookRepository.findFilteredBook(keyword, pageable);
 		
 		return page;
 	}
