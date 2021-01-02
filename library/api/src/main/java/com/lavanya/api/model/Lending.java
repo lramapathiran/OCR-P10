@@ -29,13 +29,9 @@ public class Lending {
 	@GeneratedValue (strategy=GenerationType.AUTO)
 	Integer id;
 	
-//	@JsonDeserialize(as = LocalDate.class)
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
 	@Column(name="lending_date")
 	LocalDate lendingDate;
 	
-//	@JsonDeserialize(as = LocalDate.class)
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
 	@Column(name="due_date")
 	LocalDate dueDate;
 	
