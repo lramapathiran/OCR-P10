@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.lavanya.web.configuration.FeignConfiguration;
+import com.lavanya.web.configuration.OpenFeignPageConfiguration;
 import com.lavanya.web.dto.BookDto;
 
-@FeignClient(name = "bookApi", url = "localhost:9090", configuration=FeignConfiguration.class)
+@FeignClient(name = "bookApi", url = "localhost:9090")
 public interface BookProxy {
 	
 	@GetMapping("showBooks/{pageNumber}")

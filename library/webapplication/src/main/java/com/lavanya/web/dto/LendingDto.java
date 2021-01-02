@@ -18,13 +18,12 @@ public class LendingDto {
 	
 	Integer id;
 	
-//	@JsonDeserialicze(as = LocalDate.class)
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
-	String lendingDate;
+	LocalDate lendingDate;
 	
-//	@JsonDeserialize(as = LocalDate.class)
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
-	String dueDate;
+	LocalDate dueDate;
+	
 	Boolean isExtended;
 	
 	
@@ -36,12 +35,6 @@ public class LendingDto {
 	public LendingDto() {
 	}
 	
-//	@JsonProperty("user_id")
-//	private void unpackNested(Integer user_id) {
-//	    this.userDto = new UserDto();
-//	    bookDto.setId(user_id);
-//	}
-
 	public Integer getId() {
 		return id;
 	}
@@ -50,25 +43,20 @@ public class LendingDto {
 		this.id = id;
 	}
 	
-//	@JsonDeserialize(using = LocalDateDeserializer.class)
-//    @JsonSerialize(using = LocalDateSerializer.class)
-	public String getLendingDate() {
+	public LocalDate getLendingDate() {
 		return lendingDate;
 	}
 	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-	public void setLendingDate(String lendingDate) {
+
+	public void setLendingDate(LocalDate lendingDate) {
 		this.lendingDate = lendingDate;
 	}
 	
-//	@JsonDeserialize(using = LocalDateDeserializer.class)
-//    @JsonSerialize(using = LocalDateSerializer.class)
-	public String getDueDate() {
+	public LocalDate getDueDate() {
 		return dueDate;
 	}
 	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-	public void setDueDate(String dueDate) {
+	public void setDueDate(LocalDate dueDate) {
 		this.dueDate = dueDate;
 	}
 
