@@ -33,7 +33,6 @@ public class User {
 	String lastName;
 	
 	@Column(name="date_of_birth")
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
 	LocalDate dateOfBirth;
 	
 	String address;
@@ -50,11 +49,6 @@ public class User {
     private List<Lending> lending;
 	
 	public User() {
-	}
-	
-	@JsonCreator
-	public User (@JsonProperty("user_id") Integer id ) {
-	    this.id = id;
 	}
 
 	public Integer getId() {

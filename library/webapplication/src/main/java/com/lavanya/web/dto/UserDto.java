@@ -3,6 +3,8 @@ package com.lavanya.web.dto;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class UserDto {
 
 	Integer id;
@@ -11,7 +13,8 @@ public class UserDto {
 	String firstName;
 
 	String lastName;
-
+	
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	LocalDate dateOfBirth;
 	String address;
 	String telephone;

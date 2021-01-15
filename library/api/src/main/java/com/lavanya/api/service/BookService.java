@@ -55,5 +55,14 @@ public class BookService {
 		return page;
 	}
 	
+	public void updateBookStock(Integer id) {
+		Optional<Book> optional = bookRepository.findBookById(id);
+		optional.ifPresent(book -> {
+			Integer stock = book.getRemainingStock();
+			book.setRemainingStock(stock-1);
+			bookRepository.save(book);
+		});
+	}
+	
 
 }

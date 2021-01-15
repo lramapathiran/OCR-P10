@@ -2,33 +2,47 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Emprunt</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">		  
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!--     <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.0.0-2/css/bootstrap.min.css" /> -->
 
 </head>
 <body>
+	<section>
+		<div>
+			<div class="btn-group">
+			  <a th:href="@{/user/lendings(userId=${userId})}"><button>Accueil</button></a>
+			  <a th:href="@{/showBooks/1(userId=${userId})}"><button>Rechercher</button></a>
+			  <button>déconnexion</button>
+			</div>		
+		</div>
+	</section>
 
-
-<div>
-
-    <h1>Emprunt</h1>
-
-    <div>
-        <div>
-
-            <p th:text="${lending.book.title}"></p>
-
-            <p th:text="${lending.book.author}"></p>
-            <p th:text="${#temporals.format(lending.dueDate, 'dd-MM-yyyy')}"></p>
-
-<!--             <p> -->
-<!--                 <a th:href="@{|/details-produit/commander-produit/${produit.id}|}" class="font-weight-bold">COMMANDER</a> -->
-<!--             </p> -->
-
-        </div>
-    </div>
-
-</div>
+	<section>
+		<div>
+		
+		    <h1>Emprunt</h1>
+		
+		    <div>
+		        <div>
+					<p> Votre demande d'emprunt a été acceptée!</p>
+					<p>Rappel : </p>
+					<p>Vous venez d'emprunter le livre suivant :</p>
+					<ul>
+						<li th:text="${lending.book.title}"></li>
+						<li th:text="${lending.book.author}"></li>
+					</ul>
+		            <p >Vous devez impérativement rendre ce livre avant le 
+		            	<strong><span th:text="${#temporals.format(lending.dueDate, 'dd-MM-yyyy')}"></span></strong>
+		            </p>
+		            <p>Sachez cependant que vous avez la possibilité de prolonger la date d'emprunt une unique fois de 4 semaines!</p>
+		        </div>
+		    </div>
+		
+		</div>
+	</section>
 
 </body>
 </html>

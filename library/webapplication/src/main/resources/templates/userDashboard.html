@@ -13,7 +13,7 @@
 	<div>
 		<div class="btn-group">
 		  <a th:href="@{/user/lendings}"></a> <button>Accueil</button></a>
-		  <a th:href="@{/user/lending/search}"><button>Rechercher</button></a>
+		  <a th:href="@{/showBooks/1(userId=${userId})}"><button>Rechercher</button></a>
 		  <button>déconnexion</button>
 		</div>		
 	</div>
@@ -39,8 +39,8 @@
 					<td th:utext = "${lendingDto.book.author}">...</td>
 					<td th:utext = "${#temporals.format(lendingDto.dueDate, 'dd-MM-yyyy')}">...</td>
 					<td th:if="${lendingDto.isExtended ==  false}">
-						<form action="#" th:action="@{/user/lending/extendDate/{id}(id=${lendingDto.id})}" th:method="post">	
-							<input type="hidden" name="lending" th:value = "${lendingDto}"/>
+						<form action="#" th:action="@{/user/lending/extendDate(userId=${userId})}" th:method="post">	
+							<input type="hidden" name="lendingDtoId" th:value = "${lendingDto.id}"/>
 																	
 							<button type="submit"><img th:src="@{/img/icons8-calendar-48.png}"/></button>
 						</form>						

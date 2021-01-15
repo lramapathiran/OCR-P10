@@ -1,17 +1,14 @@
 package com.lavanya.api.controller;
 
 import java.util.List;
-
-import javax.validation.Valid;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lavanya.api.model.Lending;
@@ -27,6 +24,15 @@ public class LendingController {
 	@Autowired
 	LendingService lendingService;
 	
+//	@GetMapping("/user/lending")
+//	public Lending getLendingDetails(@RequestParam ("userId") int userId) {
+//		
+//		return lendingService.getLastLendingByUserId(userId);
+//		
+//	}
+	
+	
+	
 	/**
      * GET requests for /lending endpoint.
      * This controller-method retrieves details on a lending of interest.  
@@ -34,13 +40,13 @@ public class LendingController {
      * @param bookId an int to specify the id of the Book object borrowed by the user.
      * @return Lending object containing details on the lending.
      */	
-	@GetMapping("/user/lending")
-	public	Lending getLendingDetails(@RequestParam ("bookId") int bookId) {
+	@PostMapping("/user/save/lending")
+	public	void saveLending(@RequestBody Lending lending) {
 		
-		return lendingService.getLendingByBookId(bookId);		
-		
+		lendingService.save(lending);
+				
 	}
-	
+
 	/**
      * GET requests for /user/lendings endpoint.
      * This controller-method retrieves the list of books borrowed by the user connected.  
@@ -54,8 +60,8 @@ public class LendingController {
 		return lendingService.getListOfLendingByUserId(userId);
 	}
 	
-	@PutMapping("user/lending/extendDate/{id}")
-	public Lending updateLending(@Valid @RequestBody Lending lending, @PathVariable ("id") Integer lendingId) {
-		return lendingService.getBookDueDateExtended(lending);
+	@PostMapping("/user/lending/extendDate/{id}")
+	public void updateLending(@PathVariable ("id") Integer lendingId) {
+		lendingService.getBookDueDateExtended(lendingId);
 	}
 }

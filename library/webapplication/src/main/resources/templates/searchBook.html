@@ -9,32 +9,65 @@
 
 </head>
 <body>
-	<div>
-		<div class="btn-group">
-		  <a th:href="@{/user/lendings}"></a> <button>Accueil</button></a>
-		  <a th:href="@{/user/lending/search}"><button>Rechercher</button></a>
-		  <button>déconnexion</button>
-		</div>		
-	</div>
+	<section>
+		<div>
+			<div class="btn-group">
+			  <a th:href="@{/user/lendings(userId=${userId})}"><button>Accueil</button></a>
+			  <a th:href="@{/showBooks/1(userId=${userId})}"><button>Rechercher</button></a>
+			  <button>déconnexion</button>
+			</div>		
+		</div>
+	</section>
 
-
-	<div>
-		<form  th:action="@{/showBooks/1}" th:object="${keyword}" th:method="get">
-			<div>
-				<label>Rechercher : </label>&nbsp;
-			    <input type="text" name="keyword" th:value="${keyword}"/>
-			    <br>
-			</div>
-			<br/>
-			
-							
-			<div>
-				<input id="clearWrapper" class="buttonWrapper" type="button" value="Effacer" onclick="clearFilter()"/>&nbsp;
-				<button id="searchWrapper" class="buttonWrapper" type="submit"><img th:src="@{/img/icons8-search-24.png}" alt="search logo"/></button>
-			</div>
-   		</form>
-   	</div>
+	<section>
+		<div>
+			<form  th:action="@{/showBooks/1}" th:object="${keyword}" th:method="get">
+				<div>
+					<label>Rechercher : </label>&nbsp;
+					<input type="hidden" name="userId" th:value="${userId}"/>
+				    <input type="text" name="keyword" th:value="${keyword}"/>
+				    <br>
+				</div>
+				<br/>							
+				<div>
+					<input id="clearWrapper" class="buttonWrapper" type="button" value="Effacer" onclick="clearFilter()"/>&nbsp;
+					<button id="searchWrapper" class="buttonWrapper" type="submit"><img th:src="@{/img/icons8-search-24.png}" alt="search logo"/></button>
+				</div>
+   			</form>
+   		</div>
+   	</section>
    	
+   	<section>
+	   	<div>
+	   		<table>   			
+	   			<thead>
+	   				<tr>
+	   					<th>N°</th>
+	   					<th>Titre</th>
+	   					<th>Auteur</th>
+	   					<th>J'emprunte!</th>   					   					
+	   				</tr>  				
+	   			</thead>
+	   			<tbody>
+	   				<tr th:each="book,iterator : ${booksPage}">
+	   					<td th:text="${iterator.index} +1">></td>
+		   				<td th:utext="${book.title}"></td>
+		   				<td th:utext="${book.author}"></td>
+		   				<td th:utext="${book.id}"></td>
+		   				<td th:if="${book.remainingStock}>0">
+		   					<form action="#" th:action="@{/user/lendingToSave(userId=${userId})}" th:method="post">
+								<input type="hidden" th:value = "${userId}" th:name="user.id" id="user"/>
+								<input type="hidden" th:value = "${book.id}" th:name="book.id" id="book"/>
+								<button type="submit"><img th:src="@{/img/icons8-emprunter-un-livre-48.png}"/></button>
+							</form>		
+		   				</td>
+		   				<td th:unless="${book.remainingStock}>0">Indisponible actuellement!</td>
+	   				</tr>
+	   			</tbody>
+			</table>
+		</div>
+	</section>
+	   	
    	<script type="text/javascript">
     	function clearFilter() {
     		window.location ='/showBooks/1';
