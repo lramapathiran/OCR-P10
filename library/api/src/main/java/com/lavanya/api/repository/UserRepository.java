@@ -10,7 +10,10 @@ import com.lavanya.api.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-	Optional<User> findByMemberId(String memberId);
-	
+	Optional<User> findByUsername(String username);
+
+	Boolean existsByUsername(String username);
+
+	Boolean existsByEmail(String email);
 
 }

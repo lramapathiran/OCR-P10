@@ -1,25 +1,20 @@
 package com.lavanya.api.model;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonFilter;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
-//@JsonFilter("userDataFiltered")
+@Table(	name = "user", 
+uniqueConstraints = { 
+	@UniqueConstraint(columnNames = "username"),
+	@UniqueConstraint(columnNames = "email") 
+})
 public class User {
 	
 	@Id
@@ -27,29 +22,46 @@ public class User {
 	Integer id;
 	
 	@Column(name="first_name")
-	String firstName;
+	private String firstName;
 	
 	@Column(name="last_name")
-	String lastName;
+	private String lastName;
 	
 	@Column(name="date_of_birth")
-	LocalDate dateOfBirth;
+	private LocalDate dateOfBirth;
 	
-	String address;
-	String telephone;
-	String email;
+	private String address;
+	private String telephone;
 	
-	@Column(name="member_id")
-	String memberId;
+	@NotBlank
+	@Size(max = 50)
+	@Email
+	private String email;
 	
-	String password;	
-	String encodedPassword;
+	@NotBlank
+	@Size(max = 20)
+	private String username;
+	
+	@NotBlank
+	@Size(max = 10)
+	private String password;
+	
+//	private String encodedPassword;
+	private String roles;
+	
 	
 	@OneToMany(mappedBy="user", cascade = CascadeType.ALL)
     private List<Lending> lending;
 	
 	public User() {
 	}
+	
+	public User(String username, String email, String password) {
+		this.username = username;
+		this.email = email;
+		this.password = password;
+	}
+
 
 	public Integer getId() {
 		return id;
@@ -107,12 +119,12 @@ public class User {
 		this.email = email;
 	}
 
-	public String getMemberId() {
-		return memberId;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -122,14 +134,14 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	public String getEncodedPassword() {
-		return encodedPassword;
-	}
-
-	public void setEncodedPassword(String encodedPassword) {
-		this.encodedPassword = encodedPassword;
-	}
+//
+//	public String getEncodedPassword() {
+//		return encodedPassword;
+//	}
+//
+//	public void setEncodedPassword(String encodedPassword) {
+//		this.encodedPassword = encodedPassword;
+//	}
 	
 	public List<Lending> getLending() {
 		return lending;
@@ -139,12 +151,21 @@ public class User {
 		this.lending = lending;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth=" + dateOfBirth
-				+ ", address=" + address + ", telephone=" + telephone + ", email=" + email + ", memberId=" + memberId
-				+ ", lending=" + lending + "]";
-	}	
+	public String getRoles() {
+		return roles;
+	}
+
+	public void setRoles(String roles) {
+		this.roles = roles;
+	}
+
+//	@Override
+//	public String toString() {
+//		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth=" + dateOfBirth
+//				+ ", address=" + address + ", telephone=" + telephone + ", email=" + email + ", username=" + username
+//				+ ", password=" + password + ", encodedPassword=" + encodedPassword + ", roles=" + roles + ", lending="
+//				+ lending + "]";
+//	}
 	
 
 }

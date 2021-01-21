@@ -47,7 +47,7 @@ public class UserService {
 		userRepository.delete(user);
 	}
 
-	private boolean usernameExists(String memberId) {
-        return userRepository.findByMemberId(memberId).isPresent();
+	private boolean usernameExists(String username) {
+        return userRepository.findByUsername(username).isPresent();
     }
 }

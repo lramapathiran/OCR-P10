@@ -10,19 +10,20 @@ public class UserDto {
 	Integer id;
 	
 
-	String firstName;
+	private String firstName;
 
-	String lastName;
+	private String lastName;
 	
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
-	LocalDate dateOfBirth;
-	String address;
-	String telephone;
-	String email;
+	private LocalDate dateOfBirth;
+	private String address;
+	private String telephone;
+	private String email;
 
-	String memberId;
-	String password;
-	String encodedPassword;
+	private String memberId;
+	private String password;
+	private String encodedPassword;
+	private String roles;
 
     private List<LendingDto> lendingDto;
 	
@@ -109,6 +110,14 @@ public class UserDto {
 		this.encodedPassword = encodedPassword;
 	}
 	
+	public String getRoles() {
+		return roles;
+	}
+
+	public void setRoles(String roles) {
+		this.roles = roles;
+	}
+
 	public List<LendingDto> getLending() {
 		return lendingDto;
 	}
@@ -119,8 +128,10 @@ public class UserDto {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth=" + dateOfBirth
-				+ ", address=" + address + ", telephone=" + telephone + ", email=" + email + ", memberId=" + memberId
-				+ ", lending=" + lendingDto + "]";
-	}	
+		return "UserDto [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth="
+				+ dateOfBirth + ", address=" + address + ", telephone=" + telephone + ", email=" + email + ", memberId="
+				+ memberId + ", password=" + password + ", encodedPassword=" + encodedPassword + ", roles=" + roles
+				+ ", lendingDto=" + lendingDto + "]";
+	}
+
 }

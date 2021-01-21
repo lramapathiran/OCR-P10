@@ -1,22 +1,36 @@
 package com.lavanya.api.controller;
 
-import java.net.URI;
-import java.util.Optional;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJacksonValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.fasterxml.jackson.databind.ser.FilterProvider;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+
 import com.lavanya.api.model.User;
+import com.lavanya.api.payload.request.LoginRequest;
+import com.lavanya.api.payload.request.SignupRequest;
+import com.lavanya.api.payload.response.JwtResponse;
+import com.lavanya.api.payload.response.MessageResponse;
+import com.lavanya.api.repository.UserRepository;
+import com.lavanya.api.security.jwt.JwtUtils;
+import com.lavanya.api.security.service.UserDetailsImpl;
 import com.lavanya.api.service.UserService;
 
 
@@ -24,53 +38,105 @@ import com.lavanya.api.service.UserService;
  * Rest Controller used in MVC architecture to control all the requests related to User object.
  * @author lavanya
  */
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
+@RequestMapping("/api/auth")
 public class UserController {
 	
 	@Autowired
-	UserService userService;
-	
-	@GetMapping("/user/{id}")
-	public Optional<User> getUserConnected(@PathVariable ("id") int id) {
-		
-		Optional<User> user = userService.getUserById(id);
-		
-//		SimpleBeanPropertyFilter myFilter = SimpleBeanPropertyFilter.serializeAllExcept("id","password","encodedPassword");
-//
-//	       FilterProvider filterList = new SimpleFilterProvider().addFilter("userDataFiltered", myFilter);
-//
-//	       MappingJacksonValue userFiltered = new MappingJacksonValue(user);
-//
-//	       userFiltered.setFilters(filterList);
-//
-//       return userFiltered;
-       
-       return user;
+	AuthenticationManager authenticationManager;
 
+	@Autowired
+	UserRepository userRepository;
+
+//	@Autowired
+//	RoleRepository roleRepository;
+
+	@Autowired
+	PasswordEncoder encoder;
+
+	@Autowired
+	JwtUtils jwtUtils;
+
+	@PostMapping("/signin")
+	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+
+		Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		String jwt = jwtUtils.generateJwtToken(authentication);
+		
+		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
+		String roles = userDetails.getAuthorities().stream()
+				.map(item -> item.getAuthority());
+//				stream()
+//				.map(item -> item.getAuthority())
+//				.collect(Collectors.toList());
+
+		return ResponseEntity.ok(new JwtResponse(jwt, 
+												 userDetails.getId(), 
+												 userDetails.getUsername(), 
+												 userDetails.getEmail(),
+												 userDetails.getAuthorities(),
+												 roles));
 	}
-	
-//	ResponseEntity est une classe qui hérite de HttpEntity,  qui permet de définir le code HTTP  à retourner. 
-//	L'interêt de ResponseEntity est de nous donner la main pour personnaliser le code facilement.
-	
-//	Dans le cas où le produit ajouté est vide ou n'existe pas, nous retournons le code 204 No Content. Pour cela, la méthode noContent() est utilisée.  
-//	Cette méthode est chainée avec la méthode build() qui construit le header et y ajoute le code choisi.
-	
-//	Nous ajoutons ensuite l'id du produit à l'URI à l'aide de la méthode buildAndExpand. Nous retrouvons l'id dans l'instance de Product que nous avons reçu : 
-//	productAdded.getId().
-//	Enfin, nous invoquons la méthode created de ResponseEntity, qui accepte comme argument l'URI de la ressource nouvellement créée et renvoie le code de statut 201.
-	@PostMapping(value = "/save/user")
-    public ResponseEntity<Void> ajouterProduit(@RequestBody User user) {
-        User userAdded =  userService.saveUser(user);	
-        if (userAdded == null)
-            return ResponseEntity.noContent().build();
 
-//        Creation de l'URI de l'utilisateur ajouté
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(userAdded.getId())
-                .toUri();
-        return ResponseEntity.created(location).build();
-    }
+	@PostMapping("/signup")
+	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: Username is already taken!"));
+		}
+
+		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: Email is already in use!"));
+		}
+
+		// Create new user's account
+		User user = new User(signUpRequest.getUsername(), 
+							 signUpRequest.getEmail(),
+							 encoder.encode(signUpRequest.getPassword()));
+
+		String userRole = signUpRequest.getRoles();
+		String roles;
+
+		if (userRole== null) {
+			
+			String userRole = "USER"
+					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+			roles.add(userRole);
+		} else {
+			strRoles.forEach(role -> {
+				switch (role) {
+				case "admin":
+					Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+					roles.add(adminRole);
+
+					break;
+				case "mod":
+					Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
+							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+					roles.add(modRole);
+
+					break;
+				default:
+					Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+					roles.add(userRole);
+				}
+			});
+		}
+
+		user.setRoles(roles);
+		userRepository.save(user);
+
+		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+	
+}
 
 }
