@@ -3,7 +3,7 @@ package com.lavanya.api.payload.response;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.GrantedAuthority;
 
 public class JwtResponse {
 	private String token;
