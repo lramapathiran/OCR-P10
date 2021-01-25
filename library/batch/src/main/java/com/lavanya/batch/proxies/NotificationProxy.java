@@ -1,0 +1,17 @@
+package com.lavanya.batch.proxies;
+
+import java.util.List;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.lavanya.batch.dto.NotificationDto;
+
+@FeignClient(name = "notificationApi", url = "localhost:9090")
+public interface NotificationProxy {
+
+	@GetMapping(value = "/notifications", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	List<NotificationDto> getListOfUsersToWarn();
+	
+}
