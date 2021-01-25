@@ -1,4 +1,4 @@
-package com.lavanya.web.configuration;
+package com.lavanya.batch.configuration;
 
 import org.springframework.cloud.openfeign.support.PageJacksonModule;
 import org.springframework.cloud.openfeign.support.SortJacksonModule;
@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class OpenFeignPageConfiguration {
+public class BatchOpenFeignConfiguration {
 	
 	@Bean
     public PageJacksonModule pageJacksonModule() {
@@ -17,6 +17,5 @@ public class OpenFeignPageConfiguration {
     public SortJacksonModule sortJacksonModule() {
         return new SortJacksonModule();
     }
-	
 
 }

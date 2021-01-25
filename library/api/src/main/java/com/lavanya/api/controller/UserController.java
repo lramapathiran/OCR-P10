@@ -3,6 +3,7 @@ package com.lavanya.api.controller;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 //import org.springframework.security.core.context.SecurityContextHolder;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,10 +41,18 @@ import com.lavanya.api.service.UserService;
  * Rest Controller used in MVC architecture to control all the requests related to User object.
  * @author lavanya
  */
-@CrossOrigin(origins = "*", maxAge = 3600)
+//@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/auth")
+//@RequestMapping("/api/auth")
 public class UserController {
+	
+	@Autowired
+	UserService userService;
+	
+	@GetMapping("/user/{id}")
+	public Optional<User> getUserConnected(@PathVariable ("id") int id){
+		return userService.getUserById(id);
+	}
 	
 //	@Autowired
 //	AuthenticationManager authenticationManager;
