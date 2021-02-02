@@ -1,28 +1,40 @@
 package com.lavanya.api.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lavanya.api.model.Lending;
 import com.lavanya.api.service.LendingService;
+import com.lavanya.api.service.UserService;
 
 /**
  * Rest Controller used in MVC architecture to control all the requests related to Lending object.
  * @author lavanya
  */
+@CrossOrigin(origins = "*")
 @RestController
+@RequestMapping("/api/lendings")
 public class LendingController {
 	
 	@Autowired
 	LendingService lendingService;
+	
+	@Autowired
+	UserService userService;
+
 	
 //	@GetMapping("/user/lending")
 //	public Lending getLendingDetails(@RequestParam ("userId") int userId) {
@@ -55,7 +67,10 @@ public class LendingController {
      * @return the list of books borrowed with all the details.
      */	
 	@GetMapping("/user/lendings")
-	public List<Lending> showListOfUserLendings(@RequestParam("userId") int userId){
+	public List<Lending> showListOfUserLendings(){
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String username = authentication.getName();
+		Integer userId = userService.findUserByUsername(username).getId();
 		
 		return lendingService.getListOfLendingByUserId(userId);
 	}

@@ -1,10 +1,16 @@
 package com.lavanya.api.controller;
 
 
+import java.security.Principal;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +21,9 @@ import com.lavanya.api.service.BookService;
  * Rest Controller used in MVC architecture to control all the requests related to Book object.
  * @author lavanya
  */
+@CrossOrigin(origins = "*")
 @RestController
+@RequestMapping("/api/books")
 public class BookController {
 	
 	@Autowired
@@ -31,7 +39,7 @@ public class BookController {
      * @return page of Book of interest.
      */	
 	@GetMapping("showBooks/{pageNumber}")
-	public Page<Book> getBookSearchPage(@PathVariable(value = "pageNumber") int currentPage,@RequestParam(name="keyword", required=false) String keyword){
+	public Page<Book> getBookSearchPage(Principal principal,@PathVariable(value = "pageNumber") int currentPage,@RequestParam(name="keyword", required=false) String keyword){
 			
 		Page<Book> page = bookService.getAllBooksFiltered(currentPage, keyword);
 		return page;		

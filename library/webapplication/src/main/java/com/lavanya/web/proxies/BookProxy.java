@@ -1,5 +1,7 @@
 package com.lavanya.web.proxies;
 
+import java.security.Principal;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,9 +14,6 @@ import com.lavanya.web.dto.BookDto;
 public interface BookProxy {
 	
 	@GetMapping("showBooks/{pageNumber}")
-	Page<BookDto> getBookSearchPage(@PathVariable(value = "pageNumber") int currentPage,@RequestParam(name="keyword", required=false) String keyword);
+	Page<BookDto> getBookSearchPage(Principal principal, @PathVariable(value = "pageNumber") int currentPage,@RequestParam(name="keyword", required=false) String keyword);
 
-	
-	@GetMapping("showAllBooks/{pageNumber}")
-	Page<BookDto> getAllBooks(@PathVariable(value = "pageNumber") int currentPage);
 }

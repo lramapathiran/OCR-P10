@@ -1,0 +1,48 @@
+#about {
+	margin-bottom : 10rem;
+}
+
+.contact {
+	font-size: 1.5rem;
+}
+
+
+/* header { */
+/*   height: 20%; */
+/* } */
+
+/* #content { */
+/* 	margin-top:10.5rem; */
+/*   flex: 1; */
+/* } */
+
+.card {
+	border-radius:25px;
+	border: 1px solid;
+}
+
+.card-body {
+	padding: 1rem 0rem 1rem 0rem;
+}
+ #search {
+ 	margin-left: 8.1rem;
+ }
+
+.faq {
+	margin-bottom: -0.0625rem;
+}
+
+#page {
+	min-height:100vh; /* 1 */
+	display:flex; /* 2 */
+	flex-direction:column; /* 3 */
+}
+
+#content {
+	margin-top:9rem;
+	flex:1; /* 4 */
+}
+
+.name{
+	color:blue;
+}]

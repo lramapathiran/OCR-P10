@@ -1,6 +1,7 @@
 package com.lavanya.api.model;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.*;
@@ -9,12 +10,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+
 @Entity
-@Table(	name = "user", 
-uniqueConstraints = { 
-	@UniqueConstraint(columnNames = "username"),
-	@UniqueConstraint(columnNames = "email") 
-})
+@Table(	name = "user")
 public class User {
 	
 	@Id
@@ -22,10 +20,10 @@ public class User {
 	Integer id;
 	
 	@Column(name="first_name")
-	private String firstName;
+	public String firstName;
 	
 	@Column(name="last_name")
-	private String lastName;
+	public String lastName;
 	
 	@Column(name="date_of_birth")
 	private LocalDate dateOfBirth;
@@ -34,19 +32,16 @@ public class User {
 	private String telephone;
 	
 	@NotBlank
-	@Size(max = 50)
 	@Email
 	private String email;
 	
 	@NotBlank
-	@Size(max = 20)
 	private String username;
 	
 	@NotBlank
-	@Size(max = 10)
 	private String password;
+	private boolean enabled;
 	
-//	private String encodedPassword;
 	private String roles;
 	
 	
@@ -56,10 +51,13 @@ public class User {
 	public User() {
 	}
 	
-	public User(String username, String email, String password) {
-		this.username = username;
-		this.email = email;
+	public User(String username, String email, String password, String firstName, String lastName,boolean enabled,String role, Integer id) {
+		this.username = email;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.password = password;
+		this.enabled = isEnabled();
+		this.id = id;
 	}
 
 
@@ -134,15 +132,7 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-//
-//	public String getEncodedPassword() {
-//		return encodedPassword;
-//	}
-//
-//	public void setEncodedPassword(String encodedPassword) {
-//		this.encodedPassword = encodedPassword;
-//	}
-	
+
 	public List<Lending> getLending() {
 		return lending;
 	}
@@ -159,13 +149,22 @@ public class User {
 		this.roles = roles;
 	}
 
-//	@Override
-//	public String toString() {
-//		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth=" + dateOfBirth
-//				+ ", address=" + address + ", telephone=" + telephone + ", email=" + email + ", username=" + username
-//				+ ", password=" + password + ", encodedPassword=" + encodedPassword + ", roles=" + roles + ", lending="
-//				+ lending + "]";
-//	}
-	
+	public boolean isEnabled() {
+		return enabled;
+	}
 
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth=" + dateOfBirth
+				+ ", address=" + address + ", telephone=" + telephone + ", email=" + email + ", username=" + username
+				+ ", password=" + password + ", enabled=" + enabled + ", roles="
+				+ roles + ", lending=" + lending + "]";
+	}
+
+	
+	
 }

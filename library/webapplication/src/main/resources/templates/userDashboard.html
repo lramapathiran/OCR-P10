@@ -1,55 +1,71 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:insert="fragments/ressources.html :: head">
     <title>Dashboard</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">		  
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--     <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.0.0-2/css/bootstrap.min.css" /> -->
-
+	<meta name="msapplication-TileImage" content="assets/img/favicons/mstile-150x150.png">
+    <meta name="theme-color" content="#ffffff">
 </head>
 <body>
-
-	<div>
-		<div class="btn-group">
-		  <a th:href="@{/user/lendings}"></a> <button>Accueil</button></a>
-		  <a th:href="@{/showBooks/1(userId=${userId})}"><button>Rechercher</button></a>
-		  <button>déconnexion</button>
-		</div>		
-	</div>
-
-
-	<div>
-
-    	<h1>Liste des emprunts</h1>
-        <table>
-        	<thead>
-				<tr>
-					<th>N°</th>
-					<th>Titre</th>
-					<th>Auteur</th>
-					<th>Date Limite de Retour</th>
-					<th>Prolongation</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="lendingDto,iterator : ${list}">
-					<td th:text="${iterator.index} +1">...</td>
-					<td th:utext = "${lendingDto.book.title}">...</td>
-					<td th:utext = "${lendingDto.book.author}">...</td>
-					<td th:utext = "${#temporals.format(lendingDto.dueDate, 'dd-MM-yyyy')}">...</td>
-					<td th:if="${lendingDto.isExtended ==  false}">
-						<form action="#" th:action="@{/user/lending/extendDate(userId=${userId})}" th:method="post">	
-							<input type="hidden" name="lendingDtoId" th:value = "${lendingDto.id}"/>
-																	
-							<button type="submit"><img th:src="@{/img/icons8-calendar-48.png}"/></button>
-						</form>						
-					</td>
-					<td th:unless="${lendingDto.isExtended == false}">Déja prolongé</td>
-					
-				</tr>
-			</tbody>
-        </table>
-    </div>
+	<main class="main" id="page">
+		<header th:insert="fragments/ressources.html :: headerConnected"></header>
+	
+		<div class="page-holder w-100 d-flex flex-wrap">
+		   		<div class="container-fluid px-xl-5">
+		   			<section class="py-5">
+					   	<div class="container table-responsive">
+					   		<div class="row">
+				              <div class="col-lg-12 mb-5">
+				                <div class="card">
+				                  <div class="card-header">
+				                  	<h6 class="text-uppercase mb-0">Liste des emprunts</h6>
+				                  </div>
+				                  <div class="card-body"> 
+				                  	<div th:if="${list.empty}"> 
+				                  		<p>Aucun emprunt enregistré!</p>
+				                  	</div>
+				                  	<div th:unless="${list.empty}">                                          
+					                    <table class="table table-striped table-hover card-text">
+					                      <thead>
+											<tr>
+												<th>N°</th>
+												<th>Titre</th>
+												<th>Auteur</th>
+												<th>Date Limite de Retour</th>
+												<th>Prolongation</th>					
+											</tr>
+										  </thead>
+										  <tbody>
+											<tr th:each="lendingDto,iterator : ${list}">
+												<td th:text="${iterator.index} +1">...</td>
+												<td th:utext = "${lendingDto.book.title}">...</td>
+												<td th:utext = "${lendingDto.book.author}">...</td>
+												<td th:utext = "${#temporals.format(lendingDto.dueDate, 'dd-MM-yyyy')}">...</td>
+												<td th:if="${lendingDto.isExtended ==  false}">
+													<form action="#" th:action="@{/user/lending/extendDate(userId=${userId})}" th:method="post">	
+														<input type="hidden" name="lendingDtoId" th:value = "${lendingDto.id}"/>
+																								
+														<button type="submit"><img th:src="@{/img/icons8-calendar-48.png}"/></button>
+													</form>						
+												</td>
+												<td th:unless="${lendingDto.isExtended == false}">Déja prolongé</td>
+											</tr>
+										  </tbody>
+										</table>
+									</div>
+								   </div>   
+				                </div>
+				              </div>
+				         </div>
+						</div>
+					</section>
+				</div>
+		   	</div>
+	    <footer class="text-center border-top footer-text py-3 bg-dark d-flex vertical-align" th:insert="fragments/ressources.html :: footerConnected"></footer>
+	</main>
+	 <!-- JavaScript files-->
+    <th:block th:replace="fragments/ressources.html :: js-script"></th:block>	   	
 </body>
 </html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- 	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> -->
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<head>
+		<th:block th:fragment="head">		  
+		  	<link rel="apple-touch-icon" sizes="180x180" th:href="@{/assets/img/favicons/apple-touch-icon.png}">
+		    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/assets/img/favicons/favicon-32x32.png}">
+		    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/img/favicons/favicon-16x16.png}">
+		    <link rel="shortcut icon" type="image/x-icon" th:href="@{/assets/img/favicons/favicon.ico}">
+		    <link rel="manifest" th:href="@{/assets/img/favicons/manifest.json}">
+		  
+		  
+		  	<!-- ===============================================-->
+		    <!--    Stylesheets-->
+		    <!-- ===============================================-->
+		    <link href="https://fonts.googleapis.com/css?family=Poppins:400,300&amp;display=swap" rel="stylesheet">
+		    <link th:href="@{/assets/css/theme.css}" rel="stylesheet">
+		    <link rel="stylesheet" th:href="@{/assets/css/customStyle.css}">
+		</th:block>
+	</head>
+	
+	<body>
+		
+		<!-- ======= Header for pages once connected======= -->
+	    <div class="border-bottom" th:fragment="headerConnected">
+			<nav class="navbar navbar-expand-lg navbar-light bg-white py-4 pl-0">
+	        <div class="container"><a class="navbar-brand text-primary font-weight-bold" th:href="@{/homePage}"> Erik Orsenna </a>
+	          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+	          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	            <ul class="navbar-nav ml-auto">
+<!-- 	              <li class="nav-item text-muted"><a class="nav-link active" aria-current="page" th:href="@{/homePage}">Accueil</a></li> -->
+	              <li class="nav-item text-muted"><a class="nav-link active" aria-current="page" th:href="@{/user/lendings(userId=${userId})}">Mon espace</a></li>
+	              <li class="nav-item"><a class="nav-link" th:href="@{/showBooks/1(userId=${userId})}">Rechercher</a></li>
+	              <li class="nav-item dropdown"><a class="nav-link" id="navbarDropdowndoc" href="#" role="button" data-toggle="dropdown" aria-expanded="false">Deconnexion</a></li>
+	            </ul>
+<!-- 	            <span class="ml-auto hover-top-shadow name"><strong>Bienvenue  -->
+<!-- 			      	<span th:utext="${user.firstName}"></span>&nbsp; -->
+<!-- 		          	<span th:utext="${user.lastName}"></span> !</strong> -->
+<!-- 	            </span> -->
+	          </div>
+	        </div>
+	      </nav>
+      </div>
+      
+      <div class="container" th:fragment="footerConnected">
+        	<div class="row">
+	            <div class="col-6 col-md-4 col-lg-12 d-flex align-items-center flex-column" id="adress">
+	              <h6 class="text-primary font-weight-bold">Bibliothèque Erik Orsenna</h6><br>
+	              <p class="text-white">13 rue du Puit</p>
+	              <p class="text-white">95400 Villiers-Le-Bel</p>
+	              <p class="text-white">Téléphone : 09.67.54.56.90</p>
+	            </div>
+	        </div>
+        </div>
+	
+	    <!-- Vendor JS Files -->
+		<th:block th:fragment="js-script">
+			<!-- ===============================================-->
+		    <!--    JavaScripts-->
+		    <!-- ===============================================-->
+		    <!-- JavaScript and dependencies -->
+		    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" th:integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" th:crossorigin="anonymous"></script>
+		    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" th:crossorigin="anonymous"></script>
+		    <script th:src="@{/assets/js/plugins.js}"></script>
+		    <script th:src="@{/assets/lib/is/is.min.js}"></script>
+		    <script th:src="@{/assets/lib/stickyfilljs/stickyfill.min.js}"></script>
+		    <script th:src="@{/assets/js/theme.js}"></script>
+		</th:block>
+	
+	</body>
+
+</html>
+

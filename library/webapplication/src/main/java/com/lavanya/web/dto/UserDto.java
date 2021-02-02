@@ -10,9 +10,9 @@ public class UserDto {
 	Integer id;
 	
 
-	private String firstName;
+	public String firstName;
 
-	private String lastName;
+	public String lastName;
 	
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	private LocalDate dateOfBirth;
@@ -20,9 +20,9 @@ public class UserDto {
 	private String telephone;
 	private String email;
 
-	private String memberId;
+	private String username;
 	private String password;
-	private String encodedPassword;
+	private boolean enabled;
 	private String roles;
 
     private List<LendingDto> lendingDto;
@@ -86,12 +86,12 @@ public class UserDto {
 		this.email = email;
 	}
 
-	public String getMemberId() {
-		return memberId;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -101,15 +101,15 @@ public class UserDto {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	public String getEncodedPassword() {
-		return encodedPassword;
-	}
-
-	public void setEncodedPassword(String encodedPassword) {
-		this.encodedPassword = encodedPassword;
-	}
 	
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
 	public String getRoles() {
 		return roles;
 	}
@@ -117,21 +117,21 @@ public class UserDto {
 	public void setRoles(String roles) {
 		this.roles = roles;
 	}
-
-	public List<LendingDto> getLending() {
+	
+	public List<LendingDto> getLendingDto() {
 		return lendingDto;
 	}
 
-	public void setLending(List<LendingDto> lendingDto) {
+	public void setLendingDto(List<LendingDto> lendingDto) {
 		this.lendingDto = lendingDto;
 	}
 
 	@Override
 	public String toString() {
 		return "UserDto [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth="
-				+ dateOfBirth + ", address=" + address + ", telephone=" + telephone + ", email=" + email + ", memberId="
-				+ memberId + ", password=" + password + ", encodedPassword=" + encodedPassword + ", roles=" + roles
-				+ ", lendingDto=" + lendingDto + "]";
+				+ dateOfBirth + ", address=" + address + ", telephone=" + telephone + ", email=" + email + ", username="
+				+ username + ", password=" + password + ", enabled=" + enabled + ", roles=" + roles + ", lendingDto="
+				+ lendingDto + "]";
 	}
 
 }

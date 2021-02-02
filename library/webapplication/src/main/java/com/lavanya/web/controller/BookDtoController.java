@@ -10,12 +10,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import java.security.Principal;
 
 import com.lavanya.web.dto.BookDto;
 import com.lavanya.web.dto.LendingDto;
 import com.lavanya.web.dto.UserDto;
 import com.lavanya.web.proxies.BookProxy;
 import com.lavanya.web.proxies.UserProxy;
+
 
 @Controller
 public class BookDtoController {
@@ -26,15 +28,19 @@ public class BookDtoController {
 	@Autowired
 	UserProxy userProxy;
 	
-	@GetMapping("showBooks/{pageNumber}")
-	public String showBooksListFiltered(@PathVariable(value = "pageNumber") int currentPage, @RequestParam ("userId") Integer userId,
+	@GetMapping("/showBooks/{pageNumber}")
+	public String showBooksListFiltered(Principal principal, @PathVariable(value = "pageNumber") int currentPage, @RequestParam ("userId") Integer userId,
 			@RequestParam(name="keyword", required=false) String keyword, Model model) {
 		
 		LendingDto lendingDto = new LendingDto();
 		
 		Optional<UserDto> userConnected = userProxy.getUserConnected(userId);
 		
-		Page<BookDto> pageOfBooksFiltered = bookProxy.getBookSearchPage(currentPage, keyword);
+		if( userConnected.isPresent() ) {
+            model.addAttribute("user", userConnected.get());
+		}
+		
+		Page<BookDto> pageOfBooksFiltered = bookProxy.getBookSearchPage(principal, currentPage, keyword);
 		
 		model.addAttribute("keyword", keyword);
 		
@@ -43,7 +49,6 @@ public class BookDtoController {
 		long totalBooks = pageOfBooksFiltered.getTotalElements();
 		
 		model.addAttribute("userId", userId);
-		model.addAttribute("user", userConnected);
 		model.addAttribute("booksPage", booksPage);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("totalPages", totalPages);

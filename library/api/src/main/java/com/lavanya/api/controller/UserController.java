@@ -1,22 +1,17 @@
 package com.lavanya.api.controller;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
+import static org.springframework.http.ResponseEntity.ok;
 
-import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-//import org.springframework.security.authentication.AuthenticationManager;
-//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-//import org.springframework.security.core.Authentication;
-//import org.springframework.security.core.authority.SimpleGrantedAuthority;
-//import org.springframework.security.core.context.SecurityContextHolder;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,15 +20,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.lavanya.api.configs.JwtTokenProvider;
 import com.lavanya.api.model.User;
-import com.lavanya.api.payload.request.LoginRequest;
-import com.lavanya.api.payload.request.SignupRequest;
-import com.lavanya.api.payload.response.JwtResponse;
-import com.lavanya.api.payload.response.MessageResponse;
 import com.lavanya.api.repository.UserRepository;
-import com.lavanya.api.security.jwt.JwtUtils;
-//import com.lavanya.api.security.service.UserDetailsImpl;
 import com.lavanya.api.service.UserService;
 
 
@@ -41,68 +30,55 @@ import com.lavanya.api.service.UserService;
  * Rest Controller used in MVC architecture to control all the requests related to User object.
  * @author lavanya
  */
-//@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*")
 @RestController
-//@RequestMapping("/api/auth")
+@RequestMapping("/api/auth")
 public class UserController {
 	
 	@Autowired
 	UserService userService;
 	
-	@GetMapping("/user/{id}")
-	public Optional<User> getUserConnected(@PathVariable ("id") int id){
-		return userService.getUserById(id);
-	}
-	
-//	@Autowired
-//	AuthenticationManager authenticationManager;
+	@Autowired
+    AuthenticationManager authenticationManager;
+
+    @Autowired
+    JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    UserRepository users;
+    
+//    @PostMapping("/saveUser")
+//    public void saveUser() {
+//    	userService.updateUser();
+//    }
+    
+//    @SuppressWarnings("rawtypes")
+//    @PostMapping("/register")
+//    public ResponseEntity register(@RequestBody User user) {
 //
-//	@Autowired
-//	UserRepository userRepository;
-//
-//	@Autowired
-//	PasswordEncoder encoder;
-//
-//	@Autowired
-//	JwtUtils jwtUtils;
-//
-//	@PostMapping("/signin")
-//	public String authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-//
-//		Authentication authentication = authenticationManager.authenticate(
-//				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-//
-//		SecurityContextHolder.getContext().setAuthentication(authentication);
-//		String jwt = jwtUtils.generateJwtToken(authentication);
-//		
-//
-//		return jwt;
+//        Map<Object, Object> model = new HashMap<>();
+//        model.put("message", "User registered successfully");
+//        return ok(model);
+//    }
+//	@GetMapping("/user/{id}")
+//	public Optional<User> getUserConnected(@PathVariable ("id") int id){
+//		return userService.getUserById(id); 
 //	}
-//
-//	@PostMapping("/signup")
-//	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-//		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-//			return ResponseEntity
-//					.badRequest()
-//					.body(new MessageResponse("Error: Username is already taken!"));
-//		}
-//
-//		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-//			return ResponseEntity
-//					.badRequest()
-//					.body(new MessageResponse("Error: Email is already in use!"));
-//		}
-//
-//		// Create new user's account
-//		User user = new User(signUpRequest.getUsername(), 
-//							 signUpRequest.getEmail(),
-//							 encoder.encode(signUpRequest.getPassword()));
-//
-//		user.setRoles("user");
-//		userRepository.save(user);
-//
-//		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
-//	
-//}
-//
+	
+	@SuppressWarnings("rawtypes")
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody AuthBody data) {
+        try {
+            String username = data.getUsername();
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, data.getPassword()));
+            String token = jwtTokenProvider.createToken(username, this.users.findByUsername(username).getRoles());
+            Map<Object, Object> authInfo = new HashMap<>();
+            authInfo.put("username", username);
+            authInfo.put("token", token);
+            return ok(authInfo);
+        } catch (AuthenticationException e) {
+            throw new BadCredentialsException("L'identifiant et/ou le mot de passe sont invalides!");
+        }
+    }
+	
 }
