@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.lavanya.api.service.UserService;
 
@@ -25,6 +26,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     JwtTokenProvider jwtTokenProvider;
+    
+    @Autowired
+    private JwtTokenValidateFilter jwtFilter;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -35,13 +39,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.httpBasic().disable().csrf().disable().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-                .antMatchers("/api/auth/login").permitAll().antMatchers("/api/auth/register").permitAll().antMatchers("/api/auth/saveUser").permitAll()
-                .antMatchers("/api/lendings/**").permitAll().antMatchers("/api/books/**").hasAnyAuthority("ADMIN","USER").anyRequest().authenticated().and().csrf()
-                .disable().exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint()).and()
-                .apply(new JwtConfigurer(jwtTokenProvider));
-    http.cors();
+        http.httpBasic().disable().csrf().disable()
+        		.sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().authorizeRequests()
+                .antMatchers("/api/auth/login").permitAll()
+                .antMatchers("/api/auth/saveUser").permitAll()
+                .antMatchers("/user/**").hasAnyRole("ADMIN","USER")
+                .and().authorizeRequests()
+                .anyRequest().authenticated()
+                .and().csrf()
+                .disable().exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint());
+//                .and()
+//                .apply(new JwtConfigurer(jwtTokenProvider));
+        http.cors();
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);;
     }
 
     @Override

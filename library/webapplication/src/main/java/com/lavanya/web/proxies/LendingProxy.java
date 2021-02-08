@@ -9,10 +9,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.lavanya.web.dto.LendingDto;
 
+/**
+ * interface required to communicate with api module and make all the requests related to Lending object.
+ * @author lavanya
+ */
 @FeignClient(name = "lendingApi", url = "localhost:9090")
 public interface LendingProxy {
 
@@ -20,7 +25,7 @@ public interface LendingProxy {
 //	LendingDto getLendingDetails(@RequestParam(value="userId") int userId);
 
 	@GetMapping(value = "/user/lendings")
-	List<LendingDto> showListOfUserLendings();
+	List<LendingDto> showListOfUserLendings(@RequestHeader(name = "Authorization") String token);
 	
 	@PostMapping(value="/user/lending/extendDate/{id}", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 	void updateLending(@PathVariable ("id") Integer lendingId);

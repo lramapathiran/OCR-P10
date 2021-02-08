@@ -27,7 +27,7 @@ import com.lavanya.api.service.UserService;
 
 
 /**
- * Rest Controller used in MVC architecture to control all the requests related to User object.
+ * Rest Controller to control all the requests related to User object.
  * @author lavanya
  */
 @CrossOrigin(origins = "*")
@@ -47,24 +47,23 @@ public class UserController {
     @Autowired
     UserRepository users;
     
-//    @PostMapping("/saveUser")
-//    public void saveUser() {
-//    	userService.updateUser();
-//    }
-    
-//    @SuppressWarnings("rawtypes")
-//    @PostMapping("/register")
-//    public ResponseEntity register(@RequestBody User user) {
-//
-//        Map<Object, Object> model = new HashMap<>();
-//        model.put("message", "User registered successfully");
-//        return ok(model);
-//    }
-//	@GetMapping("/user/{id}")
-//	public Optional<User> getUserConnected(@PathVariable ("id") int id){
-//		return userService.getUserById(id); 
-//	}
+    /**
+     *  POST requests for /saveUser endpoint.
+     * This controller-method updates an user and encode its password in database.
+     * 
+     */	
+    @PostMapping("/saveUser")
+    public void saveUser() {
+    	userService.updateUser();
+    }
 	
+    /**
+     *  POST requests for /login endpoint.
+     * This controller-method send data required for user authentication.
+     * 
+     * @param data is the bean where the password and username of the user are stored to authenticate the user.
+     * @return ResponseEntity to confirm the authentication was successful with the authenticated user username and a token.
+     */	
 	@SuppressWarnings("rawtypes")
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody AuthBody data) {

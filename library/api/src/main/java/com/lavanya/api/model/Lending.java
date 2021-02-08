@@ -22,6 +22,11 @@ import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+/**
+ * Bean representing a Lending.
+ * Lending object is declared as a JPA entity with the corresponding annotation.
+ * @author lavanya
+ */
 @Entity
 public class Lending {
 	

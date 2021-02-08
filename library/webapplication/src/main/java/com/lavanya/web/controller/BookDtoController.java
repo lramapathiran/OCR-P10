@@ -18,7 +18,10 @@ import com.lavanya.web.dto.UserDto;
 import com.lavanya.web.proxies.BookProxy;
 import com.lavanya.web.proxies.UserProxy;
 
-
+/**
+ * Controller used in MVC architecture to control all the requests related to BookDto object.
+ * @author lavanya
+ */
 @Controller
 public class BookDtoController {
 	
@@ -28,8 +31,20 @@ public class BookDtoController {
 	@Autowired
 	UserProxy userProxy;
 	
+	
+	/**
+     * GET requests for /showBooks/{pageNumber} endpoint.
+     * This controller-method retrieves all books of the library, display them as Page to the view "searchBook".
+     * It offers the possibility to search a book with filters and to borrow one of them if the book is in stock.
+     * 
+     * @param model to pass data to the view.
+     * @param currentPage an int to specify which page of Books to be displayed.
+     * @param keyword a String attribute from Search object used to filter a search books by keyword.
+     * @param userConnected is the authenticated User passed within the object MyUserDetails
+     * @return "searchBook.html".
+     */	
 	@GetMapping("/showBooks/{pageNumber}")
-	public String showBooksListFiltered(Principal principal, @PathVariable(value = "pageNumber") int currentPage, @RequestParam ("userId") Integer userId,
+	public String showBooksListFiltered(@PathVariable(value = "pageNumber") int currentPage, @RequestParam ("userId") Integer userId,
 			@RequestParam(name="keyword", required=false) String keyword, Model model) {
 		
 		LendingDto lendingDto = new LendingDto();
@@ -40,7 +55,7 @@ public class BookDtoController {
             model.addAttribute("user", userConnected.get());
 		}
 		
-		Page<BookDto> pageOfBooksFiltered = bookProxy.getBookSearchPage(principal, currentPage, keyword);
+		Page<BookDto> pageOfBooksFiltered = bookProxy.getBookSearchPage(userId, currentPage, keyword);
 		
 		model.addAttribute("keyword", keyword);
 		
@@ -57,26 +72,4 @@ public class BookDtoController {
 		
 		return "searchBook";
 	}
-	
-//	@GetMapping("showAllBooks/{pageNumber}")
-//	public String showBooksList(@PathVariable(value = "pageNumber") int currentPage, Model model) {
-//		
-//		Page<BookDto> pageOfBooks = bookProxy.getAllBooks(currentPage);
-//		
-//		
-//		
-//		List<BookDto> booksPage = pageOfBooks.getContent();
-//		int totalPages = pageOfBooks.getTotalPages();
-//		long totalBooks = pageOfBooks.getTotalElements();
-//		
-//		model.addAttribute("booksPage", booksPage);
-//		model.addAttribute("currentPage", currentPage);
-//		model.addAttribute("totalPages", totalPages);
-//		model.addAttribute("totalBooks", totalBooks);
-//		
-//		return "allBooks";
-//	}
-	
-	
-
 }

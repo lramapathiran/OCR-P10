@@ -2,6 +2,12 @@ package com.lavanya.web.dto;
 
 import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonFormat;
+
+/**
+ * Bean representing a data transfer Object LendingDto.
+ * LendingDto has all attributes required for lending a book.
+ * @author lavanya
+ */
 public class LendingDto {
 	
 	Integer id;

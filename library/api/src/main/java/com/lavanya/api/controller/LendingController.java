@@ -12,21 +12,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.lavanya.api.model.Lending;
+import com.lavanya.api.model.User;
 import com.lavanya.api.service.LendingService;
 import com.lavanya.api.service.UserService;
 
 /**
- * Rest Controller used in MVC architecture to control all the requests related to Lending object.
+ * Rest Controller to control all the requests related to Lending object.
  * @author lavanya
  */
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/lendings")
 public class LendingController {
 	
 	@Autowired
@@ -35,7 +39,14 @@ public class LendingController {
 	@Autowired
 	UserService userService;
 
-	
+	/**
+	* GET requests for /user/lending endpoint.
+	* This controller-method retrieves from database the lending a user has just made so the last lending
+	* in order to confirm that the process of a book lending has been made successfully.
+	* 
+	* @param userConnected is the authenticated User passed within the object MyUserDetails.
+	* @return lending which is the last lending a user made.
+	*/	
 //	@GetMapping("/user/lending")
 //	public Lending getLendingDetails(@RequestParam ("userId") int userId) {
 //		
@@ -43,14 +54,10 @@ public class LendingController {
 //		
 //	}
 	
-	
-	
 	/**
-     * GET requests for /lending endpoint.
-     * This controller-method retrieves details on a lending of interest.  
-     * 
-     * @param bookId an int to specify the id of the Book object borrowed by the user.
-     * @return Lending object containing details on the lending.
+     * POST requests for /user/save/lending endpoint.
+     * This controller-method is part of CRUD and is used to save in database Lending object.
+     * @param lending is an instance of Lending and contains all data that need to be saved.
      */	
 	@PostMapping("/user/save/lending")
 	public	void saveLending(@RequestBody Lending lending) {
@@ -60,19 +67,25 @@ public class LendingController {
 	}
 
 	/**
-     * GET requests for /user/lendings endpoint.
-     * This controller-method retrieves the list of books borrowed by the user connected.  
-     * 
-     * @param userId an int to specify the id of the user connected.
-     * @return the list of books borrowed with all the details.
-     */	
+	  * GET requests for /user/lendings endpoint.
+	  * This controller-method retrieves from database all lendings a authenticated user made.
+	  * @param userConnected is the authenticated User passed within the object MyUserDetails.
+	  * @return List<Lending>.
+	  */
 	@GetMapping("/user/lendings")
-	public List<Lending> showListOfUserLendings(){
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String username = authentication.getName();
-		Integer userId = userService.findUserByUsername(username).getId();
+	public List<Lending> showListOfUserLendings(@RequestHeader(name = "Authorization") String token){
 		
-		return lendingService.getListOfLendingByUserId(userId);
+//		String token = (String) session.getAttribute("token");
+		 try {
+			    DecodedJWT jwt = JWT.decode(token);
+			    String username = jwt.getSubject();
+			    User user = userService.findUserByUsername(username);
+			    
+			    return lendingService.getListOfLendingByUserId(user.getId());
+			    
+			} catch (JWTDecodeException e){
+				throw new RuntimeException(e);
+			}			
 	}
 	
 	@PostMapping("/user/lending/extendDate/{id}")

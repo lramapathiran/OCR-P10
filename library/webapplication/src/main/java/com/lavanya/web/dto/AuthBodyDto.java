@@ -1,5 +1,10 @@
 package com.lavanya.web.dto;
 
+/**
+ * Bean representing a data transfer Object AuthBodyDto.
+ * AuthBodyDto has all attributes required to authenticate a user.
+ * @author lavanya
+ */
 public class AuthBodyDto {
 	
 	private String username;

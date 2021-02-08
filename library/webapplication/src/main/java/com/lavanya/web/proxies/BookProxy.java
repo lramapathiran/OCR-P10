@@ -10,10 +10,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.lavanya.web.dto.BookDto;
 
+/**
+ * interface required to communicate with api module and make all the requests related to Book object.
+ * @author lavanya
+ */
 @FeignClient(name = "bookApi", url = "localhost:9090")
 public interface BookProxy {
 	
-	@GetMapping("showBooks/{pageNumber}")
-	Page<BookDto> getBookSearchPage(Principal principal, @PathVariable(value = "pageNumber") int currentPage,@RequestParam(name="keyword", required=false) String keyword);
+	@GetMapping("/user/showBooks/{pageNumber}")
+	Page<BookDto> getBookSearchPage(@RequestParam("userId") Integer userId, @PathVariable(value = "pageNumber") int currentPage,@RequestParam(name="keyword", required=false) String keyword);
 
 }

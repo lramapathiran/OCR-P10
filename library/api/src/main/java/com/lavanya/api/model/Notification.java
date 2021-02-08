@@ -1,5 +1,10 @@
 package com.lavanya.api.model;
 
+/**
+ * Bean representing a Notification.
+ * Notification has all attributes required to send a notification to user.
+ * @author lavanya
+ */
 public class Notification {
 	
 	String  fullId;

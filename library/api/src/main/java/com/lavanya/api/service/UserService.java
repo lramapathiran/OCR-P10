@@ -30,17 +30,17 @@ public class UserService implements UserDetailsService{
         return userRepository.findByUsername(username);
     }
 	
-//	public void updateUser() {
-//		User user = new User();
-//		user = findUserByUsername("67899ID");
-//		String password = user.getPassword();
-//		
-//        user.setPassword(bCryptPasswordEncoder.encode(password));
-//        
-//        user.setRoles("USER");
-//        user.setEnabled(true);
-//        userRepository.save(user);
-//    }	
+	public void updateUser() {
+		User user = new User();
+		user = findUserByUsername("12345ID");
+		String email = user.getEmail();
+		
+        user.setPassword(bCryptPasswordEncoder.encode(email));
+        
+        user.setRoles("USER");
+        user.setEnabled(true);
+        userRepository.save(user);
+    }	
 	public Optional<User> getUserById (Integer id) {
 		
 		return userRepository.findById(id);

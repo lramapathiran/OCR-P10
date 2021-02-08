@@ -5,6 +5,11 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+/**
+ * Bean representing a data transfer Object UserDto.
+ * UserDto has all attributes required to register an user.
+ * @author lavanya
+ */
 public class UserDto {
 
 	Integer id;

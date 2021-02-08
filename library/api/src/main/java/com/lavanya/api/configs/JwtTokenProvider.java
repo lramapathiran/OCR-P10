@@ -3,6 +3,7 @@ package com.lavanya.api.configs;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Set;
+import java.util.function.Function;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.lavanya.api.model.User;
 import com.lavanya.api.service.UserService;
 
 import io.jsonwebtoken.Claims;
@@ -40,6 +40,22 @@ public class JwtTokenProvider {
     protected void init() {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
+    
+    public String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
+
+    public Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
+
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
+    }
+    private Claims extractAllClaims(String token) {
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+    }    
 
     public String createToken(String username, String role) {
     	Claims claims = Jwts.claims().setSubject(username);
@@ -71,15 +87,19 @@ public class JwtTokenProvider {
         return null;
     }
 
-    public boolean validateToken(String token) {
+    public boolean validateToken(String token, UserDetails userDetails) {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            final String username = extractUsername(token);
+            if (username.equals(userDetails.getUsername())) {
+                return false;
+            }
             if (claims.getBody().getExpiration().before(new Date())) {
                 return false;
             }
             return true;
         } catch (JwtException | IllegalArgumentException e) {
-            throw new JwtException("Expired or invalid JWT token");
+            throw new JwtException("Token invalide ou expiré!");
         }
     }
 }

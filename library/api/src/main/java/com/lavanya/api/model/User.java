@@ -10,7 +10,11 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-
+/**
+ * Bean representing an User.
+ * User object is declared as a JPA entity with the corresponding annotation.
+ * @author lavanya
+ */
 @Entity
 @Table(	name = "user")
 public class User {

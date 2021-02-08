@@ -18,12 +18,11 @@ import com.lavanya.api.model.Book;
 import com.lavanya.api.service.BookService;
 
 /**
- * Rest Controller used in MVC architecture to control all the requests related to Book object.
+ * Rest Controller to control all the requests related to Book object.
  * @author lavanya
  */
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/books")
 public class BookController {
 	
 	@Autowired
@@ -31,29 +30,21 @@ public class BookController {
 	
 	/**
      * GET requests for /showBooks/{pageNumber} endpoint.
-     * This controller-method retrieves all books available in library.
+     * This controller-method retrieves all books of the library.
      * 
-     * @param currentPage an int to specify the page of Books of interest.
-     * @param keyword a String used to filter a search books by keyword.
-     * @param userConnected is the authenticated User passed within the object MyUserDetails.
-     * @return page of Book of interest.
+     * @param currentPage an int to specify which page of Books to be displayed.
+     * @param keyword a String attribute from Search object used to filter a search books by keyword.
+     * @param userConnected is the authenticated User passed within the object MyUserDetails
+     * @return page of list of books.
      */	
-	@GetMapping("showBooks/{pageNumber}")
-	public Page<Book> getBookSearchPage(Principal principal,@PathVariable(value = "pageNumber") int currentPage,@RequestParam(name="keyword", required=false) String keyword){
+	@GetMapping("/user/showBooks/{pageNumber}")
+	public Page<Book> getBookSearchPage(@RequestParam ("userId") Integer userId,@PathVariable(value = "pageNumber") int currentPage,
+			@RequestParam(name="keyword", required=false) String keyword){
 			
 		Page<Book> page = bookService.getAllBooksFiltered(currentPage, keyword);
 		return page;		
 		
 	}	
-	
-	@GetMapping("showAllBooks/{pageNumber}")
-	public Page<Book> getAllBooks(@PathVariable(value = "pageNumber") int currentPage){
-			
-		Page<Book> page = bookService.getAllBooks(currentPage);
-				
-		return page;		
 		
-	}
-	
 
 }
