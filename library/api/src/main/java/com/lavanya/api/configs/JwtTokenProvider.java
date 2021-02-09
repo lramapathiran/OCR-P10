@@ -70,9 +70,9 @@ public class JwtTokenProvider {
             .compact();
     }
 
-    public Authentication getAuthentication(String token) {
+    public Authentication getAuthentication(String token,String username) {
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(getUsername(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails,username, userDetails.getAuthorities());
     }
 
     public String getUsername(String token) {
@@ -91,7 +91,7 @@ public class JwtTokenProvider {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             final String username = extractUsername(token);
-            if (username.equals(userDetails.getUsername())) {
+            if (!username.equals(userDetails.getUsername())) {
                 return false;
             }
             if (claims.getBody().getExpiration().before(new Date())) {

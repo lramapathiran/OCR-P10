@@ -1,11 +1,9 @@
 package com.lavanya.api.controller;
 
-import java.security.Principal;
+
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,13 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.lavanya.api.model.Lending;
 import com.lavanya.api.model.User;
 import com.lavanya.api.service.LendingService;
@@ -73,12 +67,11 @@ public class LendingController {
 	  * @return List<Lending>.
 	  */
 	@GetMapping("/user/lendings")
-	public List<Lending> showListOfUserLendings(@RequestHeader(name = "Authorization") String token){
+	public List<Lending> showListOfUserLendings(){
 		
-//		String token = (String) session.getAttribute("token");
+		String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
 		 try {
-			    DecodedJWT jwt = JWT.decode(token);
-			    String username = jwt.getSubject();
+			    
 			    User user = userService.findUserByUsername(username);
 			    
 			    return lendingService.getListOfLendingByUserId(user.getId());

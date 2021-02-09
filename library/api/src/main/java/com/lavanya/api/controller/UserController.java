@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -66,15 +68,16 @@ public class UserController {
      */	
 	@SuppressWarnings("rawtypes")
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody AuthBody data) {
+    public String login(@RequestBody AuthBody data) {
         try {
             String username = data.getUsername();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, data.getPassword()));
             String token = jwtTokenProvider.createToken(username, this.users.findByUsername(username).getRoles());
-            Map<Object, Object> authInfo = new HashMap<>();
-            authInfo.put("username", username);
-            authInfo.put("token", token);
-            return ok(authInfo);
+ 
+//            Map<Object, Object> authInfo = new HashMap<>();
+//            authInfo.put("username", username);
+//            authInfo.put("token", token);
+            return token;
         } catch (AuthenticationException e) {
             throw new BadCredentialsException("L'identifiant et/ou le mot de passe sont invalides!");
         }

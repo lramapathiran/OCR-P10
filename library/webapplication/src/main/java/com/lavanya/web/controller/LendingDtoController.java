@@ -81,13 +81,16 @@ public class LendingDtoController {
 			 return "redirect:/index";
 		 }
 		 String token = (String) session.getAttribute("token");
+		 String subToken = token.substring(7);
 		 try {
-			    DecodedJWT jwt = JWT.decode(token);
+			    DecodedJWT jwt = JWT.decode(subToken);
 			    String username = jwt.getSubject();
 			    model.addAttribute("username", username);
 			} catch (JWTDecodeException e){
 				throw new RuntimeException(e);
-			}		 
+			}
+		 
+
 //		 Optional<UserDto> userConnected = userProxy.getUserConnected(userId);
 			
 //		if( userConnected.isPresent() ) {

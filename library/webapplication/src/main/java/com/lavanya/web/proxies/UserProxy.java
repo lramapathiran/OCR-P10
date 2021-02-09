@@ -24,8 +24,7 @@ public interface UserProxy {
 	@GetMapping("/user/{id}")
 	Optional<UserDto> getUserConnected(@PathVariable ("id") int id);
 	
-	@SuppressWarnings("rawtypes")
-    @PostMapping(value="/api/auth/login", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity login(@RequestBody AuthBodyDto data);
+	@PostMapping(value="/api/auth/login", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	String login(@RequestBody AuthBodyDto data);
 	
 }

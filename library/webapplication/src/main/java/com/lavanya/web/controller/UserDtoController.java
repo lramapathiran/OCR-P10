@@ -1,5 +1,7 @@
 package com.lavanya.web.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -52,15 +54,15 @@ public class UserDtoController {
      * @return redirect to userDashboard.html
      */	
 	@PostMapping("/login")
-	public String sendAuthBodyForAuthentication(AuthBodyDto data) {
+	public String sendAuthBodyForAuthentication(AuthBodyDto data, HttpSession session) {
 		
 //		String username = authBody.getUsername();
 //		String password = authBody.getPassword();
 		
-		@SuppressWarnings("rawtypes")
-		ResponseEntity resp = userProxy.login(data);
-		
-		return "redirect:/user/lendings?rest=" + resp;
+		String resp = userProxy.login(data);
+		String token = "Bearer " + resp;
+        session.setAttribute("token", token);
+		return "redirect:/user/lendings";
 		
 	}
 	
