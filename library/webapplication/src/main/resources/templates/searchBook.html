@@ -20,7 +20,6 @@
 					<form  th:action="@{/showBooks/1}" th:object="${keyword}" th:method="get">
 						<div class="row col-lg-12" id="search">
 								<label class="col-lg-2">Rechercher : </label>&nbsp;
-								<input type="hidden" name="userId" th:value="${userId}"/>
 							    <input class="col-lg-4" type="text" name="keyword" th:value="${keyword}"/>&nbsp;
 								<input id="clearWrapper" class="buttonWrapper col-lg-1" type="button" value="Effacer" onclick="clearFilter()"/>&nbsp;
 								<button id="searchWrapper" class="buttonWrapper col-lg-1" type="submit"><img th:src="@{/img/icons8-search-24.png}" alt="search logo"/></button>
@@ -50,6 +49,7 @@
 												<th>N°</th>
 							   					<th>Titre</th>
 							   					<th>Auteur</th>
+							   					<th>Stock restant</th>							   					
 							   					<th>J'emprunte!</th>   						
 											</tr>
 										  </thead>
@@ -58,9 +58,9 @@
 							   					<td th:text="${iterator.index} +1">></td>
 								   				<td th:utext="${book.title}"></td>
 								   				<td th:utext="${book.author}"></td>
+								   				<td th:utext="${book.remainingStock}"></td>
 								   				<td th:if="${book.remainingStock}>0">
-								   					<form action="#" th:action="@{/user/lendingToSave(userId=${userId})}" th:method="post">
-														<input type="hidden" th:value = "${userId}" th:name="user.id" id="user"/>
+								   					<form action="#" th:action="@{/user/lendingToSave}" th:method="post">
 														<input type="hidden" th:value = "${book.id}" th:name="book.id" id="book"/>
 														<button type="submit"><img th:src="@{/img/icons8-emprunter-un-livre-48.png}"/></button>
 													</form>		
@@ -79,19 +79,19 @@
 						<div class="text-center">
 				           	Page : [[${currentPage}]]/[[${totalPages}]]&nbsp; - &nbsp;
 				            <span>
-				            	<a th:if="${currentPage > 1}" th:href="@{/showSites/{pageNumber}(pageNumber=${currentPage - 1},userId=${userId}, keyword=${keyword})}">Précédent</a>
+				            	<a th:if="${currentPage > 1}" th:href="@{/showSites/{pageNumber}(pageNumber=${currentPage - 1}, keyword=${keyword})}">Précédent</a>
 				            	<span th:unless="${currentPage > 1}">Précédent</span> &nbsp; - &nbsp;
 				            </span>
 				            <span th:each="i: ${#numbers.sequence(1,totalPages)}">
-				            	<a th:if="${i != currentPage}" th:href="@{/showSites/{pageNumber}(pageNumber=${i},,userId=${userId}, keyword=${keyword})}">[[${i}]]</a>
+				            	<a th:if="${i != currentPage}" th:href="@{/showSites/{pageNumber}(pageNumber=${i}, keyword=${keyword})}">[[${i}]]</a>
 				            	<span th:unless="${i != currentPage}">[[${i}]]</span> &nbsp; - &nbsp;
 				            </span>
 				            <span>
-				            	<a th:if="${currentPage != totalPages}" th:href="@{/showSites/{pageNumber}(pageNumber=${currentPage + 1}, ,userId=${userId}, keyword=${keyword})}">Suivant</a>
+				            	<a th:if="${currentPage != totalPages}" th:href="@{/showSites/{pageNumber}(pageNumber=${currentPage + 1}, keyword=${keyword})}">Suivant</a>
 				                <span th:unless="${currentPage != totalPages}">Suivant</span> &nbsp; - &nbsp;
 				            </span>
 				            <span>
-				             	<a th:if="${currentPage != totalPages}" th:href="@{/showSites/{pageNumber}(pageNumber=${totalPages}, ,userId=${userId}, keyword=${keyword})}">Dernier</a>
+				             	<a th:if="${currentPage != totalPages}" th:href="@{/showSites/{pageNumber}(pageNumber=${totalPages}, keyword=${keyword})}">Dernier</a>
 				                <span th:unless="${currentPage != totalPages}">Dernier</span> &nbsp; - &nbsp;
 				            </span>
 				         </div>

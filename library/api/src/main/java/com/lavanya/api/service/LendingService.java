@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.lavanya.api.error.SaveLendingFailed;
 import com.lavanya.api.model.Lending;
+import com.lavanya.api.model.User;
 import com.lavanya.api.repository.LendingRepository;
 
 @Service
@@ -31,9 +32,11 @@ public class LendingService {
 		return lendingRepository.findById(lendingId);
 	}
 	
-//	public Lending getLastLendingByUserId(Integer userId) {
-//		return lendingRepository.findLastRecordByUserId(userId);
-//	}
+	public Lending getLastLendingByUserId(Integer userId) {
+		LocalDate lendingDate = LocalDate.now();
+		Lending lending = lendingRepository.findLastRecordByUserId(userId,lendingDate);
+		return lending;
+	}
 	
 	public void getBookDueDateExtended(Integer lendingId) {
 		Optional<Lending> optional = lendingRepository.findById(lendingId);
@@ -46,8 +49,9 @@ public class LendingService {
 		
 	}
 
-	public void save(Lending lending) {
+	public void save(Lending lending, User user) {
 		
+		lending.setUser(user);
 		lending.setLendingDate(LocalDate.now());
 		lending.setDueDate(lending.getLendingDate().plusWeeks(4));
 		lending.setIsExtended(false);

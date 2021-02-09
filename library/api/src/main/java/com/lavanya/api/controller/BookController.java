@@ -6,15 +6,16 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.lavanya.api.model.Book;
+import com.lavanya.api.model.User;
 import com.lavanya.api.service.BookService;
 
 /**
@@ -38,11 +39,17 @@ public class BookController {
      * @return page of list of books.
      */	
 	@GetMapping("/user/showBooks/{pageNumber}")
-	public Page<Book> getBookSearchPage(@RequestParam ("userId") Integer userId,@PathVariable(value = "pageNumber") int currentPage,
+	public Page<Book> getBookSearchPage(@PathVariable(value = "pageNumber") int currentPage,
 			@RequestParam(name="keyword", required=false) String keyword){
+		
+		 try {
+			 Page<Book> page = bookService.getAllBooksFiltered(currentPage, keyword);
+				return page;	
+			    
+			} catch (JWTDecodeException e){
+				throw new RuntimeException(e);
+			}		
 			
-		Page<Book> page = bookService.getAllBooksFiltered(currentPage, keyword);
-		return page;		
 		
 	}	
 		

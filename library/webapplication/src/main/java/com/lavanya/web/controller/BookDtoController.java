@@ -3,6 +3,8 @@ package com.lavanya.web.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -44,18 +46,18 @@ public class BookDtoController {
      * @return "searchBook.html".
      */	
 	@GetMapping("/showBooks/{pageNumber}")
-	public String showBooksListFiltered(@PathVariable(value = "pageNumber") int currentPage, @RequestParam ("userId") Integer userId,
+	public String showBooksListFiltered(@PathVariable(value = "pageNumber") int currentPage, HttpSession session,
 			@RequestParam(name="keyword", required=false) String keyword, Model model) {
+		
+		if(session==null) {
+			 return "redirect:/homePage#sign-in";
+		 }
 		
 		LendingDto lendingDto = new LendingDto();
 		
-		Optional<UserDto> userConnected = userProxy.getUserConnected(userId);
+		String token = (String) session.getAttribute("token");
 		
-		if( userConnected.isPresent() ) {
-            model.addAttribute("user", userConnected.get());
-		}
-		
-		Page<BookDto> pageOfBooksFiltered = bookProxy.getBookSearchPage(userId, currentPage, keyword);
+		Page<BookDto> pageOfBooksFiltered = bookProxy.getBookSearchPage(token, currentPage, keyword);
 		
 		model.addAttribute("keyword", keyword);
 		
@@ -63,7 +65,6 @@ public class BookDtoController {
 		int totalPages = pageOfBooksFiltered.getTotalPages();
 		long totalBooks = pageOfBooksFiltered.getTotalElements();
 		
-		model.addAttribute("userId", userId);
 		model.addAttribute("booksPage", booksPage);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("totalPages", totalPages);

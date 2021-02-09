@@ -43,11 +43,16 @@ public class LendingDtoController {
      * @return redirect to lending.html, a confirmation lending page.
      */	
 	 @PostMapping("/user/lendingToSave")
-	 public String bookLending(@RequestParam (value="userId") Integer userId,LendingDto lendingDto){
+	 public String bookLending(HttpSession session,LendingDto lendingDto){
 		 
-		 lendingProxy.saveLending(lendingDto);
+		 if(session==null) {
+			 return "redirect:/homePage#sign-in";
+		 }
+		 String token = (String) session.getAttribute("token");
+		 
+		 lendingProxy.saveLending(lendingDto, token);
 		  
-	     return "redirect:/user/lending?userId=" + userId;
+	     return "redirect:/user/lending";
 	 }
 	 
 	 /**
@@ -59,13 +64,16 @@ public class LendingDtoController {
 	  * @param userConnected is the authenticated User passed within the object MyUserDetails.
 	  * @return lending.html
 	  */	
-//	 @GetMapping("/user/lending")
-//	 public String showLendingConfirmation(@RequestParam(value="userId") int userId, Model model){
-//		 LendingDto lendingDto = lendingProxy.getLendingDetails(userId);
-//		 model.addAttribute("lendingDto", lendingDto);
-//		 model.addAttribute("userId", userId);
-//		 return "lending";
-//	 }
+	 @GetMapping("/user/lending")
+	 public String showLendingConfirmation(HttpSession session, Model model){
+		 if(session==null) {
+			 return "redirect:/homePage#sign-in";
+		 }
+		 String token = (String) session.getAttribute("token");
+		 LendingDto lendingDto = lendingProxy.getLendingDetails(token);
+		 model.addAttribute("lendingDto", lendingDto);
+		 return "lending";
+	 }
 	 
 	 /**
 	  * GET requests for /user/lendings endpoint.
@@ -78,7 +86,7 @@ public class LendingDtoController {
 	 public String showUserLendingsList(HttpSession session, Model model){
 		 
 		 if(session==null) {
-			 return "redirect:/index";
+			 return "redirect:/homePage#sign-in";
 		 }
 		 String token = (String) session.getAttribute("token");
 		 String subToken = token.substring(7);
@@ -110,10 +118,15 @@ public class LendingDtoController {
 	  * @return redirect to userDashboard.html, a confirmation lending page.
 	  */	
 	 @PostMapping("/user/lending/extendDate")
-	 public String getExtension(Integer lendingDtoId, @RequestParam ("userId") int userId) {		 
+	 public String getExtension(Integer lendingDtoId, HttpSession session) {		
 		 
-		 lendingProxy.updateLending(lendingDtoId);
+		 if(session==null) {
+			 return "redirect:/homePage#sign-in";
+		 }
+		 String token = (String) session.getAttribute("token");
 		 
-		 return "redirect:/user/lendings?userId=" + userId;
+		 lendingProxy.updateLending(lendingDtoId, token);
+		 
+		 return "redirect:/user/lendings";
 	 }
 }

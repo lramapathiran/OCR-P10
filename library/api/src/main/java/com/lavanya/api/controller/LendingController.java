@@ -41,12 +41,22 @@ public class LendingController {
 	* @param userConnected is the authenticated User passed within the object MyUserDetails.
 	* @return lending which is the last lending a user made.
 	*/	
-//	@GetMapping("/user/lending")
-//	public Lending getLendingDetails(@RequestParam ("userId") int userId) {
-//		
-//		return lendingService.getLastLendingByUserId(userId);
-//		
-//	}
+	@GetMapping("/user/lending")
+	public Lending getLendingDetails() {
+		
+		String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+		try {
+		    
+			User user = userService.findUserByUsername(username);
+			Integer userId = user.getId();
+			return lendingService.getLastLendingByUserId(userId);
+			    
+		} catch (JWTDecodeException e){
+			throw new RuntimeException(e);
+		}			
+		
+		
+	}
 	
 	/**
      * POST requests for /user/save/lending endpoint.
@@ -56,7 +66,17 @@ public class LendingController {
 	@PostMapping("/user/save/lending")
 	public	void saveLending(@RequestBody Lending lending) {
 		
-		lendingService.save(lending);
+		String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+		 try {
+			    
+			User user = userService.findUserByUsername(username);
+			lendingService.save(lending, user); 
+			    
+		} catch (JWTDecodeException e){
+			throw new RuntimeException(e);
+		}			
+		
+		
 				
 	}
 

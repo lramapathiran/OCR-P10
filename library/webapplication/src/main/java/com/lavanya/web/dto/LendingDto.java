@@ -18,11 +18,7 @@ public class LendingDto {
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	LocalDate dueDate;
 	
-	Boolean isExtended;
-	
-	
-	private UserDto userDto;
-	
+	Boolean isExtended;	
 	
 	private BookDto bookDto;
 	
@@ -62,14 +58,6 @@ public class LendingDto {
 		this.isExtended = isExtended;
 	}
 
-	public UserDto getUser() {
-		return userDto;
-	}
-
-	public void setUser(UserDto userDto) {
-		this.userDto = userDto;
-	}
-
 	public BookDto getBook() {
 		return bookDto;
 	}
@@ -81,7 +69,7 @@ public class LendingDto {
 	@Override
 	public String toString() {
 		return "Lending [id=" + id + ", lendingDate=" + lendingDate + ", dueDate=" + dueDate + ", isExtended="
-				+ isExtended + ", user=" + userDto + ", book=" + bookDto + "]";
+				+ isExtended + ", book=" + bookDto + "]";
 	}
 
 }

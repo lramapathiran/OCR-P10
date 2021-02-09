@@ -1,5 +1,6 @@
 package com.lavanya.api.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +19,7 @@ public interface LendingRepository extends JpaRepository<Lending, Integer> {
 	
 	public Lending findFirstByOrderByIdDesc();
 	
-//	@Query("select u.dueDate, u.bookId from lending u where (u.user.id=?1,u.id) in (select u.user.id, max(u.id) as u.id from lending u)")
-//	public Lending findLastRecordByUserId(Integer userId);
+	@Query("select u from Lending u where u.user=?1 and u.lendingDate=?2")
+	public Lending findLastRecordByUserId(Integer userId, LocalDate date);
 
 }

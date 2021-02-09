@@ -44,9 +44,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
                 .antMatchers("/api/auth/login").permitAll()
-                .antMatchers("/api/auth/saveUser").permitAll()
-                .antMatchers("/user/**").hasAnyRole("ADMIN","USER")
-                .and().authorizeRequests()
+//                .antMatchers("/api/auth/saveUser").permitAll()
+//                .antMatchers("/user/**").hasAnyRole("ADMIN","USER")
+//                .and().authorizeRequests()
                 .anyRequest().authenticated()
                 .and().csrf()
                 .disable().exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint());

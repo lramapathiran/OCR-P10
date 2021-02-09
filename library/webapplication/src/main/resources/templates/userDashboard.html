@@ -44,7 +44,7 @@
 												<td th:utext = "${lendingDto.book.author}">...</td>
 												<td th:utext = "${#temporals.format(lendingDto.dueDate, 'dd-MM-yyyy')}">...</td>
 												<td th:if="${lendingDto.isExtended ==  false}">
-													<form action="#" th:action="@{/user/lending/extendDate(userId=${userId})}" th:method="post">	
+													<form action="#" th:action="@{/user/lending/extendDate}" th:method="post">	
 														<input type="hidden" name="lendingDtoId" th:value = "${lendingDto.id}"/>
 																								
 														<button type="submit"><img th:src="@{/img/icons8-calendar-48.png}"/></button>

@@ -21,17 +21,17 @@ import com.lavanya.web.dto.LendingDto;
 @FeignClient(name = "lendingApi", url = "localhost:9090")
 public interface LendingProxy {
 
-//	@GetMapping(value = "/user/lending", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-//	LendingDto getLendingDetails(@RequestParam(value="userId") int userId);
+	@GetMapping(value = "/user/lending", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	LendingDto getLendingDetails(@RequestHeader(name = "Authorization") String token);
 
 	@GetMapping(value = "/user/lendings")
 	List<LendingDto> showListOfUserLendings(@RequestHeader(name = "Authorization") String token);
 	
 	@PostMapping(value="/user/lending/extendDate/{id}", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-	void updateLending(@PathVariable ("id") Integer lendingId);
+	void updateLending(@PathVariable ("id") Integer lendingId, @RequestHeader(name = "Authorization") String token);
 	
 	@PostMapping(value="/user/save/lending", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-	void saveLending(@RequestBody LendingDto lending);
+	void saveLending(@RequestBody LendingDto lending, @RequestHeader(name = "Authorization") String token);
 	
 	
 	
