@@ -1,24 +1,21 @@
 package com.lavanya.web.controller;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.lavanya.web.error.SaveLendingFailed;
 import com.lavanya.web.dto.LendingDto;
-import com.lavanya.web.dto.UserDto;
 import com.lavanya.web.proxies.LendingProxy;
 import com.lavanya.web.proxies.UserProxy;
 
@@ -45,14 +42,22 @@ public class LendingDtoController {
 	 @PostMapping("/user/lendingToSave")
 	 public String bookLending(HttpSession session,LendingDto lendingDto){
 		 
+
 		 if(session==null) {
 			 return "redirect:/homePage#sign-in";
 		 }
 		 String token = (String) session.getAttribute("token");
-		 
-		 lendingProxy.saveLending(lendingDto, token);
 		  
-	     return "redirect:/user/lending";
+		 LendingDto lendingSaved = lendingProxy.saveLending(lendingDto, token);
+		 Integer lendingDtoId=lendingSaved.getId();
+		  
+		 if(lendingDtoId==null) {
+				throw new SaveLendingFailed(
+			              "L'emprunt a échoué, veuillez recommencer");
+			}	
+		  
+		 return "redirect:/user/lending?id=" + lendingDtoId ;
+	     
 	 }
 	 
 	 /**
@@ -65,13 +70,14 @@ public class LendingDtoController {
 	  * @return lending.html
 	  */	
 	 @GetMapping("/user/lending")
-	 public String showLendingConfirmation(HttpSession session, Model model){
+	 public String showLendingConfirmation(HttpSession session, @RequestParam("id") Integer lendingDtoId, Model model){
 		 if(session==null) {
 			 return "redirect:/homePage#sign-in";
 		 }
 		 String token = (String) session.getAttribute("token");
-		 LendingDto lendingDto = lendingProxy.getLendingDetails(token);
-		 model.addAttribute("lendingDto", lendingDto);
+		 Optional<LendingDto> lendingDto = lendingProxy.getLendingDetails(token,lendingDtoId);
+		 
+		 lendingDto.ifPresent(lending -> model.addAttribute("lendingDto", lending));
 		 return "lending";
 	 }
 	 
@@ -98,14 +104,7 @@ public class LendingDtoController {
 				throw new RuntimeException(e);
 			}
 		 
-
-//		 Optional<UserDto> userConnected = userProxy.getUserConnected(userId);
-			
-//		if( userConnected.isPresent() ) {
-//	         model.addAttribute("user", userConnected.get());
-//		}
 		 List<LendingDto> booksList = lendingProxy.showListOfUserLendings(token);
-//		 model.addAttribute("userId",userId);
 	     model.addAttribute("list", booksList);
 
 	     return "userDashboard";

@@ -2,6 +2,7 @@ package com.lavanya.web.proxies;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.lavanya.web.dto.LendingDto;
 
@@ -22,7 +23,7 @@ import com.lavanya.web.dto.LendingDto;
 public interface LendingProxy {
 
 	@GetMapping(value = "/user/lending", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-	LendingDto getLendingDetails(@RequestHeader(name = "Authorization") String token);
+	Optional<LendingDto> getLendingDetails(@RequestHeader(name = "Authorization") String token, @RequestParam(value="id") Integer lendingDtoId);
 
 	@GetMapping(value = "/user/lendings")
 	List<LendingDto> showListOfUserLendings(@RequestHeader(name = "Authorization") String token);
@@ -31,7 +32,7 @@ public interface LendingProxy {
 	void updateLending(@PathVariable ("id") Integer lendingId, @RequestHeader(name = "Authorization") String token);
 	
 	@PostMapping(value="/user/save/lending", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-	void saveLending(@RequestBody LendingDto lending, @RequestHeader(name = "Authorization") String token);
+	LendingDto saveLending(@RequestBody LendingDto lending, @RequestHeader(name = "Authorization") String token);
 	
 	
 	

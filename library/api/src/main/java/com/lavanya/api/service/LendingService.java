@@ -1,6 +1,7 @@
 package com.lavanya.api.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,18 +24,12 @@ public class LendingService {
 	
 	public List<Lending> getListOfLendingByUserId(int userId){
 		
-		return lendingRepository.findAllByUserId(userId);
+		return lendingRepository.findAllByUserIdOrderByDueDate(userId);
 		
-	}
-
-	public Optional<Lending> getLendingById(int lendingId) {
-		
-		return lendingRepository.findById(lendingId);
 	}
 	
-	public Lending getLastLendingByUserId(Integer userId) {
-		LocalDate lendingDate = LocalDate.now();
-		Lending lending = lendingRepository.findLastRecordByUserId(userId,lendingDate);
+	public Optional<Lending> getLendingByUserId(Integer lendingId) {
+		Optional<Lending> lending = lendingRepository.findById(lendingId);
 		return lending;
 	}
 	
@@ -49,7 +44,7 @@ public class LendingService {
 		
 	}
 
-	public void save(Lending lending, User user) {
+	public Lending save(Lending lending, User user) {
 		
 		lending.setUser(user);
 		lending.setLendingDate(LocalDate.now());
@@ -66,10 +61,9 @@ public class LendingService {
 		}
 		
 		bookService.updateBookStock(id); 
+		
+		return lending;
 	
 	}
 	
-	public Lending getLastRecord() {
-		return lendingRepository.findFirstByOrderByIdDesc();
-	}
 }

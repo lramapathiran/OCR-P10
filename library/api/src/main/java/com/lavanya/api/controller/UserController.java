@@ -1,29 +1,19 @@
 package com.lavanya.api.controller;
 
-import static org.springframework.http.ResponseEntity.ok;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lavanya.api.configs.JwtTokenProvider;
-import com.lavanya.api.model.User;
 import com.lavanya.api.repository.UserRepository;
 import com.lavanya.api.service.UserService;
 
@@ -66,7 +56,6 @@ public class UserController {
      * @param data is the bean where the password and username of the user are stored to authenticate the user.
      * @return ResponseEntity to confirm the authentication was successful with the authenticated user username and a token.
      */	
-	@SuppressWarnings("rawtypes")
     @PostMapping("/login")
     public String login(@RequestBody AuthBody data) {
         try {

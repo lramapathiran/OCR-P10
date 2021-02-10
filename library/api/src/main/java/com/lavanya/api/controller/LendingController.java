@@ -2,6 +2,7 @@ package com.lavanya.api.controller;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.auth0.jwt.exceptions.JWTDecodeException;
@@ -42,14 +44,11 @@ public class LendingController {
 	* @return lending which is the last lending a user made.
 	*/	
 	@GetMapping("/user/lending")
-	public Lending getLendingDetails() {
+	public Optional<Lending> getLendingDetails(@RequestParam("id") Integer lendingId) {
 		
-		String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
 		try {
-		    
-			User user = userService.findUserByUsername(username);
-			Integer userId = user.getId();
-			return lendingService.getLastLendingByUserId(userId);
+		    Optional<Lending> lending = lendingService.getLendingByUserId(lendingId); 
+			return lending;
 			    
 		} catch (JWTDecodeException e){
 			throw new RuntimeException(e);
@@ -64,13 +63,14 @@ public class LendingController {
      * @param lending is an instance of Lending and contains all data that need to be saved.
      */	
 	@PostMapping("/user/save/lending")
-	public	void saveLending(@RequestBody Lending lending) {
+	public	Lending saveLending(@RequestBody Lending lending) {
 		
 		String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
 		 try {
 			    
 			User user = userService.findUserByUsername(username);
-			lendingService.save(lending, user); 
+			Lending lendingSaved = lendingService.save(lending, user);
+			return lendingSaved; 
 			    
 		} catch (JWTDecodeException e){
 			throw new RuntimeException(e);
