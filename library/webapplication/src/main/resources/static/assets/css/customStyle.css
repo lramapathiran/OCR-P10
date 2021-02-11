@@ -55,3 +55,8 @@
 .non-connected {
 	margin-top: -14rem;
 }
+
+#error{
+	color:red; 
+	font-weight: bold;
+}

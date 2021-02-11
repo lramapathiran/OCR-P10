@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -32,7 +33,8 @@ public class UserDtoController {
      * @return index.html
      */	
 	@GetMapping("/homePage")
-	public String showLoginAndHomePage (HttpSession session, Model model) {
+	public String showLoginAndHomePage (@RequestParam(value = "error", required = false) String error,
+			HttpSession session, Model model) {
 		
 		
 		String token = (String) session.getAttribute("token");
@@ -46,16 +48,11 @@ public class UserDtoController {
 			model.addAttribute("fullname", fullname);
 		}
 		
-//		rajouter fullname si cnnecté et httpSession
-	  
-//    	String errorMessage = null;
-//        if(error != null) {
-//            errorMessage = "L'identifiant ou le mot de passe est incorrect!!";
-//        }
-//        if(logout != null) {
-//            errorMessage = "Vous vous êtes déconnecté avec succès!!";
-//        }
-//        model.addAttribute("errorMessage", errorMessage);
+    	String errorMessage = null;
+        if(error != null) {
+            errorMessage = "L'identifiant ou le mot de passe est incorrect!!";
+        }
+        model.addAttribute("errorMessage", errorMessage);
 		
 		AuthBodyDto authBody = new AuthBodyDto();
 		model.addAttribute("authBodyDto", authBody);
@@ -72,12 +69,24 @@ public class UserDtoController {
 	@PostMapping("/login")
 	public String sendAuthBodyForAuthentication(AuthBodyDto data, HttpSession session) {
 			
-		String resp = userProxy.login(data);
-		String token = "Bearer " + resp;
-        session.setAttribute("token", token);
-		return "redirect:/user/lendings";
+		try{
+			String resp = userProxy.login(data);
+			String token = "Bearer " + resp;
+	        session.setAttribute("token", token);
+			return "redirect:/user/lendings";
+		}catch (Exception e) {
+			return "redirect:/homePage?error=true#sign-in";
+		}
 		
 	}
+	
+	@GetMapping("/logout")
+    public String logout(HttpSession session) {
+		
+        session.invalidate();
+
+        return "redirect:/homePage";
+    }
 	
 	
 

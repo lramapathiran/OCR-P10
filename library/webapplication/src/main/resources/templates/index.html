@@ -25,7 +25,7 @@
 	            <ul th:unless="${session.isEmpty()}" class="navbar-nav ml-auto">
 	              <li class="nav-item text-muted"><a class="nav-link active" aria-current="page" th:href="@{/user/lendings}">Mon espace</a></li>
 	              <li class="nav-item"><a class="nav-link" th:href="@{/showBooks/1}">Rechercher</a></li>
-	              <li class="nav-item dropdown"><a class="nav-link" id="navbarDropdowndoc" href="#" role="button" data-toggle="dropdown" aria-expanded="false">Deconnexion</a></li>
+	              <li class="nav-item dropdown"><a class="nav-link" id="navbarDropdowndoc" th:href="@{/logout}">Deconnexion</a></li>
 	            </ul>
 	            <span th:unless="${session.isEmpty()}" class="ml-auto hover-top-shadow name"><strong>Bonjour 
 			      	<span th:utext="${fullname}"></span></strong>
@@ -61,7 +61,6 @@
       <!-- ============================================-->
       <!-- <section> begin ============================-->
       <section class="py-5 py-md-7 border-bottom" id="feature">
-
         <div class="container">
           <div class="row">
             <div class="col-md-6 col-lg-4 mb-4"><img class="mb-3" src="assets/img/gallery/speed2.png" alt="" />
@@ -144,9 +143,12 @@
               </div>
             </div>
           </div>
+      	
+      	  <h4 class="text-uppercase mb-4 text-center" id="error" th:if="${errorMessage}!=null" th:utext="${errorMessage}"></h4>
+      	  
         </div>
         <!-- end of .container-->
-
+		
       </section>
       <!-- <section> close ============================-->
       <!-- ============================================-->
@@ -222,9 +224,9 @@
       <!-- <section> begin ============================-->
       <section class="bg-dark py-8">
 
-        <div class="container faq">
+        <div class="container faq text-center">
           <div class="row justify-content-center">
-            <div th:if="${session.isEmpty()}" class="col-md-10 col-lg-8 text-center">
+          	<div th:if="${session.isEmpty()}" class="col-md-10 col-lg-8">
               <h2 class="display-6 text-white">Alors intéressé?</h2>
               <p class="text-muted mb-4 mb-md-6">Dépêchez-vous de vous connecter en ligne ou de vous rendre directement à la bibliothèque pour vous inscrire!</p>
 <!--                 <svg class="bi bi-arrow-right-short" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> -->
@@ -232,7 +234,7 @@
 <!--                   <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5H11a.5.5 0 0 1 0 1H4.5A.5.5 0 0 1 4 8z"></path> -->
 <!--                 </svg></a> -->
             </div>
-            <div th:unless="${session.isEmpty()}" class="col-md-10 col-lg-8 text-center">
+            <div th:unless="${session.isEmpty()}" class="col-md-10 col-lg-8">
               <h2 class="display-6 text-white">Vous êtes connecté et vous rencontrez des difficultés!</h2>
               <p class="text-muted mb-4 mb-md-6">N'hésitez pas à nous contacter!</p>
 <!--                 <svg class="bi bi-arrow-right-short" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> -->
