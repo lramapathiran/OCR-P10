@@ -61,11 +61,10 @@ public class UserController {
         try {
             String username = data.getUsername();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, data.getPassword()));
-            String token = jwtTokenProvider.createToken(username, this.users.findByUsername(username).getRoles());
+            String role = this.users.findByUsername(username).getRoles();
+            String fullName = this.users.findByUsername(username).getFirstName() + " " + this.users.findByUsername(username).getLastName();
+            String token = jwtTokenProvider.createToken(username, fullName, role);
  
-//            Map<Object, Object> authInfo = new HashMap<>();
-//            authInfo.put("username", username);
-//            authInfo.put("token", token);
             return token;
         } catch (AuthenticationException e) {
             throw new BadCredentialsException("L'identifiant et/ou le mot de passe sont invalides!");

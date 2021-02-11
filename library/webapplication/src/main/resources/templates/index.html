@@ -22,36 +22,15 @@
         <div class="container"><a class="navbar-brand text-primary font-weight-bold" href="index.html"> Erik Orsenna </a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-<!--               <li class="nav-item text-muted"><a class="nav-link active" aria-current="page" href="index.html">Landing</a></li> -->
-<!--               <li class="nav-item dropdown"><a class="nav-link" id="navbarDropdown" href="#" role="button" data-toggle="dropdown" aria-expanded="false">Elements</a> -->
-<!--                 <ul class="dropdown-menu navbar-dropdown-menu" aria-labelledby="navbarDropdown"> -->
-<!--                   <li><a class="dropdown-item text-secondary p-3 border-bottom" href="index.html#feature">Feature</a></li> -->
-<!--                   <li><a class="dropdown-item text-secondary p-3 border-bottom" href="index.html#about">About </a></li> -->
-<!--                   <li><a class="dropdown-item text-secondary p-3 border-bottom" href="index.html#testimonial">Testimonilas</a></li> -->
-<!--                   <li><a class="dropdown-item text-secondary p-3 border-bottom" href="index.html#pricing">Pricing</a></li> -->
-<!--                   <li><a class="dropdown-item text-secondary p-3" href="index.html#faq">FAQ </a></li> -->
-<!--                 </ul> -->
-<!--               </li> -->
-<!--               <li class="nav-item"><a class="nav-link" href="#">Account</a></li> -->
-<!--               <li class="nav-item dropdown"><a class="nav-link" id="navbarDropdowndoc" href="#" role="button" data-toggle="dropdown" aria-expanded="false">Documentation</a> -->
-<!--                 <div class="dropdown-menu navbar-dropdown-menu" aria-labelledby="navbarDropdowndoc"> -->
-<!--                   <div class="list-group list-group-flush"><a class="list-group-item py-3 d-flex align-items-center" href="documentation.html"><img src="assets/img/gallery/document.png" alt="" /> -->
-<!--                       <div class="ml-3"><span class="font-weight-bold text-uppercase text-primary">Documentation</span> -->
-<!--                         <p class="text-secondary mb-0">Customizing and building</p> -->
-<!--                       </div> -->
-<!--                     </a><a class="list-group-item py-3 d-flex align-items-center" href="#"><img src="assets/img/gallery/components.png" alt="" /> -->
-<!--                       <div class="ml-3"><span class="font-weight-bold text-uppercase text-primary">Components</span> -->
-<!--                         <p class="text-secondary mb-0">Full list of components</p> -->
-<!--                       </div> -->
-<!--                     </a><a class="list-group-item py-3 d-flex align-items-center" href="#"><img src="assets/img/gallery/bar_chart.png" alt="" /> -->
-<!--                       <div class="ml-3"><span class="font-weight-bold text-uppercase text-primary">Changelog <span class="badge badge-secondary bg-light text-primary">1.1.3</span></span> -->
-<!--                         <p class="text-secondary mb-0">Keep track of changes</p> -->
-<!--                       </div> -->
-<!--                     </a></div> -->
-<!--                 </div> -->
-<!--               </li> -->
-            </ul><a class="btn btn-primary ml-auto hover-top-shadow" href="#sign-in">Se connecter</a>
+	            <ul th:unless="${session.isEmpty()}" class="navbar-nav ml-auto">
+	              <li class="nav-item text-muted"><a class="nav-link active" aria-current="page" th:href="@{/user/lendings}">Mon espace</a></li>
+	              <li class="nav-item"><a class="nav-link" th:href="@{/showBooks/1}">Rechercher</a></li>
+	              <li class="nav-item dropdown"><a class="nav-link" id="navbarDropdowndoc" href="#" role="button" data-toggle="dropdown" aria-expanded="false">Deconnexion</a></li>
+	            </ul>
+	            <span th:unless="${session.isEmpty()}" class="ml-auto hover-top-shadow name"><strong>Bonjour 
+			      	<span th:utext="${fullname}"></span></strong>
+	            </span>
+	            <a th:if="${session.isEmpty()}" class="btn btn-primary ml-auto hover-top-shadow" href="#sign-in">Se connecter</a>
           </div>
         </div>
       </nav>
@@ -107,7 +86,7 @@
 
       <!-- ============================================-->
       <!-- <section> begin ============================-->
-      <section class="bg-light py-5 py-md-8" id="about">
+      <section th:if="${session.isEmpty()}" class="bg-light py-5 py-md-8" id="about">
 
         <div class="container" id="sign-in">
           <div class="row align-items-center" id="sign-in">
@@ -179,7 +158,7 @@
       <!-- ============================================-->
 
 
-      <div class="shape-arc-up">
+      <div class="shape-arc-up" th:classappend="${!session.isEmpty()} ? non-connected : userclass">
         <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 1440 220">
           <path fill="#091A2B" fill-opacity="1" d="M0,128L120,133.3C240,139,480,149,720,144C960,139,1200,117,1320,106.7L1440,96L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z"> </path>
         </svg>
@@ -245,9 +224,17 @@
 
         <div class="container faq">
           <div class="row justify-content-center">
-            <div class="col-md-10 col-lg-8 text-center">
+            <div th:if="${session.isEmpty()}" class="col-md-10 col-lg-8 text-center">
               <h2 class="display-6 text-white">Alors intéressé?</h2>
               <p class="text-muted mb-4 mb-md-6">Dépêchez-vous de vous connecter en ligne ou de vous rendre directement à la bibliothèque pour vous inscrire!</p>
+<!--                 <svg class="bi bi-arrow-right-short" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> -->
+<!--                   <path fill-rule="evenodd" d="M8.146 4.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.793 8 8.146 5.354a.5.5 0 0 1 0-.708z"></path> -->
+<!--                   <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5H11a.5.5 0 0 1 0 1H4.5A.5.5 0 0 1 4 8z"></path> -->
+<!--                 </svg></a> -->
+            </div>
+            <div th:unless="${session.isEmpty()}" class="col-md-10 col-lg-8 text-center">
+              <h2 class="display-6 text-white">Vous êtes connecté et vous rencontrez des difficultés!</h2>
+              <p class="text-muted mb-4 mb-md-6">N'hésitez pas à nous contacter!</p>
 <!--                 <svg class="bi bi-arrow-right-short" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> -->
 <!--                   <path fill-rule="evenodd" d="M8.146 4.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.793 8 8.146 5.354a.5.5 0 0 1 0-.708z"></path> -->
 <!--                   <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5H11a.5.5 0 0 1 0 1H4.5A.5.5 0 0 1 4 8z"></path> -->

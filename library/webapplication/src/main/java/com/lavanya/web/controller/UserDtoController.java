@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.lavanya.web.dto.AuthBodyDto;
 import com.lavanya.web.proxies.UserProxy;
 
@@ -30,7 +32,21 @@ public class UserDtoController {
      * @return index.html
      */	
 	@GetMapping("/homePage")
-	public String showLoginAndHomePage (Model model) {
+	public String showLoginAndHomePage (HttpSession session, Model model) {
+		
+		
+		String token = (String) session.getAttribute("token");
+		
+		if (token!=null) {
+			String subToken = token.substring(7);
+			 
+			DecodedJWT jwt = JWT.decode(subToken);
+			String fullname = jwt.getClaim("fullname").asString();
+								 
+			model.addAttribute("fullname", fullname);
+		}
+		
+//		rajouter fullname si cnnecté et httpSession
 	  
 //    	String errorMessage = null;
 //        if(error != null) {
@@ -55,10 +71,7 @@ public class UserDtoController {
      */	
 	@PostMapping("/login")
 	public String sendAuthBodyForAuthentication(AuthBodyDto data, HttpSession session) {
-		
-//		String username = authBody.getUsername();
-//		String password = authBody.getPassword();
-		
+			
 		String resp = userProxy.login(data);
 		String token = "Bearer " + resp;
         session.setAttribute("token", token);

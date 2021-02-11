@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.security.Principal;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.lavanya.web.dto.BookDto;
 import com.lavanya.web.dto.LendingDto;
 import com.lavanya.web.dto.UserDto;
@@ -49,13 +51,20 @@ public class BookDtoController {
 	public String showBooksListFiltered(@PathVariable(value = "pageNumber") int currentPage, HttpSession session,
 			@RequestParam(name="keyword", required=false) String keyword, Model model) {
 		
-		if(session==null) {
+		
+		String token = (String) session.getAttribute("token");
+		if(token==null) {
 			 return "redirect:/homePage#sign-in";
 		 }
 		
-		LendingDto lendingDto = new LendingDto();
 		
-		String token = (String) session.getAttribute("token");
+		String subToken = token.substring(7);
+		DecodedJWT jwt = JWT.decode(subToken);
+		String fullname = jwt.getClaim("fullname").asString();
+						 
+		model.addAttribute("fullname", fullname);
+		 
+		LendingDto lendingDto = new LendingDto();
 		
 		Page<BookDto> pageOfBooksFiltered = bookProxy.getBookSearchPage(token, currentPage, keyword);
 		

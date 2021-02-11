@@ -57,8 +57,9 @@ public class JwtTokenProvider {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
     }    
 
-    public String createToken(String username, String role) {
+    public String createToken(String username, String fullName, String role) {
     	Claims claims = Jwts.claims().setSubject(username);
+    	claims.put("fullname", fullName);
         claims.put("role", role);
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);

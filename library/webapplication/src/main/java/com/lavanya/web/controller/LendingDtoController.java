@@ -19,6 +19,7 @@ import com.lavanya.web.dto.LendingDto;
 import com.lavanya.web.proxies.LendingProxy;
 import com.lavanya.web.proxies.UserProxy;
 
+
 /**
  * Controller used in MVC architecture to control all the requests related to LendingDto object.
  * @author lavanya
@@ -71,14 +72,29 @@ public class LendingDtoController {
 	  */	
 	 @GetMapping("/user/lending")
 	 public String showLendingConfirmation(HttpSession session, @RequestParam("id") Integer lendingDtoId, Model model){
-		 if(session==null) {
-			 return "redirect:/homePage#sign-in";
-		 }
+		 
 		 String token = (String) session.getAttribute("token");
+		 String subToken = token.substring(7);
+		 
+		 DecodedJWT jwt = JWT.decode(subToken);
+		 String fullname = jwt.getClaim("fullname").asString();
+							 
+		model.addAttribute("fullname", fullname);
+//		 try {
+//			    DecodedJWT jwt = JWT.decode(token);
+//			    jwt.
+//			} catch (JWTDecodeException exception){
+//				return "redirect:/homePage#sign-in";
+//			}
+//		 
+//		 if(token==null || ) {
+//			 return "redirect:/homePage#sign-in";
+//		 }
+		 
 		 Optional<LendingDto> lendingDto = lendingProxy.getLendingDetails(token,lendingDtoId);
 		 
 		 lendingDto.ifPresent(lending -> model.addAttribute("lendingDto", lending));
-		 return "lending";
+		 return "lending"; 
 	 }
 	 
 	 /**
@@ -90,16 +106,20 @@ public class LendingDtoController {
 	  */	
 	 @GetMapping("/user/lendings")
 	 public String showUserLendingsList(HttpSession session, Model model){
+	
+		 String token = (String) session.getAttribute("token");
 		 
-		 if(session==null) {
+		 if(token==null) {
 			 return "redirect:/homePage#sign-in";
 		 }
-		 String token = (String) session.getAttribute("token");
+		 
 		 String subToken = token.substring(7);
 		 try {
 			    DecodedJWT jwt = JWT.decode(subToken);
-			    String username = jwt.getSubject();
-			    model.addAttribute("username", username);
+				String fullname = jwt.getClaim("fullname").asString();
+							 
+				model.addAttribute("fullname", fullname);
+				
 			} catch (JWTDecodeException e){
 				throw new RuntimeException(e);
 			}
