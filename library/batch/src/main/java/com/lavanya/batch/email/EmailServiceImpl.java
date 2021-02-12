@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service("EmailService")
 public class EmailServiceImpl implements EmailService {
 
-    private static final String NOREPLY_ADDRESS = "noreply@baeldung.com";
+    private static final String NOREPLY_ADDRESS = "lmouhamadouvahap@gmail.com";
 
     @Autowired
     private JavaMailSender emailSender;

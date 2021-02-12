@@ -36,7 +36,7 @@
 								            <p >Vous devez impérativement rendre ce livre avant le 
 								            	<strong><span th:text="${#temporals.format(lendingDto.dueDate, 'dd-MM-yyyy')}"></span></strong>
 								            </p>
-								            <p>Sachez cependant que vous avez la possibilité de prolonger la date d'emprunt une unique fois de 4 semaines!</p>
+								            <p>Sachez cependant que vous avez la possibilité de prolonger une fois la date d'emprunt initiale de 4 semaines!</p>
 								            <p><a class="btn btn-primary ml-auto hover-top-shadow" th:href="@{/user/lendings}">Retour</a></p>
 								        </div>
 								    </div>
@@ -48,36 +48,7 @@
 				      </section>
 				  </div>
 		</div>
-		
-
-<!-- 		<section> -->
-<!-- 			<div> -->
-			
-<!-- 			    <h1>Récapitulatif de  votre <strong>Emprunt<strong> :</h1> -->
-			
-<!-- 			    <div> -->
-<!-- 			        <div> -->
-<!-- 						<p> Votre demande d'emprunt a été acceptée!</p> -->
-<!-- 						<p>Rappel : </p> -->
-<!-- 						<p>Vous venez d'emprunter le livre suivant :</p> -->
-<!-- 						<ul> -->
-<!-- 							<li th:text="${lending.book.title}"></li> -->
-<!-- 							<li th:text="${lending.book.author}"></li> -->
-<!-- 						</ul> -->
-<!-- 			            <p >Vous devez impérativement rendre ce livre avant le  -->
-<!-- 			            	<strong><span th:text="${#temporals.format(lending.dueDate, 'dd-MM-yyyy')}"></span></strong> -->
-<!-- 			            </p> -->
-<!-- 			            <p>Sachez cependant que vous avez la possibilité de prolonger la date d'emprunt une unique fois de 4 semaines!</p> -->
-<!-- 			            <p><a class="btn btn-primary ml-auto hover-top-shadow" href="#sign-in">Se connecter</a></p> -->
-<!-- 			        </div> -->
-<!-- 			    </div> -->
-			
-<!-- 			</div> -->
-<!-- 		</section> -->
-		
-		<!-- ============================================-->
-      <!-- <section> begin ============================-->
-      <footer class="text-center border-top footer-text py-3 bg-dark d-flex vertical-align" th:insert="fragments/ressources.html :: footerConnected"></footer>
+		<footer class="text-center border-top footer-text py-3 bg-dark d-flex vertical-align" th:insert="fragments/ressources.html :: footerConnected"></footer>
 	</main>
 	
 	<!-- JavaScript files-->
