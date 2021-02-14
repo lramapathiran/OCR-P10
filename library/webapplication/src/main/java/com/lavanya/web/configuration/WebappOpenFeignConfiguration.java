@@ -12,10 +12,7 @@ import feign.auth.BasicAuthRequestInterceptor;
  * @author lavanya
  */
 @Configuration
-public class WebappOpenFeignConfiguration {
-	
-	
-	 
+public class WebappOpenFeignConfiguration {	 
 
 	@Bean
     public PageJacksonModule pageJacksonModule() {
@@ -26,14 +23,6 @@ public class WebappOpenFeignConfiguration {
     public SortJacksonModule sortJacksonModule() {
         return new SortJacksonModule();
     }
-    
-    
-   
-    
-//    @Bean
-//    public BasicAuthRequestInterceptor basicAuthRequestInterceptor() {
-//        return new BasicAuthRequestInterceptor("username", "password");
-//    }
 	
 
 }

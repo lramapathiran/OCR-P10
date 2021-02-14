@@ -30,14 +30,6 @@ public class EmailServiceImpl implements EmailService {
             exception.printStackTrace();
         }
     }
-    
-//    @Override
-    public void sendSimpleMessageUsingTemplate(String to,
-                                               String subject,
-                                               String templateModel) {
-        String text = String.format(template.getText(), templateModel);  
-        sendSimpleMessage(to, subject, text);
-    }
 
     
 }

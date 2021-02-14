@@ -50,7 +50,7 @@ public class EmailConfiguration {
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
         
-        mailSender.setUsername("lmouhamadouvahap@gmail.com");
+        mailSender.setUsername("lmouhamadouvahap");
         mailSender.setPassword("lmouhamadouvahap123");
         
         Properties props = mailSender.getJavaMailProperties();
@@ -58,6 +58,8 @@ public class EmailConfiguration {
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.debug", "true");
+        props.put("mail.smtp.ssl.trust", "*");
+
         
         return mailSender;
     }

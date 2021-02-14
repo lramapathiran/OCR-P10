@@ -43,15 +43,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         		.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
+                .antMatchers("/notifications").permitAll()
                 .antMatchers("/api/auth/login").permitAll()
-//                .antMatchers("/api/auth/saveUser").permitAll()
-//                .antMatchers("/user/**").hasAnyRole("ADMIN","USER")
-//                .and().authorizeRequests()
                 .anyRequest().authenticated()
                 .and().csrf()
                 .disable().exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint());
-//                .and()
-//                .apply(new JwtConfigurer(jwtTokenProvider));
         http.cors();
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);;
     }
