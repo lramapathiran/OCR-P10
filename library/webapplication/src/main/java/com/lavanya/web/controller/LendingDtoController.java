@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.lavanya.web.error.SaveLendingFailed;
 import com.lavanya.web.dto.LendingDto;
 import com.lavanya.web.proxies.LendingProxy;
 import com.lavanya.web.proxies.UserProxy;
@@ -37,7 +36,7 @@ public class LendingDtoController {
      * POST requests for /user/lendingToSave endpoint.
      * This controller-method is part of CRUD and is used to communicate to the api module and save in database Lending object using the dto LendingDto.
      * @param lendingDto is an instance of LendingDto and contains all data to transfer to Lending object that need to be saved.
-     * @param userConnected is the authenticated User passed within the object MyUserDetails
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
      * @return redirect to lending.html, a confirmation lending page.
      */	
 	 @PostMapping("/user/lendingToSave")
@@ -52,11 +51,6 @@ public class LendingDtoController {
 		 LendingDto lendingSaved = lendingProxy.saveLending(lendingDto, token);
 		 Integer lendingDtoId=lendingSaved.getId();
 		  
-		 if(lendingDtoId==null) {
-				throw new SaveLendingFailed(
-			              "L'emprunt a échoué, veuillez recommencer");
-			}	
-		  
 		 return "redirect:/user/lending?id=" + lendingDtoId ;
 	     
 	 }
@@ -67,31 +61,27 @@ public class LendingDtoController {
 	  * Data related to this lending are then passed to the model and displayed in the view "lending.html".
 	  * 
 	  * @param model to pass data to the view.
-	  * @param userConnected is the authenticated User passed within the object MyUserDetails.
+	  * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+	  * @param lendingDtoId id of the LendingDto object that has been just saved by user and that we wish to display all information.
 	  * @return lending.html
 	  */	
 	 @GetMapping("/user/lending")
 	 public String showLendingConfirmation(HttpSession session, @RequestParam("id") Integer lendingDtoId, Model model){
 		 
 		 String token = (String) session.getAttribute("token");
+		 
+		 if(token==null) {
+			 return "redirect:/homePage#sign-in";
+		 }
+		 
 		 String subToken = token.substring(7);
 		 
 		 DecodedJWT jwt = JWT.decode(subToken);
 		 String fullname = jwt.getClaim("fullname").asString();
 							 
 		model.addAttribute("fullname", fullname);
-//		 try {
-//			    DecodedJWT jwt = JWT.decode(token);
-//			    jwt.
-//			} catch (JWTDecodeException exception){
-//				return "redirect:/homePage#sign-in";
-//			}
-//		 
-//		 if(token==null || ) {
-//			 return "redirect:/homePage#sign-in";
-//		 }
-		 
-		 Optional<LendingDto> lendingDto = lendingProxy.getLendingDetails(token,lendingDtoId);
+		
+		Optional<LendingDto> lendingDto = lendingProxy.getLendingDetails(token,lendingDtoId);
 		 
 		 lendingDto.ifPresent(lending -> model.addAttribute("lendingDto", lending));
 		 return "lending"; 
@@ -101,7 +91,7 @@ public class LendingDtoController {
 	  * GET requests for /user/lendings endpoint.
 	  * This controller-method retrieves from database all lendings a authenticated user made and pass that list to the view "userDashboard.html" 
 	  * @param model to pass data to the view.
-	  * @param userConnected is the authenticated User passed within the object MyUserDetails
+	  * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
 	  * @return userDashboard.html
 	  */	
 	 @GetMapping("/user/lendings")
@@ -133,7 +123,8 @@ public class LendingDtoController {
 	 /**
 	  * POST requests for /user/lending/extendDate endpoint.
 	  * This controller-method is used to extend the return date by 4 weeks of a lending.
-	  * @param userConnected is the authenticated User passed within the object MyUserDetails.
+	  * @param lendingDtoId id of the LendingDto object which has its due date extended of 4 weeks.
+	  * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
 	  * @return redirect to userDashboard.html, a confirmation lending page.
 	  */	
 	 @PostMapping("/user/lending/extendDate")

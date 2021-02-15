@@ -5,10 +5,8 @@ import org.springframework.cloud.openfeign.support.SortJacksonModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import feign.auth.BasicAuthRequestInterceptor;
-
 /**
- * Configuration to overrides WebSecurityConfigurerAdapter for spring security.
+ * Configuration to use openFeign.
  * @author lavanya
  */
 @Configuration

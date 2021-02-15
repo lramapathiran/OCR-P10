@@ -20,6 +20,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.lavanya.api.service.UserService;
 
+
+/**
+ * Configuration to overrides WebSecurityConfigurerAdapter for spring security.
+ * @author lavanya
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {

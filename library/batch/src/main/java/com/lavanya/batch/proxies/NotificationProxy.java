@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.lavanya.batch.dto.NotificationDto;
 
+/**
+ * interface required to communicate with api module and make all the requests related to Notification object.
+ * @author lavanya
+ */
 @FeignClient(name = "notificationApi", url = "localhost:9090")
 public interface NotificationProxy {
 

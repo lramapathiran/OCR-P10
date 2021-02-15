@@ -1,14 +1,12 @@
 package com.lavanya.api.model;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 /**
  * Bean representing an User.

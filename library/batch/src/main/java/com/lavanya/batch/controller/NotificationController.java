@@ -1,23 +1,22 @@
 package com.lavanya.batch.controller;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.lavanya.batch.dto.NotificationDto;
 import com.lavanya.batch.email.EmailService;
 import com.lavanya.batch.proxies.NotificationProxy;
 
+/**
+ * Controller to control all the requests related to Notification object.
+ * @author lavanya
+ */
 @Controller
 public class NotificationController {
 	
@@ -62,6 +61,10 @@ public class NotificationController {
 //	}
 	
 	
+	/**
+	 * POST requests for /send.
+	 * this method is used to send email notification via gmail smtp to recipients wo have not returned books on time.
+	 */
 	@Scheduled(cron = "${cron.expression}")
 	@PostMapping("/send")
     public void createMail(){

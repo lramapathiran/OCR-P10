@@ -1,8 +1,6 @@
 package com.lavanya.web.controller;
 
 import java.util.List;
-import java.util.Optional;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import java.security.Principal;
-
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.lavanya.web.dto.BookDto;
 import com.lavanya.web.dto.LendingDto;
-import com.lavanya.web.dto.UserDto;
 import com.lavanya.web.proxies.BookProxy;
 import com.lavanya.web.proxies.UserProxy;
 
@@ -44,7 +39,7 @@ public class BookDtoController {
      * @param model to pass data to the view.
      * @param currentPage an int to specify which page of Books to be displayed.
      * @param keyword a String attribute from Search object used to filter a search books by keyword.
-     * @param userConnected is the authenticated User passed within the object MyUserDetails
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
      * @return "searchBook.html".
      */	
 	@GetMapping("/showBooks/{pageNumber}")

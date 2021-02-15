@@ -1,8 +1,6 @@
 package com.lavanya.web.proxies;
 
-import java.security.Principal;
-
-import org.springframework.cloud.openfeign.FeignClient;
+import  org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

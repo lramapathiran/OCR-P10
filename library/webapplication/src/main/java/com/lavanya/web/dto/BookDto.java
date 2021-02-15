@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Bean representing a data transfer Object BookDto.
- * BookDto has all attributes to caracterised a book.
+ * BookDto has all attributes to characterized a book.
  * @author lavanya
  */
 public class BookDto {

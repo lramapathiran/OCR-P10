@@ -2,7 +2,6 @@ package com.lavanya.api.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +12,20 @@ import com.lavanya.api.model.User;
 import com.lavanya.api.model.Notification;
 import com.lavanya.api.repository.BatchRepository;
 
+/**
+ * Service provider for all business functionalities related to Notification class.
+ * @author lavanya
+ */
 @Service
 public class BatchService {
 	
 	@Autowired
 	BatchRepository batchRepository;
 	
+	/**
+	 * method to retrieve all lendings not returned on time before due date from database.
+	 * @return list of Lending.
+	 */
 	public List<Lending> getLendingsNotReturned() {
 		
 		LocalDate todayDate = LocalDate.now();
@@ -26,6 +33,10 @@ public class BatchService {
 		
 	}
 	
+	/**
+	 * method to generate a list of Notification from a list of Lending not returned on time.
+	 * @return list of Notification.
+	 */
 	public List<Notification> getListOfUserNotInTime() {
 		List<Lending> lendings = getLendingsNotReturned();
 		

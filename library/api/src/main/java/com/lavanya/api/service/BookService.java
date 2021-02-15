@@ -1,6 +1,5 @@
 package com.lavanya.api.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,18 +9,24 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.lavanya.api.model.Book;
 import com.lavanya.api.repository.BookRepository;
 
+/**
+ * Service provider for all business functionalities related to Book class.
+ * @author lavanya
+ */
 @Service
 public class BookService {
 	
 	@Autowired
 	BookRepository bookRepository;
 	
+	/**
+	 * method to retrieve a particular book identified by its id.
+	 * @param id of the book of interest to identify in database.
+	 * @return Optional Book object.
+	 */
 	public Optional<Book> getBookById(int id) {
 		return bookRepository.findBookById(id);
 	}
@@ -35,7 +40,7 @@ public class BookService {
 	public Page<Book> getAllBooksFiltered(int pageNumber, String keyword) {
 		
 		Sort sort = Sort.by("title").ascending();
-		Pageable pageable = PageRequest.of(pageNumber - 1, 10, sort);
+		Pageable pageable = PageRequest.of(pageNumber - 1, 5, sort);
 
 				
 		Page<Book> page = bookRepository.findFilteredBook(keyword, pageable);
@@ -44,17 +49,10 @@ public class BookService {
 	}
 	
 	
-	public Page<Book> getAllBooks(int pageNumber) {
-		
-		Sort sort = Sort.by("title").ascending();
-		Pageable pageable = PageRequest.of(pageNumber - 1, 10, sort);
-
-				
-		Page<Book> page = bookRepository.findAll(pageable);
-		
-		return page;
-	}
-	
+	/**
+	 * method to update a particular book by updating its remaining stock when borrowed.
+	 * @param id of the book of interest to identify in database.
+	 */
 	public void updateBookStock(Integer id) {
 		Optional<Book> optional = bookRepository.findBookById(id);
 		optional.ifPresent(book -> {

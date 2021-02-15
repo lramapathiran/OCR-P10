@@ -7,6 +7,10 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+/**
+ * Configuration to use cron expression.
+ * @author lavanya
+ */
 @Configuration
 @EnableScheduling
 @ComponentScan("com.lavanya.batch")

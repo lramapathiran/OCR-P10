@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lavanya.api.configs.JwtTokenProvider;
+import com.lavanya.api.model.AuthBody;
 import com.lavanya.api.repository.UserRepository;
 import com.lavanya.api.service.UserService;
 
@@ -40,7 +41,7 @@ public class UserController {
     UserRepository users;
     
     /**
-     *  POST requests for /saveUser endpoint.
+     * POST requests for /saveUser endpoint.
      * This controller-method updates an user and encode its password in database.
      * 
      */	
@@ -50,11 +51,11 @@ public class UserController {
     }
 	
     /**
-     *  POST requests for /login endpoint.
+     * POST requests for /login endpoint.
      * This controller-method send data required for user authentication.
      * 
      * @param data is the bean where the password and username of the user are stored to authenticate the user.
-     * @return ResponseEntity to confirm the authentication was successful with the authenticated user username and a token.
+     * @return token generated durig the login step.
      */	
     @PostMapping("/login")
     public String login(@RequestBody AuthBody data) {

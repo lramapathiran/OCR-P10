@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -27,7 +26,6 @@ public class Book {
 	Integer id;
 	
 	String title;
-//	author firstName and lastName
 	String author;
 	
 	@Column(name="remaining_stock")

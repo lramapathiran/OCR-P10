@@ -55,7 +55,7 @@
 										  </thead>
 										  <tbody>
 											<tr th:each="book,iterator : ${booksPage}">
-							   					<td th:text="${iterator.index} +1">></td>
+							   					<td th:text="${iterator.index} +1 + ${currentPage -1}*5">></td>
 								   				<td th:utext="${book.title}"></td>
 								   				<td th:utext="${book.author}"></td>
 								   				<td th:utext="${book.remainingStock}"></td>
@@ -79,19 +79,19 @@
 						<div class="text-center">
 				           	Page : [[${currentPage}]]/[[${totalPages}]]&nbsp; - &nbsp;
 				            <span>
-				            	<a th:if="${currentPage > 1}" th:href="@{/showSites/{pageNumber}(pageNumber=${currentPage - 1}, keyword=${keyword})}">Précédent</a>
+				            	<a th:if="${currentPage > 1}" th:href="@{/showBooks/{pageNumber}(pageNumber=${currentPage - 1}, keyword=${keyword})}">Précédent</a>
 				            	<span th:unless="${currentPage > 1}">Précédent</span> &nbsp; - &nbsp;
 				            </span>
 				            <span th:each="i: ${#numbers.sequence(1,totalPages)}">
-				            	<a th:if="${i != currentPage}" th:href="@{/showSites/{pageNumber}(pageNumber=${i}, keyword=${keyword})}">[[${i}]]</a>
+				            	<a th:if="${i != currentPage}" th:href="@{/showBooks/{pageNumber}(pageNumber=${i}, keyword=${keyword})}">[[${i}]]</a>
 				            	<span th:unless="${i != currentPage}">[[${i}]]</span> &nbsp; - &nbsp;
 				            </span>
 				            <span>
-				            	<a th:if="${currentPage != totalPages}" th:href="@{/showSites/{pageNumber}(pageNumber=${currentPage + 1}, keyword=${keyword})}">Suivant</a>
+				            	<a th:if="${currentPage != totalPages}" th:href="@{/showBooks/{pageNumber}(pageNumber=${currentPage + 1}, keyword=${keyword})}">Suivant</a>
 				                <span th:unless="${currentPage != totalPages}">Suivant</span> &nbsp; - &nbsp;
 				            </span>
 				            <span>
-				             	<a th:if="${currentPage != totalPages}" th:href="@{/showSites/{pageNumber}(pageNumber=${totalPages}, keyword=${keyword})}">Dernier</a>
+				             	<a th:if="${currentPage != totalPages}" th:href="@{/showBooks/{pageNumber}(pageNumber=${totalPages}, keyword=${keyword})}">Dernier</a>
 				                <span th:unless="${currentPage != totalPages}">Dernier</span> &nbsp; - &nbsp;
 				            </span>
 				         </div>

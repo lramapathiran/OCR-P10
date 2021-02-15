@@ -1,5 +1,9 @@
-package com.lavanya.api.controller;
+package com.lavanya.api.model;
 
+/**
+ * Bean representing a AuthBody used when a user logs in.
+ * @author lavanya
+ */
 public class AuthBody {
 
     private String username;

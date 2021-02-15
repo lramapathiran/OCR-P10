@@ -16,6 +16,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Component filter used to know if a user is still authenticated and if its authentication hasn't been corrupted.
+ * @author lavanya
+ */
 @Component
 public class JwtTokenValidateFilter  extends OncePerRequestFilter {
 

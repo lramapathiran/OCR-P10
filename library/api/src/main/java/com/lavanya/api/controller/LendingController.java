@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,7 +39,7 @@ public class LendingController {
 	* This controller-method retrieves from database the lending a user has just made so the last lending
 	* in order to confirm that the process of a book lending has been made successfully.
 	* 
-	* @param userConnected is the authenticated User passed within the object MyUserDetails.
+	* @param lendingId id of the Lending object that has just been saved by user.
 	* @return lending which is the last lending a user made.
 	*/	
 	@GetMapping("/user/lending")
@@ -61,6 +60,7 @@ public class LendingController {
      * POST requests for /user/save/lending endpoint.
      * This controller-method is part of CRUD and is used to save in database Lending object.
      * @param lending is an instance of Lending and contains all data that need to be saved.
+     * @return lending saved by a user connected.
      */	
 	@PostMapping("/user/save/lending")
 	public	Lending saveLending(@RequestBody Lending lending) {
@@ -83,7 +83,6 @@ public class LendingController {
 	/**
 	  * GET requests for /user/lendings endpoint.
 	  * This controller-method retrieves from database all lendings a authenticated user made.
-	  * @param userConnected is the authenticated User passed within the object MyUserDetails.
 	  * @return List<Lending>.
 	  */
 	@GetMapping("/user/lendings")
@@ -101,6 +100,11 @@ public class LendingController {
 			}			
 	}
 	
+	/**
+	  * POST requests for /user/lending/extendDate/{id} endpoint.
+	  * This controller-method is used to extend the return date by 4 weeks of a lending.
+	  * @param lendingId id of the Lending object which has its due date extended of 4 weeks.
+	  */	
 	@PostMapping("/user/lending/extendDate/{id}")
 	public void updateLending(@PathVariable ("id") Integer lendingId) {
 		lendingService.getBookDueDateExtended(lendingId);

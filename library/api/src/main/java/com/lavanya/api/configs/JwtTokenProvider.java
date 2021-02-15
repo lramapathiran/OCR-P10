@@ -2,7 +2,6 @@ package com.lavanya.api.configs;
 
 import java.util.Base64;
 import java.util.Date;
-import java.util.Set;
 import java.util.function.Function;
 
 import javax.annotation.PostConstruct;
@@ -23,7 +22,10 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
-
+/**
+ * Component JWT token provider used to generate a token when a user logged in.
+ * @author lavanya
+ */
 @Component
 public class JwtTokenProvider {
 

@@ -1,5 +1,10 @@
 package com.lavanya.batch.dto;
 
+/**
+ * Bean representing a data transfer Object NotificationDto.
+ * NotificationDto has all attributes required to send alert notification to user of interest
+ * @author lavanya
+ */
 public class NotificationDto {
 	
 	String  fullId;

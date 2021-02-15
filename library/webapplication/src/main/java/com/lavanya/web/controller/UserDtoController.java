@@ -3,7 +3,6 @@ package com.lavanya.web.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +29,8 @@ public class UserDtoController {
      * This controller-method show the homePage of the site and the login form for the user to be connected
      * 
      * @param model  to pass data to the view.
+     * @param error only when an error exist while login in.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
      * @return index.html
      */	
 	@GetMapping("/homePage")
@@ -60,10 +61,11 @@ public class UserDtoController {
 	}
 	
 	/**
-     *  POST requests for /login endpoint.
+     * POST requests for /login endpoint.
      * This controller-method send data required for user authentication to the api module.
      * 
      * @param authBody is the bean where the password and username of the user are stored to authenticate the user.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated while login in.
      * @return redirect to userDashboard.html
      */	
 	@PostMapping("/login")
@@ -80,6 +82,12 @@ public class UserDtoController {
 		
 	}
 	
+	/**
+	 * GET requests for /logout endpoint.
+	 * This controller-method is used to logout a user.
+	 * @param session HttpSession that needs to be invalidated to log out the user of interest.
+	 * @return homePage.html.
+	 */
 	@GetMapping("/logout")
     public String logout(HttpSession session) {
 		
