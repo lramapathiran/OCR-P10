@@ -6,16 +6,6 @@
 	font-size: 1.5rem;
 }
 
-
-/* header { */
-/*   height: 20%; */
-/* } */
-
-/* #content { */
-/* 	margin-top:10.5rem; */
-/*   flex: 1; */
-/* } */
-
 .card {
 	border-radius:25px;
 	border: 1px solid;
@@ -40,6 +30,11 @@
 
 #content {
 	margin-top:9rem;
+	flex:1; /* 4 */
+}
+
+#content-recap {
+	margin-top:4rem;
 	flex:1; /* 4 */
 }
 

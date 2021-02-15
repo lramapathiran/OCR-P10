@@ -15,7 +15,7 @@ Développez le nouveau système d’information de la bibliothèque d’une gran
   - Un Utilisateur avec le rôle d'Administrateur: Identifiant = 12345ID/Mot de passe:lindamoret8@gmail.com
   - Le reste qui sont de simples utilisateurs, ex : Identifiant = 67899ID/Mot de passe:jdarcot@gmail.com
 
-2- Dossier escalade : contient le projet Maven/Spring Boot
+2- Dossier library : contient le projet Maven/Spring Boot
 
 ## Utilisation de Spring Boot
 
