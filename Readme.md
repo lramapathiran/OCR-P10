@@ -34,4 +34,7 @@ Développez le nouveau système d’information de la bibliothèque d’une gran
 
 1- Packager l'application avec ``mvn package``.
 
-2- Exécuter l'application avec ``java -jar -Dserver.port=8080 library-webapplication-0.0.1-SNAPSHOT.jar``.
+2- Exécuter les applications:
+	2a- api avec ``java -jar -Dserver.port=9090 api-0.0.1-SNAPSHOT.jar``.
+	2b- webapplication avec ``java -jar -Dserver.port=8080 webapplication-0.0.1-SNAPSHOT.jar``.
+	2c- batch avec ``java -jar -Dserver.port=8080 batch-0.0.1-SNAPSHOT.jar``.
