@@ -64,7 +64,7 @@ public class UserDtoController {
      * POST requests for /login endpoint.
      * This controller-method send data required for user authentication to the api module.
      * 
-     * @param authBody is the bean where the password and username of the user are stored to authenticate the user.
+     * @param data is the bean where the password and username of the user are stored to authenticate the user.
      * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated while login in.
      * @return redirect to userDashboard.html
      */	

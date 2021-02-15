@@ -49,7 +49,6 @@ public class LendingService {
 	/**
 	 * method to update a particular lending by extending its dueDate of 4 weeks.
 	 * @param lendingId id of the lending of interest to identify in database.
-	 * @return Optional Lending object.
 	 */
 	public void getBookDueDateExtended(Integer lendingId) {
 		Optional<Lending> optional = lendingRepository.findById(lendingId);
@@ -65,6 +64,8 @@ public class LendingService {
 	/**
 	 * method to save an object Lending in database.
 	 * @param lending object Lending to save in database.
+	 * @param user associated with the lending of interest.
+	 * @return Lending object saved.
 	 */
 	public Lending save(Lending lending, User user) {
 		
