@@ -1,5 +1,5 @@
-# Les Amis de l'escalade
-Créer un site communautaire autour de l'escalade.
+# Bibliothèque de la Ville
+Développez le nouveau système d’information de la bibliothèque d’une grande ville.
 
 ## Pré-requis
 
@@ -21,8 +21,7 @@ Créer un site communautaire autour de l'escalade.
 
 1- Configuration dans le fichier application.properties 
 
-	1a-Dans library/api/src/main/resources : personnaliser le host, le username et le mot de passe mySQL.
-	
+	1a-Dans library/api/src/main/resources : personnaliser le host, le username et le mot de passe mySQL.	
 	1b-Dans library/batch/src/main/resources : personnaliser le host(doit être différent de celui utilisé en 1a), le cron.expression, spring.mail.username/password selon son adresse Gmail(de même que le fichier: com.lavanya.batch.configuration.EmailConfiguration).
 	1c-Dans library/webapplication/src/main/resources : personnaliser le host(doit être différent de celui utilisé en 1b, ici nous avons utilisé le port 8080)
 
