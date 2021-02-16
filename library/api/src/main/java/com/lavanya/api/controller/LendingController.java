@@ -51,9 +51,7 @@ public class LendingController {
 			    
 		} catch (JWTDecodeException e){
 			throw new RuntimeException(e);
-		}			
-		
-		
+		}		
 	}
 	
 	/**
@@ -74,10 +72,7 @@ public class LendingController {
 			    
 		} catch (JWTDecodeException e){
 			throw new RuntimeException(e);
-		}			
-		
-		
-				
+		}		
 	}
 
 	/**

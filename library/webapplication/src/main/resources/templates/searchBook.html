@@ -49,8 +49,7 @@
 												<th>N°</th>
 							   					<th>Titre</th>
 							   					<th>Auteur</th>
-							   					<th>Stock restant</th>							   					
-							   					<th>J'emprunte!</th>   						
+							   					<th>Stock restant</th> 						
 											</tr>
 										  </thead>
 										  <tbody>
@@ -58,13 +57,7 @@
 							   					<td th:text="${iterator.index} +1 + ${currentPage -1}*5">></td>
 								   				<td th:utext="${book.title}"></td>
 								   				<td th:utext="${book.author}"></td>
-								   				<td th:utext="${book.remainingStock}"></td>
-								   				<td th:if="${book.remainingStock}>0">
-								   					<form action="#" th:action="@{/user/lendingToSave}" th:method="post">
-														<input type="hidden" th:value = "${book.id}" th:name="book.id" id="book"/>
-														<button type="submit"><img th:src="@{/img/icons8-emprunter-un-livre-48.png}"/></button>
-													</form>		
-								   				</td>
+								   				<td th:if="${book.remainingStock}>0" th:utext="${book.remainingStock}"></td>
 								   				<td th:unless="${book.remainingStock}>0">Indisponible actuellement!</td>
 							   				</tr>
 										  </tbody>
