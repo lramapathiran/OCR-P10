@@ -11,7 +11,7 @@ Développez le nouveau système d’information de la bibliothèque d’une gran
 
 ## Contenu du repository
 
-1- Dossier ScriptsSQL avec un fichier Demo.sql qui permet la création de la base de données et insertion de données:
+1- Dossier ScriptsSQL avec un fichier dataAndDemoLibrary.sql qui permet la création de la base de données et insertion de données:
   - Un Utilisateur avec le rôle d'Administrateur: Identifiant = 12345ID/Mot de passe:lindamoret8@gmail.com
   - Le reste qui sont de simples utilisateurs, ex : Identifiant = 67899ID/Mot de passe:jdarcot@gmail.com
 
