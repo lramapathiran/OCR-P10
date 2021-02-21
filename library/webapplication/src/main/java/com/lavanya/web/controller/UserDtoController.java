@@ -91,7 +91,7 @@ public class UserDtoController {
 	@GetMapping("/logout")
     public String logout(HttpSession session) {
 		
-        session.invalidate();
+		session.setAttribute("token", null);
 
         return "redirect:/homePage";
     }

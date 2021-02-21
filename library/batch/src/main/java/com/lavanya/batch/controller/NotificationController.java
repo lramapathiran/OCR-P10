@@ -39,28 +39,6 @@ public class NotificationController {
         labels.put("send", props);
 	}
 	
-//	@Scheduled(cron = "${cron.expression}")
-//	@GetMapping("/alerte")
-//	public void sendNotifications() {
-//		List<NotificationDto> list = notificationProxy.getListOfUsersToWarn();
-//		
-//		if(list != null) { 
-//			for(NotificationDto notice:list) {
-//				String name = notice.getFullId();
-//				String title = notice.getTitle();
-//				String author = notice.getAuthor();
-//				System.out.println("Avertissement");
-//				System.out.println("Bonjour " + name + "!");
-//				System.out.println("La date retour de l'ouvrage " + title + ", " + author + " est dépassée.");
-//				System.out.println("Merci de le retourner au plus vite!");
-//			}
-//		}
-//		else {
-//			System.out.println("Aucun utilisateur n'a de retard dans les retours de ses livres!");
-//		}
-//	}
-	
-	
 	/**
 	 * POST requests for /send.
 	 * this method is used to send email notification via gmail smtp to recipients wo have not returned books on time.
@@ -88,6 +66,28 @@ public class NotificationController {
 		}
 
     }
+	
+//	@Scheduled(cron = "${cron.expression}")
+//	@GetMapping("/alerte")
+//	public void sendNotifications() {
+//		List<NotificationDto> list = notificationProxy.getListOfUsersToWarn();
+//		
+//		if(list != null) { 
+//			for(NotificationDto notice:list) {
+//				String name = notice.getFullId();
+//				String title = notice.getTitle();
+//				String author = notice.getAuthor();
+//				System.out.println("Avertissement");
+//				System.out.println("Bonjour " + name + "!");
+//				System.out.println("La date retour de l'ouvrage " + title + ", " + author + " est dépassée.");
+//				System.out.println("Merci de le retourner au plus vite!");
+//			}
+//		}
+//		else {
+//			System.out.println("Aucun utilisateur n'a de retard dans les retours de ses livres!");
+//		}
+//	}
+	
 	
 	
 

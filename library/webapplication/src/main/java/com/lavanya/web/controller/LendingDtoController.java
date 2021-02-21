@@ -14,7 +14,6 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.lavanya.web.dto.LendingDto;
 import com.lavanya.web.proxies.LendingProxy;
-import com.lavanya.web.proxies.UserProxy;
 
 
 /**
@@ -26,10 +25,6 @@ public class LendingDtoController {
 	
 	@Autowired
 	LendingProxy lendingProxy;
-	
-	@Autowired
-	UserProxy userProxy;
-
 	 
 	 /**
 	  * GET requests for /user/lendings endpoint.

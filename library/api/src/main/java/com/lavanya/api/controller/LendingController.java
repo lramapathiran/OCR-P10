@@ -64,15 +64,10 @@ public class LendingController {
 	public	Lending saveLending(@RequestBody Lending lending) {
 		
 		String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
-		 try {
 			    
-			User user = userService.findUserByUsername(username);
-			Lending lendingSaved = lendingService.save(lending, user);
-			return lendingSaved; 
-			    
-		} catch (JWTDecodeException e){
-			throw new RuntimeException(e);
-		}		
+		User user = userService.findUserByUsername(username); 
+		Lending lendingSaved = lendingService.save(lending, user);
+		return lendingSaved; 
 	}
 
 	/**
