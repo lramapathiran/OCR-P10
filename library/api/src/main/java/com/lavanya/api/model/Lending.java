@@ -28,14 +28,14 @@ public class Lending {
 	@Column(name="lending_date")
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	LocalDate lendingDate;
-	
+
 	@Column(name="due_date")
 	LocalDate dueDate;
-	
+
 	@Column(name="is_extended")
 	Boolean isExtended;
-	
-	
+
+
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id", nullable=false, referencedColumnName = "id")
 	@JsonBackReference
