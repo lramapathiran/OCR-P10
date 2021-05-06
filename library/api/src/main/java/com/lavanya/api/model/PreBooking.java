@@ -27,7 +27,6 @@ public class PreBooking {
     @JsonBackReference
     private User user;
 
-
     @ManyToOne
     @JoinColumn(name = "book_id", referencedColumnName = "id")
     private Book book;

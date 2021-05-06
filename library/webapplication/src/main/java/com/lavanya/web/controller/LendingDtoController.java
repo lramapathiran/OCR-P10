@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import com.lavanya.web.dto.PreBookingDto;
+import com.lavanya.web.proxies.PreBookingProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,9 @@ public class LendingDtoController {
 	
 	@Autowired
 	LendingProxy lendingProxy;
+
+	@Autowired
+	PreBookingProxy preBookingProxy;
 	 
 	 /**
 	  * GET requests for /user/lendings endpoint.
@@ -56,6 +61,8 @@ public class LendingDtoController {
 		 List<LendingDto> booksList = lendingProxy.showListOfUserLendings(token);
 	     model.addAttribute("list", booksList);
 
+	     List<PreBookingDto> preBookingsList = preBookingProxy.showListOfUserPreBookings(token);
+	     model.addAttribute("listOfPreBookings", preBookingsList);
 	     return "userDashboard";
 	 }
 	 
