@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.lavanya.api.error.SaveLendingFailed;
 import com.lavanya.api.model.Lending;
+import com.lavanya.api.model.Book;
 import com.lavanya.api.model.User;
 import com.lavanya.api.repository.LendingRepository;
 
@@ -88,5 +89,9 @@ public class LendingService {
 		return lending;
 	
 	}
+
+//	public LocalDate getLendingsByEarliestDueDate(Book book){
+//		return lendingRepository.getEarliestDueDateByBookId(book);
+//	}
 	
 }

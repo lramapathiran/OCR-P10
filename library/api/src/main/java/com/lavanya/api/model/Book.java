@@ -33,11 +33,19 @@ public class Book {
 	
 	@Column(name="full_stock")
 	Integer fullStock;
+
+	@Column(name="total_pre_booking")
+	Integer totalPreBooking;
 	
 	@OneToMany(mappedBy = "book", fetch = FetchType.LAZY, 
 			cascade = CascadeType.ALL)
 	@JsonBackReference
 	private List<Lending> lendings;
+
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<PreBooking> preBookings;
 	
 	public List<Lending> getLendings() {
 		return lendings;
@@ -90,14 +98,35 @@ public class Book {
 		this.fullStock = fullStock;
 	}
 
-	@Override
-	public String toString() {
-		return "Book [id=" + id + ", title=" + title + ", author=" + author + ", remainingStock=" + remainingStock
-				+ ", fullStock=" + fullStock + ", lendings=" + lendings + "]";
+	public Integer getTotalPreBooking() {
+		return totalPreBooking;
 	}
 
-	
-	
-	
+	public void setTotalPreBooking(Integer totalPreBooking) {
+		this.totalPreBooking = totalPreBooking;
+	}
+
+    public List<PreBooking> getPreBookings() {
+        return preBookings;
+    }
+
+    public void setPreBookings(List<PreBooking> preBookings) {
+        this.preBookings = preBookings;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", remainingStock=" + remainingStock +
+                ", fullStock=" + fullStock +
+                ", totalPreBooking=" + totalPreBooking +
+                ", lendings=" + lendings +
+                ", preBookings=" + preBookings +
+                '}';
+    }
+
 
 }

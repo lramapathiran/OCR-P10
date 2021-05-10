@@ -15,6 +15,8 @@ public class UserDto {
 	private String roles;
 
     private List<LendingDto> lendingDto;
+
+	private List<PreBookingDto> preBookingDtos;
 	
 	public UserDto() {
 	}
@@ -60,10 +62,24 @@ public class UserDto {
 		this.lendingDto = lendingDto;
 	}
 
+	public List<PreBookingDto> getPreBookingDtos() {
+		return preBookingDtos;
+	}
+
+	public void setPreBookingDtos(List<PreBookingDto> preBookingDtos) {
+		this.preBookingDtos = preBookingDtos;
+	}
+
 	@Override
 	public String toString() {
-		return "UserDto [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", roles=" + roles + ", lendingDto="
-				+ lendingDto + "]";
+		return "UserDto{" +
+				"id=" + id +
+				", firstName='" + firstName + '\'' +
+				", lastName='" + lastName + '\'' +
+				", roles='" + roles + '\'' +
+				", lendingDto=" + lendingDto +
+				", preBookingDtos=" + preBookingDtos +
+				'}';
 	}
 
 }

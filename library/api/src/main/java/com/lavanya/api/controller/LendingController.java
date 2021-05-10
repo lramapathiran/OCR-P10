@@ -1,6 +1,7 @@
 package com.lavanya.api.controller;
 
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.lavanya.api.model.Lending;
 import com.lavanya.api.model.User;
+import com.lavanya.api.model.Book;
 import com.lavanya.api.service.LendingService;
 import com.lavanya.api.service.UserService;
 
@@ -97,6 +99,13 @@ public class LendingController {
 	  */	
 	@PostMapping("/user/lending/extendDate/{id}")
 	public void updateLending(@PathVariable ("id") Integer lendingId) {
+
 		lendingService.getBookDueDateExtended(lendingId);
 	}
+
+//	@PostMapping("user/list")
+//	public LocalDate showDueDateByBookId(Book book){
+//
+//		return lendingService.getLendingsByEarliestDueDate(book);
+//	}
 }

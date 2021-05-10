@@ -49,7 +49,10 @@ public class User {
 	
 	@OneToMany(mappedBy="user", cascade = CascadeType.ALL)
     private List<Lending> lending;
-	
+
+	@OneToMany(mappedBy="user", cascade = CascadeType.ALL)
+	private List<PreBooking> PreBookings;
+
 	public User() {
 	}
 	
@@ -159,14 +162,32 @@ public class User {
 		this.enabled = enabled;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth=" + dateOfBirth
-				+ ", address=" + address + ", telephone=" + telephone + ", email=" + email + ", username=" + username
-				+ ", password=" + password + ", enabled=" + enabled + ", roles="
-				+ roles + ", lending=" + lending + "]";
+	public List<PreBooking> getPreBookings() {
+		return PreBookings;
 	}
 
-	
-	
+	public void setPreBookings(List<PreBooking> preBookings) {
+		PreBookings = preBookings;
+	}
+
+
+	@Override
+	public String toString() {
+		return "User{" +
+				"id=" + id +
+				", firstName='" + firstName + '\'' +
+				", lastName='" + lastName + '\'' +
+				", dateOfBirth=" + dateOfBirth +
+				", address='" + address + '\'' +
+				", telephone='" + telephone + '\'' +
+				", email='" + email + '\'' +
+				", username='" + username + '\'' +
+				", password='" + password + '\'' +
+				", enabled=" + enabled +
+				", roles='" + roles + '\'' +
+				", lending=" + lending +
+				", PreBookings=" + PreBookings +
+				'}';
+	}
+
 }

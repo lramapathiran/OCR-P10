@@ -2,6 +2,7 @@ package com.lavanya.api.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -12,6 +13,8 @@ import java.time.LocalDateTime;
  * PreBooking object is declared as a JPA entity with the corresponding annotation.
  * @author lavanya
  */
+@Entity
+@Table(name="prebooking")
 public class PreBooking {
 
     @Id
@@ -19,7 +22,7 @@ public class PreBooking {
     Integer id;
 
     @Column(name="time-stamp")
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss Z", timezone = "Europe/Budapest")
     LocalDateTime time;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -27,8 +30,9 @@ public class PreBooking {
     @JsonBackReference
     private User user;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "book_id", referencedColumnName = "id")
+    @JsonManagedReference
     private Book book;
 
     public PreBooking() {

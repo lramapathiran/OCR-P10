@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * Bean representing a Lending.
@@ -44,6 +45,7 @@ public class Lending {
 	
 	@ManyToOne
     @JoinColumn(name = "book_id", referencedColumnName = "id")
+	@JsonManagedReference
 	private Book book;
 	
 	public Lending() {

@@ -15,6 +15,7 @@ public class BookDto {
 	Integer remainingStock;
 	Integer fullStock;
 	private List<LendingDto> lendingDtos;
+	private List<PreBookingDto> preBookingDtos;
 	
 	public BookDto() {
 	}
@@ -67,10 +68,25 @@ public class BookDto {
 		this.lendingDtos = lendingDtos;
 	}
 
+	public List<PreBookingDto> getPreBookingDtos() {
+		return preBookingDtos;
+	}
+
+	public void setPreBookingDtos(List<PreBookingDto> preBookingDtos) {
+		this.preBookingDtos = preBookingDtos;
+	}
+
 	@Override
 	public String toString() {
-		return "Book [id=" + id + ", title=" + title + ", author=" + author + ", remainingStock=" + remainingStock
-				+ ", fullStock=" + fullStock + ", lendings=" + lendingDtos + "]";
+		return "BookDto{" +
+				"id=" + id +
+				", title='" + title + '\'' +
+				", author='" + author + '\'' +
+				", remainingStock=" + remainingStock +
+				", fullStock=" + fullStock +
+				", lendingDtos=" + lendingDtos +
+				", preBookingDtos=" + preBookingDtos +
+				'}';
 	}
-	
+
 }

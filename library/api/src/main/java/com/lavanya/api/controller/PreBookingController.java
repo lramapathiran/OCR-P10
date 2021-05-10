@@ -2,11 +2,14 @@ package com.lavanya.api.controller;
 
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.lavanya.api.model.PreBooking;
+import com.lavanya.api.model.Book;
 import com.lavanya.api.model.User;
 import com.lavanya.api.service.PreBookingService;
 import com.lavanya.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
@@ -33,11 +36,20 @@ public class PreBookingController {
 
             User user = userService.findUserByUsername(username);
 
-            return preBookingService.getListOfpreBookingByUserId(user.getId());
+            return preBookingService.getListOfPreBookingByUserId(user.getId());
 
         } catch (JWTDecodeException e){
             throw new RuntimeException(e);
         }
+    }
+
+    @PostMapping("/user/preBooking")
+    public void savePreBooking(Book book) {
+
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+
+        User user = userService.findUserByUsername(username);
+        PreBooking preBookingSaved = preBookingService.save(book, user);
     }
 
 

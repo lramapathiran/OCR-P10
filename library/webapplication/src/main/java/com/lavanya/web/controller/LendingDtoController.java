@@ -1,5 +1,6 @@
 package com.lavanya.web.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -15,6 +16,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.lavanya.web.dto.LendingDto;
+import com.lavanya.web.dto.BookDto;
 import com.lavanya.web.proxies.LendingProxy;
 
 
@@ -60,6 +62,9 @@ public class LendingDtoController {
 		 
 		 List<LendingDto> booksList = lendingProxy.showListOfUserLendings(token);
 	     model.addAttribute("list", booksList);
+
+//		 LocalDate dueDate = lendingProxy.showDueDateByBookId(booksList.get(0).getBook(),token);
+//		 model.addAttribute("dueDateList",dueDate);
 
 	     List<PreBookingDto> preBookingsList = preBookingProxy.showListOfUserPreBookings(token);
 	     model.addAttribute("listOfPreBookings", preBookingsList);
