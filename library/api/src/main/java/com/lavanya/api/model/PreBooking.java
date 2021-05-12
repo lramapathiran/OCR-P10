@@ -19,19 +19,19 @@ public class PreBooking {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    Integer id;
+    private Integer id;
 
     @Column(name="time-stamp")
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss Z", timezone = "Europe/Budapest")
-    LocalDateTime time;
+    private LocalDateTime time;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id", nullable=false, referencedColumnName = "id")
+    @JoinColumn(name="user_id", nullable=false)
     @JsonBackReference
     private User user;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "book_id", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "book_id")
     @JsonManagedReference
     private Book book;
 

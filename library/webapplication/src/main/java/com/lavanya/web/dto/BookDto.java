@@ -9,11 +9,11 @@ import java.util.List;
  */
 public class BookDto {
 	
-	Integer id;	
-	String title;
-	String author;
-	Integer remainingStock;
-	Integer fullStock;
+	private Integer id;
+	private String title;
+	private String author;
+	private Integer remainingStock;
+	private Integer fullStock;
 	private List<LendingDto> lendingDtos;
 	private List<PreBookingDto> preBookingDtos;
 	

@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Bean representing a Book.
@@ -23,28 +24,28 @@ public class Book {
 	
 	@Id
 	@GeneratedValue (strategy=GenerationType.AUTO)
-	Integer id;
-	
-	String title;
-	String author;
+	private Integer id;
+
+    private String title;
+    private String author;
 	
 	@Column(name="remaining_stock")
-	Integer remainingStock;
+    private Integer remainingStock;
 	
 	@Column(name="full_stock")
-	Integer fullStock;
+    private Integer fullStock;
 
 	@Column(name="total_pre_booking")
-	Integer totalPreBooking;
+    private Integer totalPreBooking;
 	
 	@OneToMany(mappedBy = "book", fetch = FetchType.LAZY, 
 			cascade = CascadeType.ALL)
-	@JsonBackReference
+	@JsonIgnore
 	private List<Lending> lendings;
 
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonIgnore
     private List<PreBooking> preBookings;
 	
 	public List<Lending> getLendings() {

@@ -171,23 +171,4 @@ public class User {
 	}
 
 
-	@Override
-	public String toString() {
-		return "User{" +
-				"id=" + id +
-				", firstName='" + firstName + '\'' +
-				", lastName='" + lastName + '\'' +
-				", dateOfBirth=" + dateOfBirth +
-				", address='" + address + '\'' +
-				", telephone='" + telephone + '\'' +
-				", email='" + email + '\'' +
-				", username='" + username + '\'' +
-				", password='" + password + '\'' +
-				", enabled=" + enabled +
-				", roles='" + roles + '\'' +
-				", lending=" + lending +
-				", PreBookings=" + PreBookings +
-				'}';
-	}
-
 }

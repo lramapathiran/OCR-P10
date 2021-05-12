@@ -7,6 +7,7 @@ import com.lavanya.api.model.User;
 import com.lavanya.api.service.PreBookingService;
 import com.lavanya.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,8 +44,8 @@ public class PreBookingController {
         }
     }
 
-    @PostMapping("/user/preBooking")
-    public void savePreBooking(Book book) {
+    @PostMapping(value="/user/preBooking", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    public void savePreBooking(@RequestBody Book book) {
 
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
 

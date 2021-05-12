@@ -45,9 +45,9 @@ public class PreBookingService {
         preBooking.setTime(LocalDateTime.now());
         preBooking.setBook(book);
 
-        Integer id = preBooking.getBook().getId();
+//        Integer id = preBooking.getBook().getId();
 
-        preBookingRepository.save(preBooking);
+        PreBooking preBookingSave = preBookingRepository.save(preBooking);
 
         Integer preBookingId = preBooking.getId();
         if(preBookingId==null) {
@@ -55,9 +55,9 @@ public class PreBookingService {
                     "L'emprunt a échoué, veuillez recommencer");
         }
 
-        bookService.updateBookPreBooked(id);
+//        bookService.updateBookPreBooked(id);
 
-        return preBooking;
+        return preBookingSave;
 
     }
 }
