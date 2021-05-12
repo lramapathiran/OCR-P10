@@ -6,11 +6,11 @@ package com.lavanya.api.model;
  * @author lavanya
  */
 public class Notification {
-	
-	String  fullId;
-	String email;
-	String title;
-	String author;
+
+	private String  fullId;
+	private String email;
+	private String title;
+	private String author;
 	
 	public Notification() {
 		

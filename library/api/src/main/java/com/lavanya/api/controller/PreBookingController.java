@@ -44,13 +44,14 @@ public class PreBookingController {
         }
     }
 
-    @PostMapping(value="/user/preBooking", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    public void savePreBooking(@RequestBody Book book) {
 
+    @PostMapping(value = "/user/preBooking", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    public void savePreBooking(@RequestBody PreBooking preBooking) {
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
 
         User user = userService.findUserByUsername(username);
-        PreBooking preBookingSaved = preBookingService.save(book, user);
+
+        PreBooking preBookingSaved = preBookingService.save(preBooking, user);
     }
 
 

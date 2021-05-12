@@ -30,9 +30,8 @@ public class PreBooking {
     @JsonBackReference
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "book_id")
-    @JsonManagedReference
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "book_id", nullable=false)
     private Book book;
 
     public PreBooking() {

@@ -22,5 +22,9 @@ public interface PreBookingProxy {
 //    void updateLending(@PathVariable("id") Integer lendingId, @RequestHeader(name = "Authorization") String token);
 
     @PostMapping(value="/user/preBooking", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+<<<<<<< HEAD
     void savePreBooking(@RequestBody BookDto bookDto, @RequestHeader(name = "Authorization") String token);
+=======
+    void savePreBooking(@RequestBody PreBookingDto preBookingDto, @RequestHeader(name = "Authorization") String token);
+>>>>>>> debug de l'enregistrment du preBooking en DB
 }

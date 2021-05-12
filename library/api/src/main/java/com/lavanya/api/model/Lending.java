@@ -24,17 +24,17 @@ public class Lending {
 	
 	@Id
 	@GeneratedValue (strategy=GenerationType.AUTO)
-	Integer id;
+	private Integer id;
 	
 	@Column(name="lending_date")
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
-	LocalDate lendingDate;
+	private LocalDate lendingDate;
 
 	@Column(name="due_date")
-	LocalDate dueDate;
+	private LocalDate dueDate;
 
 	@Column(name="is_extended")
-	Boolean isExtended;
+	private Boolean isExtended;
 
 
 	@ManyToOne(fetch = FetchType.LAZY)

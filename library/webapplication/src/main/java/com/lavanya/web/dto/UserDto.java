@@ -9,9 +9,9 @@ import java.util.List;
  */
 public class UserDto {
 
-	Integer id;
-	public String firstName;
-	public String lastName;
+	private Integer id;
+	private String firstName;
+	private String lastName;
 	private String roles;
 
     private List<LendingDto> lendingDto;

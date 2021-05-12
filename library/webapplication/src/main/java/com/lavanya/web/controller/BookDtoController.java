@@ -3,6 +3,7 @@ package com.lavanya.web.controller;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 
+import com.lavanya.web.dto.PreBookingDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -68,12 +69,15 @@ public class BookDtoController {
 		List<BookDto> booksPage = pageOfBooksFiltered.getContent();
 		int totalPages = pageOfBooksFiltered.getTotalPages();
 		long totalBooks = pageOfBooksFiltered.getTotalElements();
+
+		PreBookingDto preBookingDto = new PreBookingDto();
 		
 		model.addAttribute("booksPage", booksPage);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("totalBooks", totalBooks);
 		model.addAttribute("lendingDto", lendingDto);
+		model.addAttribute("preBookingDto", preBookingDto);
 		
 		return "searchBook";
 	}

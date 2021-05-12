@@ -38,26 +38,26 @@ public class PreBookingService {
 
     }
 
-    public PreBooking save(Book book, User user) {
+    public PreBooking save(PreBooking preBooking, User user) {
 
-        PreBooking preBooking = new PreBooking();
         preBooking.setUser(user);
         preBooking.setTime(LocalDateTime.now());
-        preBooking.setBook(book);
 
 //        Integer id = preBooking.getBook().getId();
 
-        PreBooking preBookingSave = preBookingRepository.save(preBooking);
 
-        Integer preBookingId = preBooking.getId();
-        if(preBookingId==null) {
-            throw new SaveBookingFailed(
-                    "L'emprunt a échoué, veuillez recommencer");
-        }
+        PreBooking preBookingSaved = preBookingRepository.save(preBooking);
+
+//        Integer preBookingId = preBooking.getId();
+//        if(preBookingId==null) {
+//            throw new SaveBookingFailed(
+//                    "L'emprunt a échoué, veuillez recommencer");
+//        }
 
 //        bookService.updateBookPreBooked(id);
 
-        return preBookingSave;
+
+        return preBookingSaved;
 
     }
 }

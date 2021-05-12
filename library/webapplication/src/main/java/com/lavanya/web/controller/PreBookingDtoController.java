@@ -28,7 +28,9 @@ public class PreBookingDtoController {
             return "redirect:/homePage#sign-in";
         }
 
-        preBookingProxy.savePreBooking(bookDto,token);
+        PreBookingDto preBookingDto = new PreBookingDto();
+        preBookingDto.setBookDto(bookDto);
+        preBookingProxy.savePreBooking(preBookingDto, token);
 
         return "redirect:/showBooks/{pageNumber}";
     }

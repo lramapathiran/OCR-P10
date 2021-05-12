@@ -12,10 +12,10 @@ import java.time.LocalDateTime;
  */
 public class PreBookingDto {
 
-    Integer id;
+    private Integer id;
 
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
-    LocalDateTime time;
+    private LocalDateTime time;
 
     private BookDto bookDto;
 

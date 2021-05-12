@@ -1,5 +1,7 @@
 package com.lavanya.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -19,13 +21,13 @@ public class User {
 	
 	@Id
 	@GeneratedValue (strategy=GenerationType.AUTO)
-	Integer id;
+	private Integer id;
 	
 	@Column(name="first_name")
-	public String firstName;
+	private String firstName;
 	
 	@Column(name="last_name")
-	public String lastName;
+	private String lastName;
 	
 	@Column(name="date_of_birth")
 	private LocalDate dateOfBirth;
@@ -48,9 +50,11 @@ public class User {
 	
 	
 	@OneToMany(mappedBy="user", cascade = CascadeType.ALL)
+	@JsonIgnore
     private List<Lending> lending;
 
 	@OneToMany(mappedBy="user", cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<PreBooking> PreBookings;
 
 	public User() {

@@ -8,7 +8,7 @@ import java.util.List;
  * @author lavanya
  */
 public class BookDto {
-	
+
 	private Integer id;
 	private String title;
 	private String author;
