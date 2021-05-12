@@ -23,7 +23,7 @@ public class BookService {
 	BookRepository bookRepository;
 	
 	/**
-	 * method to retrieve a particular book identified by its id.
+	 * method to retrieve a particular book identified by its ownstatus id.
 	 * @param id of the book of interest to identify in database.
 	 * @return Optional Book object.
 	 */
@@ -61,17 +61,6 @@ public class BookService {
 			bookRepository.save(book);
 		});
 	}
+	
 
-	/**
-	 * method to update a particular book by updating its total pre-booking value when pre-booked.
-	 * @param id of the book of interest to identify in database.
-	 */
-    public void updateBookPreBooked(Integer id) {
-		Optional<Book> optional = bookRepository.findBookById(id);
-		optional.ifPresent(book -> {
-			Integer totalPreBooking = book.getTotalPreBooking();
-			book.setTotalPreBooking(totalPreBooking+1);
-			bookRepository.save(book);
-		});
-    }
 }
