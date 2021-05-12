@@ -164,8 +164,14 @@
 			    <groupId>com.auth0</groupId>
 			    <artifactId>java-jwt</artifactId>
 			    <version>3.12.1</version>
-			</dependency>	
-	       
+			</dependency>
+
+			<dependency>
+				<groupId>org.mapstruct</groupId>
+				<artifactId>mapstruct</artifactId>
+				<version>1.4.2.Final</version>
+			</dependency>
+
 
 		</dependencies>
 	</dependencyManagement>
