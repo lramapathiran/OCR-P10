@@ -21,15 +21,15 @@ public class PreBookingDtoController {
     PreBookingProxy preBookingProxy;
 
     @PostMapping("/preBooking")
-    public String preBooking(BookDto bookDto, HttpSession session) {
+    public String preBooking(PreBookingDto preBookingDto, HttpSession session) {
         String token = (String) session.getAttribute("token");
 
         if(token==null) {
             return "redirect:/homePage#sign-in";
         }
 
-        PreBookingDto preBookingDto = new PreBookingDto();
-        preBookingDto.setBookDto(bookDto);
+//        PreBookingDto preBookingDto = new PreBookingDto();
+//        preBookingDto.setBookDto(bookDto);
         preBookingProxy.savePreBooking(preBookingDto, token);
 
         return "redirect:/showBooks/{pageNumber}";
