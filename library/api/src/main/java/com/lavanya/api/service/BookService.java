@@ -23,7 +23,7 @@ public class BookService {
 	BookRepository bookRepository;
 	
 	/**
-	 * method to retrieve a particular book identified by its id.
+	 * method to retrieve a particular book identified by its own id.
 	 * @param id of the book of interest to identify in database.
 	 * @return Optional Book object.
 	 */
