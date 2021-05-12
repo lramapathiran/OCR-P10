@@ -21,7 +21,6 @@ public class PreBooking {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
 
-    @Column(name="time-stamp")
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss Z", timezone = "Europe/Budapest")
     private LocalDateTime time;
 
@@ -30,7 +29,7 @@ public class PreBooking {
     @JsonBackReference
     private User user;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", nullable=false)
     private Book book;
 
