@@ -44,5 +44,11 @@ public interface LendingRepository extends JpaRepository<Lending, Integer> {
 	@Query(value="select min(u.dueDate) from Lending u where u.book = ?1")
 	LocalDate getEarliestDueDateByBookId(Book book);
 
-	
+	/**
+	 * Query to retrieve a lending for a particular book and made by the user connected.
+	 * @param userId for id of the user of interest.
+	 * @param bookId for id of the user of interest.
+	 * @return a lending Object.
+	 */
+    Optional<Lending> findByUserIdAndBookId(int userId, int bookId);
 }

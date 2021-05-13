@@ -19,4 +19,11 @@ public interface PreBookingRepository extends JpaRepository<PreBooking, Integer>
      * @return List of pre-bookings.
      */
     List<PreBooking> findAllByUserIdOrderByTime(int userId);
+
+    /**
+     * Query to retrieve the list of all pre-bookings made a particuler book.
+     * @param bookId for id of the user of interest.
+     * @return List of pre-bookings.
+     */
+    List<PreBooking> findAllByBookId(int bookId);
 }

@@ -20,6 +20,13 @@ public class PreBookingDtoController {
     @Autowired
     PreBookingProxy preBookingProxy;
 
+    /**
+     * POST requests for /preBooking endpoint.
+     * This controller-method is part of CRUD and is used to save in database PreBooking object.
+     * @param bookDto is the book that needs to be pre-booked.
+     * @param session a HttpSession where attributes of interest are stored, here it concerns the token generated following user connection.
+     * @return lending saved by a user connected.
+     */
     @PostMapping("/preBooking")
     public String preBooking(BookDto bookDto, HttpSession session) {
         String token = (String) session.getAttribute("token");
@@ -28,11 +35,17 @@ public class PreBookingDtoController {
             return "redirect:/homePage#sign-in";
         }
 
-        PreBookingDto preBookingDto = new PreBookingDto();
-        preBookingDto.setBookDto(bookDto);
-        preBookingProxy.savePreBooking(preBookingDto, token);
 
-        return "redirect:/showBooks/1";
+        try{
+            PreBookingDto preBookingDto = new PreBookingDto();
+            preBookingDto.setBookDto(bookDto);
+            preBookingProxy.savePreBooking(preBookingDto, token);
+
+            return "redirect:/user/lendings";
+        }catch(Exception e){
+            return "redirect:/showBooks/1?error=true";
+        }
+
     }
 
 }

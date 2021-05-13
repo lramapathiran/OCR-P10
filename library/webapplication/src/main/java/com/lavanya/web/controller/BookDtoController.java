@@ -44,8 +44,8 @@ public class BookDtoController {
      * @return "searchBook.html".
      */	
 	@GetMapping("/showBooks/{pageNumber}")
-	public String showBooksListFiltered(@PathVariable(value = "pageNumber") int currentPage, HttpSession session,
-			@RequestParam(name="keyword", required=false) String keyword, Model model) {
+	public String showBooksListFiltered(@RequestParam(value = "error", required = false) String error, @PathVariable(value = "pageNumber") int currentPage,
+										HttpSession session, @RequestParam(name="keyword", required=false) String keyword, Model model) {
 		
 		
 		String token = (String) session.getAttribute("token");
@@ -71,6 +71,12 @@ public class BookDtoController {
 		long totalBooks = pageOfBooksFiltered.getTotalElements();
 
 		PreBookingDto preBookingDto = new PreBookingDto();
+
+		String errorMessage = null;
+		if(error != null) {
+			errorMessage = "Vous ne pouvez réserver un ouvrage déjà en cours d'emprunt sous votre nom!";
+		}
+		model.addAttribute("errorMessage", errorMessage);
 		
 		model.addAttribute("booksPage", booksPage);
 		model.addAttribute("currentPage", currentPage);

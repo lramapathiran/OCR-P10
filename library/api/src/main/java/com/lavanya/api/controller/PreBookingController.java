@@ -2,6 +2,7 @@ package com.lavanya.api.controller;
 
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.lavanya.api.dto.PreBookingDto;
+import com.lavanya.api.error.SaveBookingFailed;
 import com.lavanya.api.mapper.PreBookingMapper;
 import com.lavanya.api.mapper.PreBookingMapperImpl;
 import com.lavanya.api.model.PreBooking;
@@ -50,15 +51,23 @@ public class PreBookingController {
         }
     }
 
-
+    /**
+     * POST requests for /user/preBooking endpoint.
+     * This controller-method is part of CRUD and is used to save in database PreBooking object.
+     * @param preBookingDto is an instance of PreBookingDto and contains all data that need o be transferred to PreBooking
+     * created Prebooking object will then be saved in DataBase.
+     */
     @PostMapping(value = "/user/preBooking", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     public void savePreBooking(@RequestBody PreBookingDto preBookingDto) {
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
 
         PreBooking preBooking = mapper.preBookingDtoToPreBooking(preBookingDto);
         User user = userService.findUserByUsername(username);
-
-        PreBooking preBookingSaved = preBookingService.save(preBooking, user);
+        try{
+            preBookingService.save(preBooking, user);
+        }catch(Exception e){
+            throw new SaveBookingFailed("Un exemplaire de cette ouvrage est déjà en cours d'emprunt sous votre nom, vous ne pouvez le réserver!");
+        }
     }
 
 
