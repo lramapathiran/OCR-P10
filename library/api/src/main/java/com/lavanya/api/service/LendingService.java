@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import com.lavanya.api.error.ExtendDueDateFailed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,9 +55,15 @@ public class LendingService {
 		Optional<Lending> optional = lendingRepository.findById(lendingId);
 		
 		optional.ifPresent(lending -> {
-			lending.setDueDate(lending.getDueDate().plusWeeks(4));
-			lending.setIsExtended(true); 
-			lendingRepository.save(lending);
+
+		    if(LocalDate.now().isAfter(lending.getDueDate())){
+                throw new ExtendDueDateFailed(
+                        "La date limite de retour est dépassée, vous n'êtes plus autorisé à la prolonger!");
+            }else {
+                lending.setDueDate(lending.getDueDate().plusWeeks(4));
+                lending.setIsExtended(true);
+                lendingRepository.save(lending);
+            }
 		});		
 		
 	}
