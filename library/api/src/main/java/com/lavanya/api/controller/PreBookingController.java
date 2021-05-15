@@ -38,7 +38,7 @@ public class PreBookingController {
      * @return List<PreBooking>.
      */
     @GetMapping("user/prebookings")
-    public List<PreBooking> showListOfUserPreBookings(){
+    public List<PreBookingDto> showListOfUserPreBookings(){
 
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
         try {
@@ -79,5 +79,6 @@ public class PreBookingController {
 //
 //        return preBookingService.getTotalPrebookingByBookId(book);
 //    }
+
 
 }

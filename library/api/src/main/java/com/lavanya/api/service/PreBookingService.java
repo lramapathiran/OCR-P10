@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 import com.lavanya.api.mapper.PreBookingMapper;
 import com.lavanya.api.mapper.PreBookingMapperImpl;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,9 +45,17 @@ public class PreBookingService {
      * @param userId id of user of interest for whom belongs the list of pre-bookings.
      * @return list of PreBooking.
      */
-    public List<PreBooking> getListOfPreBookingByUserId(int userId){
+    public List<PreBookingDto> getListOfPreBookingByUserId(int userId){
 
-        return preBookingRepository.findAllByUserIdOrderByTime(userId);
+        List<PreBooking> listPreBooking = preBookingRepository.findAllByUserIdOrderByTime(userId);
+        List<PreBookingDto> listPreBookingDto = new ArrayList<>();
+
+        for (PreBooking preBooking: listPreBooking
+             ) {
+            PreBookingDto preBookingDto = mapper.preBookingToPreBookingDto(preBooking);
+            listPreBookingDto.add(preBookingDto);
+        }
+        return listPreBookingDto;
 
     }
 
@@ -81,17 +89,6 @@ public class PreBookingService {
         }catch(Exception e){
             throw new SaveBookingFailed("Un exemplaire de cette ouvrage est déjà en cours d'emprunt sous votre nom, vous ne pouvez le réserver!");
         }
-
-
-
-
-//        Integer preBookingId = preBooking.getId();
-//        if(preBookingId==null) {
-//            throw new SaveBookingFailed(
-//                    "L'emprunt a échoué, veuillez recommencer");
-//        }
-
-//        bookService.updateBookPreBooked(id);
 
         return preBooking;
     }

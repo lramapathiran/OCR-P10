@@ -2,6 +2,7 @@ package com.lavanya.api.repository;
 
 import com.lavanya.api.model.Book;
 import com.lavanya.api.model.PreBooking;
+import com.lavanya.api.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -23,12 +24,12 @@ public interface PreBookingRepository extends JpaRepository<PreBooking, Integer>
      */
     List<PreBooking> findAllByUserIdOrderByTime(int userId);
 
-//    /**
-//     * Query to retrieve the list of all pre-bookings made a particuler book.
-//     * @param bookId for id of the user of interest.
-//     * @return List of pre-bookings.
-//     */
-//    List<PreBooking> findAllByBookId(int bookId);
+    /**
+     * Query to retrieve the list of all pre-bookings made a particuler book.
+     * @param bookId for id of the user of interest.
+     * @return List of pre-bookings.
+     */
+    List<PreBooking> findAllByBookId(int bookId);
 
     /**
      * Query to retrieve the total amount made for a particular book.
@@ -37,5 +38,7 @@ public interface PreBookingRepository extends JpaRepository<PreBooking, Integer>
      */
     @Query(value = "select count(*) from PreBooking u where u.book = ?1")
     Integer numberOfPreBookingByBookId(Book book);
+
+
 }
 

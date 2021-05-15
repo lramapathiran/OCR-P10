@@ -13,4 +13,7 @@ public interface PreBookingMapper {
 
     @Mapping(source = "bookDto", target = "book")
     PreBooking preBookingDtoToPreBooking(PreBookingDto preBookingDto);
+
+    @Mapping(source = "book", target = "bookDto")
+    PreBookingDto preBookingToPreBookingDto(PreBooking preBooking);
 }

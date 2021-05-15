@@ -21,16 +21,18 @@ public class PreBooking {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
 
+    @Column(name="time")
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss Z", timezone = "Europe/Budapest")
     private LocalDateTime time;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id", nullable=false)
+    @JoinColumn(name="user_id", nullable=false, referencedColumnName = "id")
     @JsonBackReference
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id", nullable=false)
+    @JoinColumn(name = "book_id", referencedColumnName = "id")
+    @JsonManagedReference
     private Book book;
 
     public PreBooking() {
@@ -68,13 +70,4 @@ public class PreBooking {
         this.book = book;
     }
 
-    @Override
-    public String toString() {
-        return "PreBooking{" +
-                "id=" + id +
-                ", time=" + time +
-                ", user=" + user +
-                ", book=" + book +
-                '}';
-    }
 }

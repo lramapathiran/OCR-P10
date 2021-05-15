@@ -116,19 +116,5 @@ public class Book {
         this.preBookings = preBookings;
     }
 
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", author='" + author + '\'' +
-                ", remainingStock=" + remainingStock +
-                ", fullStock=" + fullStock +
-                ", totalPreBooking=" + totalPreBooking +
-                ", lendings=" + lendings +
-                ", preBookings=" + preBookings +
-                '}';
-    }
-
 
 }

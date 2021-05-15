@@ -15,7 +15,7 @@ import java.util.List;
 @FeignClient(name = "preBookingApi", url = "localhost:9090")
 public interface PreBookingProxy {
 
-    @GetMapping(value = "/user/lendings")
+    @GetMapping(value = "user/prebookings")
     List<PreBookingDto> showListOfUserPreBookings(@RequestHeader(name = "Authorization") String token);
 
 //    @PostMapping(value="/user/preBooking/{id}", consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)

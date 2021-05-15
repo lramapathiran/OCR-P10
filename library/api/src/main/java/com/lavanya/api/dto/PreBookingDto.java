@@ -46,12 +46,4 @@ public class PreBookingDto {
         this.bookDto = bookDto;
     }
 
-    @Override
-    public String toString() {
-        return "PreBookingDto{" +
-                "id=" + id +
-                ", time=" + time +
-                ", bookDto=" + bookDto +
-                '}';
-    }
 }
