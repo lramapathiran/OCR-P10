@@ -23,6 +23,6 @@ public interface LendingProxy {
 	@PostMapping(value="/user/lending/extendDate/{id}", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 	void updateLending(@PathVariable ("id") Integer lendingId, @RequestHeader(name = "Authorization") String token);	
 
-//	@PostMapping(value="/user/list")
-//	LocalDate showDueDateByBookId(@RequestBody BookDto bookDto, @RequestHeader(name = "Authorization") String token);
+	@GetMapping(value="/lending/dueDate")
+	LocalDate showDueDateByBookId(@RequestBody BookDto bookDto, @RequestHeader(name = "Authorization") String token);
 }

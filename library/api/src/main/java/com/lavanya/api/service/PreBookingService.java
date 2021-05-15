@@ -1,14 +1,18 @@
 package com.lavanya.api.service;
 
+import com.lavanya.api.dto.PreBookingDto;
 import com.lavanya.api.error.SaveBookingFailed;
 import com.lavanya.api.error.SaveLendingFailed;
 import com.lavanya.api.model.Book;
 import com.lavanya.api.model.Lending;
 import com.lavanya.api.model.PreBooking;
 import com.lavanya.api.model.User;
+import com.lavanya.api.repository.BookRepository;
 import com.lavanya.api.repository.PreBookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.lavanya.api.mapper.PreBookingMapper;
+import com.lavanya.api.mapper.PreBookingMapperImpl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -31,6 +35,10 @@ public class PreBookingService {
     @Autowired
     PreBookingRepository preBookingRepository;
 
+    @Autowired
+    BookRepository bookRepository;
+
+    private static PreBookingMapper mapper = new PreBookingMapperImpl();
 
     /**
      * method to retrieve all pre-bookings made by a user of interest from database.
@@ -45,22 +53,29 @@ public class PreBookingService {
 
     /**
      * method to save a PreBooking for a specific book and for the user connected.
-     * @param preBooking object that need to be saved in database.
+     * @param preBookingDto is an instance of PreBookingDto and contains all data that need to be transferred to PreBooking.
      * @param user that makes the prebooking.
+     * created Prebooking object will then be saved in DataBase.
      * @return PreBooking saved.
      */
-    public PreBooking save(PreBooking preBooking, User user) {
+    public PreBooking save(PreBookingDto preBookingDto, User user) {
 
+        PreBooking preBooking = mapper.preBookingDtoToPreBooking(preBookingDto);
         preBooking.setUser(user);
         preBooking.setTime(LocalDateTime.now());
+        Book book = preBooking.getBook();
 
-        Integer bookId = preBooking.getBook().getId();
+        Integer bookId = book.getId();
         Integer userId = user.getId();
         Optional<Lending> lending = lendingService.getLendingByUserIdAndBookId(userId,bookId);
 
         try{
-            if(lending == null){
+            if(!lending.isPresent()){
                 PreBooking preBookingSaved = preBookingRepository.save(preBooking);
+                book.setTotalPreBooking(book.getTotalPreBooking() + 1);
+
+                bookRepository.save(book);
+
                 return preBookingSaved;
             }
         }catch(Exception e){
@@ -79,5 +94,9 @@ public class PreBookingService {
 //        bookService.updateBookPreBooked(id);
 
         return preBooking;
+    }
+
+    public Integer getTotalPrebookingByBookId(Book book){
+       return preBookingRepository.numberOfPreBookingByBookId(book);
     }
 }

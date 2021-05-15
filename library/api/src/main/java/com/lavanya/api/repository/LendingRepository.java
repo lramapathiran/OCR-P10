@@ -28,27 +28,28 @@ public interface LendingRepository extends JpaRepository<Lending, Integer> {
 	 * @param userId for id of the user of interest.
 	 * @return List of lending.
 	 */
-	public List<Lending> findAllByUserIdOrderByDueDate(int userId);
+	List<Lending> findAllByUserIdOrderByDueDate(int userId);
 	
 	/**
 	 * Query to retrieve a lending of interest.
 	 * @param id for id of the lending of interest.
 	 * @return Optional lending.
 	 */
-	public Optional<Lending> findById(Integer id);
-
-	/**
-	 * Query to retrieve the list of all lendings with only the book id and the earliest due date.
-	 * @return a list of Object with all the lendings.
-	 */
-	@Query(value="select min(u.dueDate) from Lending u where u.book = ?1")
-	LocalDate getEarliestDueDateByBookId(Book book);
+	Optional<Lending> findById(Integer id);
 
 	/**
 	 * Query to retrieve a lending for a particular book and made by the user connected.
 	 * @param userId for id of the user of interest.
-	 * @param bookId for id of the user of interest.
+	 * @param bookId for id of the book of interest.
 	 * @return a lending Object.
 	 */
     Optional<Lending> findByUserIdAndBookId(int userId, int bookId);
+
+	/**
+	 * Query to retrieve the earliest due date of lendings made for a particular book.
+	 * @param book to establish which due dates of wich lendings we are looking for.
+	 * @return a lending Object.
+	 */
+	@Query(value="select min(u.dueDate) from Lending u where u.book = ?1")
+    LocalDate getEarliestDueDateByBookId(Book book);
 }

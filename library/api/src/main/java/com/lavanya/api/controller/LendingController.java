@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import com.lavanya.api.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,6 +33,9 @@ public class LendingController {
 	
 	@Autowired
 	LendingService lendingService;
+
+	@Autowired
+	BookService bookService;
 	
 	@Autowired
 	UserService userService;
@@ -103,9 +107,13 @@ public class LendingController {
 		lendingService.getBookDueDateExtended(lendingId);
 	}
 
-//	@PostMapping("user/list")
-//	public LocalDate showDueDateByBookId(Book book){
-//
-//		return lendingService.getLendingsByEarliestDueDate(book);
-//	}
+	/**
+	 * method to retrieve the earliest due date of lendings made for a particular book.
+	 * @param book to establish which due dates of wich lendings we are looking for.
+	 * @return LocalDate for the earliest due date amoung all the copies of a book borrowed.
+	 */
+	@GetMapping("/lending/dueDate")
+	public LocalDate showDueDateByBookId(@RequestBody Book book){
+		return lendingService.getLendingsByEarliestDueDate(book);
+	}
 }

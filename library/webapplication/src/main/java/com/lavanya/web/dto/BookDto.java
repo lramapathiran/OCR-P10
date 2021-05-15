@@ -14,6 +14,7 @@ public class BookDto {
 	private String author;
 	private Integer remainingStock;
 	private Integer fullStock;
+	private Integer totalPreBooking;
 	private List<LendingDto> lendingDtos;
 	private List<PreBookingDto> preBookingDtos;
 	
@@ -60,6 +61,14 @@ public class BookDto {
 		this.fullStock = fullStock;
 	}
 
+	public Integer getTotalPreBooking() {
+		return totalPreBooking;
+	}
+
+	public void setTotalPreBooking(Integer totalPreBooking) {
+		this.totalPreBooking = totalPreBooking;
+	}
+
 	public List<LendingDto> getLendings() {
 		return lendingDtos;
 	}
@@ -84,6 +93,7 @@ public class BookDto {
 				", author='" + author + '\'' +
 				", remainingStock=" + remainingStock +
 				", fullStock=" + fullStock +
+				", totalPreBooking=" + totalPreBooking +
 				", lendingDtos=" + lendingDtos +
 				", preBookingDtos=" + preBookingDtos +
 				'}';

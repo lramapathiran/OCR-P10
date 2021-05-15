@@ -67,6 +67,14 @@ public class BookDtoController {
 		model.addAttribute("keyword", keyword);
 		
 		List<BookDto> booksPage = pageOfBooksFiltered.getContent();
+
+
+		for (BookDto bookDto: booksPage
+			 ) {
+			
+		}
+		
+		
 		int totalPages = pageOfBooksFiltered.getTotalPages();
 		long totalBooks = pageOfBooksFiltered.getTotalElements();
 

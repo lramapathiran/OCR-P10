@@ -93,7 +93,7 @@ public class LendingService {
 	/**
 	 * method to retrieve a particular lending identified by the bookId and the userId for which the lending was made.
 	 * @param userId, id of the user who made the lending.
-	 * @param BookId, id of the book which was lent.
+	 * @param bookId, id of the book which was lent.
 	 * @return Optional Lending object.
 	 */
     public Optional<Lending> getLendingByUserIdAndBookId(int userId, int bookId) {
@@ -101,8 +101,13 @@ public class LendingService {
 		return lending;
     }
 
-//	public LocalDate getLendingsByEarliestDueDate(Book book){
-//		return lendingRepository.getEarliestDueDateByBookId(book);
-//	}
+	/**
+	 * method to retrieve the earliest due date of lendings made for a particular book.
+	 * @param book to establish which due dates of wich lendings we are looking for.
+	 * @return LocalDate for the earliest due date amoung all the copies of a book borrowed.
+	 */
+	public LocalDate getLendingsByEarliestDueDate(Book book){
+		return lendingRepository.getEarliestDueDateByBookId(book);
+	}
 	
 }

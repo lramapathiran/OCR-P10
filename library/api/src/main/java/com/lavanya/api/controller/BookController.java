@@ -13,6 +13,8 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.lavanya.api.model.Book;
 import com.lavanya.api.service.BookService;
 
+import java.util.Optional;
+
 /**
  * Rest Controller to control all the requests related to Book object.
  * @author lavanya
@@ -45,7 +47,13 @@ public class BookController {
 			}		
 			
 		
-	}	
+	}
+
+	@GetMapping("user/book")
+	public Optional<Book> getBookById(){
+		Optional<Book> book = bookService.getBookById(1);
+		return book;
+	}
 		
 
 }

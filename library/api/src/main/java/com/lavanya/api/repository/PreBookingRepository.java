@@ -1,10 +1,13 @@
 package com.lavanya.api.repository;
 
+import com.lavanya.api.model.Book;
 import com.lavanya.api.model.PreBooking;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Repository extending JPA repository for persistence of PreBooking object.
@@ -20,10 +23,19 @@ public interface PreBookingRepository extends JpaRepository<PreBooking, Integer>
      */
     List<PreBooking> findAllByUserIdOrderByTime(int userId);
 
+//    /**
+//     * Query to retrieve the list of all pre-bookings made a particuler book.
+//     * @param bookId for id of the user of interest.
+//     * @return List of pre-bookings.
+//     */
+//    List<PreBooking> findAllByBookId(int bookId);
+
     /**
-     * Query to retrieve the list of all pre-bookings made a particuler book.
-     * @param bookId for id of the user of interest.
-     * @return List of pre-bookings.
+     * Query to retrieve the total amount made for a particular book.
+     * @param book for which we need to determine the amount of copies already pre-booked.
+     * @return Integer for the resulting count.
      */
-    List<PreBooking> findAllByBookId(int bookId);
+    @Query(value = "select count(*) from PreBooking u where u.book = ?1")
+    Integer numberOfPreBookingByBookId(Book book);
 }
+
