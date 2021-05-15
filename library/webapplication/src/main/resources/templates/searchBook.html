@@ -51,33 +51,53 @@
 							   					<th>Auteur</th>
 							   					<th>Stock restant</th>
 												<th>Pré-Réservé(s)</th>
+												<th>Date de retour estimée</th>
 												<th>Pré-Reservation</th>
 											</tr>
 										  </thead>
 										  <tbody>
-											<tr th:each="book,iterator : ${booksPage}">
-							   					<td th:text="${iterator.index} +1 + ${currentPage -1}*5">></td>
-								   				<td th:utext="${book.title}"></td>
-								   				<td th:utext="${book.author}"></td>
-												<td th:utext="${book.remainingStock}"></td>
-												<td th:if="${book.remainingStock}"!=0>Aucun</td>
-												<td th:unless="${book.remainingStock}"!=0">
-													<span th:utext="${book.totalPreBooking}></span>
-													<span></span>
-												</td>
-												<td th:if="${book.remainingStock}==0  and ${book.totalPreBooking}<2*${book.fullStock}">
-													<form action="#" th:action="@{/preBooking}" th:method="post">
-														<input type="hidden" name="id" th:value = "${book.id}"/>
-														<input type="hidden" name="title" th:value = "${book.title}"/>
-														<input type="hidden" name="author" th:value = "${book.author}"/>
-														<input type="hidden" name="remainingStock" th:value = "${book.remainingStock}"/>
-														<input type="hidden" name="fullStock" th:value = "${book.fullStock}"/>
-														<input type="hidden" name="totalPreBooking" th:value = "${book.totalPreBooking}"/>
-														<button type="submit"><img src="https://img.icons8.com/bubbles/50/000000/book.png"/></button>
-													</form>
-												</td>
-												<td th:unless="${book.remainingStock}==0 and ${book.totalPreBooking}<2*${book.fullStock}">Indisponible</td>
-							   				</tr>
+											  <tr th:each="book,iterator : ${map}">
+												  <td th:text="${iterator.index} +1 + ${currentPage -1}*5">></td>
+												  <td th:utext="${book.key.title}"></td>
+												  <td th:utext="${book.key.author}"></td>
+												  <td th:utext="${book.key.remainingStock}"></td>
+												  <td th:if="${book.key.remainingStock}!=0">Aucun</td>
+												  <td th:unless="${book.key.remainingStock}!=0" th:utext="${book.key.totalPreBooking}">...</td>
+												  <td th:if="${book.value}==null">Aucun Emprunt en cours</td>
+												  <td th:unless="${book.value}==null" th:utext="${#temporals.format(book.value, 'dd-MM-yyyy')}"></td>
+												  <td th:if="${book.key.remainingStock}==0  and ${book.key.totalPreBooking}<2*${book.key.fullStock}">
+													  <form action="#" th:action="@{/preBooking}" th:method="post">
+														  <input type="hidden" name="id" th:value = "${book.key.id}"/>
+														  <input type="hidden" name="title" th:value = "${book.key.title}"/>
+														  <input type="hidden" name="author" th:value = "${book.key.author}"/>
+														  <input type="hidden" name="remainingStock" th:value = "${book.key.remainingStock}"/>
+														  <input type="hidden" name="fullStock" th:value = "${book.key.fullStock}"/>
+														  <input type="hidden" name="totalPreBooking" th:value = "${book.key.totalPreBooking}"/>
+														  <button type="submit"><img src="https://img.icons8.com/bubbles/50/000000/book.png"/></button>
+													  </form>
+												  </td>
+												  <td th:unless="${book.key.remainingStock}==0 and ${book.key.totalPreBooking}<2*${book.key.fullStock}">Indisponible</td>
+											  </tr>
+											<!--<tr th:each="book,iterator : ${booksPage}">-->
+							   					<!--<td th:text="${iterator.index} +1 + ${currentPage -1}*5">></td>-->
+								   				<!--<td th:utext="${book.title}"></td>-->
+								   				<!--<td th:utext="${book.author}"></td>-->
+												<!--<td th:utext="${book.remainingStock}"></td>-->
+												<!--<td th:if="${book.remainingStock}!=0">Aucun</td>-->
+												<!--<td th:unless="${book.remainingStock} !=0" th:utext="${book.totalPreBooking}"></td>-->
+												<!--<td th:if="${book.remainingStock}==0  and ${book.totalPreBooking}<2*${book.fullStock}">-->
+													<!--<form action="#" th:action="@{/preBooking}" th:method="post">-->
+														<!--<input type="hidden" name="id" th:value = "${book.id}"/>-->
+														<!--<input type="hidden" name="title" th:value = "${book.title}"/>-->
+														<!--<input type="hidden" name="author" th:value = "${book.author}"/>-->
+														<!--<input type="hidden" name="remainingStock" th:value = "${book.remainingStock}"/>-->
+														<!--<input type="hidden" name="fullStock" th:value = "${book.fullStock}"/>-->
+														<!--<input type="hidden" name="totalPreBooking" th:value = "${book.totalPreBooking}"/>-->
+														<!--<button type="submit"><img src="https://img.icons8.com/bubbles/50/000000/book.png"/></button>-->
+													<!--</form>-->
+												<!--</td>-->
+												<!--<td th:unless="${book.remainingStock}==0 and ${book.totalPreBooking}<2*${book.fullStock}">Indisponible</td>-->
+							   				<!--</tr>-->
 										  </tbody>
 										</table>
 									</div>

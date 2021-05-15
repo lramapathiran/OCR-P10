@@ -112,7 +112,7 @@ public class LendingController {
 	 * @param book to establish which due dates of wich lendings we are looking for.
 	 * @return LocalDate for the earliest due date amoung all the copies of a book borrowed.
 	 */
-	@GetMapping("/lending/dueDate")
+	@PostMapping("/lending/dueDate")
 	public LocalDate showDueDateByBookId(@RequestBody Book book){
 		return lendingService.getLendingsByEarliestDueDate(book);
 	}

@@ -1,9 +1,13 @@
 package com.lavanya.web.controller;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.TreeMap;
 import javax.servlet.http.HttpSession;
 
+import com.lavanya.web.comparator.BookDtoTitleComparator;
 import com.lavanya.web.dto.PreBookingDto;
+import com.lavanya.web.proxies.LendingProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -30,6 +34,9 @@ public class BookDtoController {
 	
 	@Autowired
 	UserProxy userProxy;
+
+	@Autowired
+	LendingProxy lendingProxy;
 	
 	
 	/**
@@ -68,9 +75,14 @@ public class BookDtoController {
 		
 		List<BookDto> booksPage = pageOfBooksFiltered.getContent();
 
+		TreeMap<BookDto, LocalDate> mapOfBooksWithDueDates = new TreeMap<>(new BookDtoTitleComparator());
+
 
 		for (BookDto bookDto: booksPage
 			 ) {
+
+			LocalDate dueDate = lendingProxy.showDueDateByBookId(bookDto,token);
+			mapOfBooksWithDueDates.put(bookDto,dueDate);
 			
 		}
 		
@@ -87,6 +99,7 @@ public class BookDtoController {
 		model.addAttribute("errorMessage", errorMessage);
 		
 		model.addAttribute("booksPage", booksPage);
+		model.addAttribute("map", mapOfBooksWithDueDates);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("totalBooks", totalBooks);
