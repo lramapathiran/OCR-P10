@@ -4,6 +4,7 @@ package com.lavanya.api.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.lavanya.api.error.ExtendDueDateFailed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -97,6 +98,10 @@ public class LendingController {
 	  */	
 	@PostMapping("/user/lending/extendDate/{id}")
 	public void updateLending(@PathVariable ("id") Integer lendingId) {
-		lendingService.getBookDueDateExtended(lendingId);
+		try{
+			lendingService.getBookDueDateExtended(lendingId);
+		}catch(Exception e){
+			throw new ExtendDueDateFailed("La date limite de retour est dépassée, vous n'êtes plus autorisé à la prolonger!");
+		}
 	}
 }
