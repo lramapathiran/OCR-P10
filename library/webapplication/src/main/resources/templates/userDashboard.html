@@ -11,6 +11,7 @@
 <body>
 	<main class="main" id="page">
 		<header th:insert="fragments/ressources.html :: headerConnected"></header>
+		<h4 class="text-uppercase mb-4 text-center" id="error" th:if="${errorMessage}!=null" th:utext="${errorMessage}"></h4>
 		<div class="page-holder w-100 d-flex flex-wrap" id="content">
 		   		<div class="container-fluid px-xl-5">
 		   			<section class="py-5">

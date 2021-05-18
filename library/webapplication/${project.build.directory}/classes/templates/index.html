@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+
+  <head th:insert="fragments/ressources.html :: head">
+  	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">		  
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Accueil</title>
+
+    <meta name="msapplication-TileImage" content="assets/img/favicons/mstile-150x150.png">
+    <meta name="theme-color" content="#ffffff">
+  </head>
+
+
+  <body>
+
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <main class="main">
+      <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 pl-0">
+        <div class="container"><a class="navbar-brand text-primary font-weight-bold" href="index.html"> Erik Orsenna </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	            <ul th:unless="${session.isEmpty()}" class="navbar-nav ml-auto">
+	              <li class="nav-item text-muted"><a class="nav-link active" aria-current="page" th:href="@{/user/lendings}">Mon espace</a></li>
+	              <li class="nav-item"><a class="nav-link" th:href="@{/showBooks/1}">Rechercher</a></li>
+	              <li class="nav-item dropdown"><a class="nav-link" id="navbarDropdowndoc" th:href="@{/logout}">Deconnexion</a></li>
+	            </ul>
+	            <span th:unless="${session.isEmpty()}" class="ml-auto hover-top-shadow name"><strong>Bonjour 
+			      	<span th:utext="${fullname}"></span></strong>
+	            </span>
+	            <a th:if="${session.isEmpty()}" class="btn btn-primary ml-auto hover-top-shadow" href="#sign-in">Se connecter</a>
+          </div>
+        </div>
+      </nav>
+
+
+      <!-- ============================================-->
+      <!-- <section> begin ============================-->
+      <section class="pt-4 pt-md-5">
+
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-md-5 col-lg-6 order-md-1"><img class="img-fluid mb-5 mb-md-0" src="assets/img/gallery/illustration-4.jpg" alt="" /></div>
+            <div class="col-md-7 col-lg-6">
+              <h1 class="display-6 text-center text-md-left">Bienvenue sur l'interface de <span class="text-primary">La Bibliothèque Erik Orsenna</span>. <br /></h1>
+              <p class="lead text-center text-md-left text-muted mb-3">Nous vous offrons la possibilité de réserver vos ouvrages préférés à distance!</p>
+            </div>
+          </div>
+        </div>
+        <!-- end of .container-->
+
+      </section>
+      <!-- <section> close ============================-->
+      <!-- ============================================-->
+
+
+
+
+      <!-- ============================================-->
+      <!-- <section> begin ============================-->
+      <section class="py-5 py-md-7 border-bottom" id="feature">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 col-lg-4 mb-4"><img class="mb-3" src="assets/img/gallery/speed2.png" alt="" />
+              <h5>Une inscription gratuite</h5>
+              <p class="text-muted mb-0">Sur le site officiel de la mairie, remplir le formumaire 2B et fournir un justificatif de domicile.</p>
+            </div>
+            <div class="col-md-6 col-lg-4 mb-4"><img class="mb-3" src="assets/img/gallery/changelog2.png" alt="" />
+              <h5>Ce que vous allez recevoir</h5>
+              <p class="text-muted mb-0">Après traitement de votre dossier, vous recevrez un identifiant unique associé à votre nom prénom avec un mot de passe!</p>
+            </div>
+            <div class="col-md-6 col-lg-4"><img class="mb-3" src="assets/img/gallery/bolt2.png" alt="" />
+              <h5>Et Après</h5>
+              <p class="text-muted mb-0">Rien de plus simple, connectez-vous avec votre identifiant et mot de passe et profitez de nos services!</p>
+            </div>
+          </div>
+        </div>
+        <!-- end of .container-->
+
+      </section>
+      <!-- <section> close ============================-->
+      <!-- ============================================-->
+
+      <!-- ============================================-->
+      <!-- <section> begin ============================-->
+      <section th:if="${session.isEmpty()}" class="bg-light py-5 py-md-8" id="about">
+
+        <div class="container" id="sign-in">
+          <div class="row align-items-center" id="sign-in">
+            <div class="col-md px-xl-7 p-xxl-8 order-md-1 mb-4 mb-md-0 pl-md-4">
+              <h2>De sacrés avantages!<br /><span class="text-success mt-2 d-block">En faisant vos emprunts en ligne</span></h2>
+              <p class="text-muted">C'est la garantie d'emprunter de façon instantanée votre livre, de voir si un ouvrage est présent ou non et de prolonger les livres déjà empruntés! et tout cela sans se déplacer!</p>
+              <div class="row">
+                <div class="col-md-auto pr-xl-6">
+                  <div class="d-flex"><span class="mr-2">
+                      <svg class="bi bi-check-circle" width=".8em" height=".8em" viewBox="0 0 16 16" fill="#389E7F" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                        <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"></path>
+                      </svg></span>
+                    <p class="text-success">Un gain de temps</p>
+                  </div>
+                  <div class="d-flex"><span class="mr-2">
+                      <svg class="bi bi-check-circle" width=".8em" height=".8em" viewBox="0 0 16 16" fill="#389E7F" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                        <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"></path>
+                      </svg></span>
+                    <p class="text-success">Voir en temps réel la disponibilité d'un ouvrage</p>
+                  </div>
+                </div>
+                <div class="col-md-auto">
+                  <div class="d-flex"><span class="mr-2">
+                      <svg class="bi bi-check-circle" width=".8em" height=".8em" viewBox="0 0 16 16" fill="#389E7F" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                        <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"></path>
+                      </svg></span>
+                    <p class="text-success">Une emprunt immédiat</p>
+                  </div>
+                  <div class="d-flex"><span class="mr-2">
+                      <svg class="bi bi-check-circle" width=".8em" height=".8em" viewBox="0 0 16 16" fill="#389E7F" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                        <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"></path>
+                      </svg></span>
+                    <p class="text-success">Prolongation de la date de retour</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-auto col-md-5">
+              <div class="card hover-top-shadow hover-top-shadow-lg border-0 card-form"><img class="card-img-top card-img-curve" src="assets/img/gallery/photo-2b.png" alt="" />
+                <div class="card-body p-4 pt-5">
+                  <form id="loginForm" th:action="@{/login}" th:object="${authBodyDto}" method="post">
+                    <div class="mb-4">
+                      <input class="form-control" id="username" th:field="*{username}" required type="text" placeholder="Identifiant" />
+                    </div>
+                    <div class="mb-4">
+                      <input class="form-control" id="password" th:field="*{password}" required type="password" placeholder="Mot de passe" />
+                    </div>
+                    <button class="btn btn-block btn-success text-white" type="submit">Valider</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+      	
+      	  <h4 class="text-uppercase mb-4 text-center" id="error" th:if="${errorMessage}!=null" th:utext="${errorMessage}"></h4>
+      	  
+        </div>
+        <!-- end of .container-->
+		
+      </section>
+      <!-- <section> close ============================-->
+      <!-- ============================================-->
+
+        <!-- end of .container-->
+
+      </section>
+      <!-- <section> close ============================-->
+      <!-- ============================================-->
+
+
+      <div class="shape-arc-up" th:classappend="${!session.isEmpty()} ? non-connected : userclass">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 1440 220">
+          <path fill="#091A2B" fill-opacity="1" d="M0,128L120,133.3C240,139,480,149,720,144C960,139,1200,117,1320,106.7L1440,96L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z"> </path>
+        </svg>
+      </div>
+
+
+      <!-- ============================================-->
+      <!-- <section> begin ============================-->
+      <section class="bg-dark pt-9 pt-md-13 pt-lg-12 pt-xl-11" id="faq">
+
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 mb-6">
+              <div class="d-flex">
+                <div class="badge badge-circle bg-success">?</div>
+                <div class="ml-4">
+                  <h4 class="text-white">Combien d'ouvrages puis-je emprunter?</h4>
+                  <p class="text-muted mb-0">Vous pouvez emprunter jusque 10 ouvrages.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-6">
+              <div class="d-flex">
+                <div class="badge badge-circle bg-success">?</div>
+                <div class="ml-4">
+                  <h4 class="text-white">Combien de temps dure un emprunt?</h4>
+                  <p class="text-muted mb-0">Vous pouvez garder chaque ouvrage pendant 4 semaines!</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-6 mb-md-0">
+              <div class="d-flex">
+                <div class="badge badge-circle bg-success">?</div>
+                <div class="ml-4">
+                  <h4 class="text-white">Mais si je veux garder mon livre plus longtemps?</h4>
+                  <p class="text-muted mb-0">Pas de problème! De votre compte, vous pourrez prolonger un emprunt de 4 semaines mais pas plus! Le renouvellement de la date retour ne peut se faire qu'une unique fois par emprunt!</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="d-flex">
+                <div class="badge badge-circle bg-success">?</div>
+                <div class="ml-4">
+                  <h4 class="text-white">Et si je ne rends pas mon livre à temps?</h4>
+                  <p class="text-muted mb-0">Pas de panique! nous vous enverrons un email de rappel, mais il vous faudra vous dépêcher!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- end of .container-->
+
+      </section>
+      <!-- <section> close ============================-->
+      <!-- ============================================-->
+
+
+
+
+      <!-- ============================================-->
+      <!-- <section> begin ============================-->
+      <section class="bg-dark py-8">
+
+        <div class="container faq text-center">
+          <div class="row justify-content-center">
+          	<div th:if="${session.isEmpty()}" class="col-md-10 col-lg-8">
+              <h2 class="display-6 text-white">Alors intéressé?</h2>
+              <p class="text-muted mb-4 mb-md-6">Dépêchez-vous de vous connecter en ligne ou de vous rendre directement à la bibliothèque pour vous inscrire!</p>
+			</div>
+            <div th:unless="${session.isEmpty()}" class="col-md-10 col-lg-8">
+              <h2 class="display-6 text-white">Vous êtes connecté et vous rencontrez des difficultés!</h2>
+              <p class="text-muted mb-4 mb-md-6">N'hésitez pas à nous contacter!</p></div>
+          </div>
+        </div>
+        <!-- end of .container-->
+
+      </section>
+      <!-- <section> close ============================-->
+      <!-- ============================================-->
+
+
+      <div class="shape-arc-down"><img class="w-100" src="assets/img/gallery/shape-down.svg" alt="" /></div>
+      <section class="py-7">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12 d-flex align-items-center flex-column">
+              <h6 class="text-primary font-weight-bold contact">Bibliothèque Erik Orsenna</h6><br>
+              <p class="contact">13 rue du Puit</p>
+              <p class="contact">95400 Villiers-Le-Bel</p>
+              <p class="contact">Téléphone : 09.67.54.56.90</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ============================================-->
+      <!-- <section> begin ============================-->
+      <section class="text-center border-top footer-text py-3">
+
+        <div class="container">Fait par Lavanya ❤️  avec l'aide de<a class="text-500 text-decoration-none" href="https://themewagon.com/"> ThemeWagon </a>
+        </div>
+        <!-- end of .container-->
+
+      </section>
+      <!-- <section> close ============================-->
+      <!-- ============================================-->
+
+
+    </main>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+
+<th:block th:replace="fragments/ressources.html :: js-script"></th:block>	   	
+
+  </body>
+
+</html>
