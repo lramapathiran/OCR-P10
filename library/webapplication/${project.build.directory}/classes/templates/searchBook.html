@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/ressources.html :: head">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">		  
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rechercher</title>
+    
+    
+    <meta name="msapplication-TileImage" content="assets/img/favicons/mstile-150x150.png">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+	<main class="main" id="page">
+		<header th:insert="fragments/ressources.html :: headerConnected"></header>
+		<h4 class="text-uppercase mb-4 text-center" id="error" th:if="${errorMessage}!=null" th:utext="${errorMessage}"></h4>
+		<section id="content">
+			<section>
+				<div class="container text-center col-lg-12">
+					<form  th:action="@{/showBooks/1}" th:object="${keyword}" th:method="get">
+						<div class="row col-lg-12" id="search">
+								<label class="col-lg-2">Rechercher : </label>&nbsp;
+							    <input class="col-lg-4" type="text" name="keyword" th:value="${keyword}"/>&nbsp;
+								<input id="clearWrapper" class="buttonWrapper col-lg-1" type="button" value="Effacer" onclick="clearFilter()"/>&nbsp;
+								<button id="searchWrapper" class="buttonWrapper col-lg-1" type="submit"><img th:src="@{/img/icons8-search-24.png}" alt="search logo"/></button>
+						</div>
+		   			</form>
+		   		</div>
+		   	</section>
+		   	
+		   	<div class="page-holder w-100 d-flex flex-wrap">
+		   		<div class="container-fluid px-xl-5">
+		   			<section class="py-5">
+					   	<div class="container table-responsive">
+					   		<div class="row">
+				              <div class="col-lg-12 mb-5">
+				                <div class="card">
+				                  <div class="card-header">
+				                  	<h6 class="text-uppercase mb-0">Résultats</h6>
+				                  </div>
+				                  <div class="card-body"> 
+				                  	<div th:if="${booksPage.empty}"> 
+				                  		<p>Aucun résultat ne correspond à votre recherche!</p>
+				                  	</div>
+				                  	<div th:unless="${booksPage.empty}">                                          
+					                    <table class="table table-striped table-hover card-text">
+					                      <thead>
+											<tr>
+												<th>N°</th>
+							   					<th>Titre</th>
+							   					<th>Auteur</th>
+							   					<th>Stock restant</th>
+												<th>Pré-Réservé(s)</th>
+												<th>Date de retour estimée</th>
+												<th>Pré-Reservation</th>
+											</tr>
+										  </thead>
+										  <tbody>
+											  <tr th:each="book,iterator : ${map}">
+												  <td th:text="${iterator.index} +1 + ${currentPage -1}*5">></td>
+												  <td th:utext="${book.key.title}"></td>
+												  <td th:utext="${book.key.author}"></td>
+												  <td th:utext="${book.key.remainingStock}"></td>
+												  <td th:if="${book.key.remainingStock}!=0">Aucun</td>
+												  <td th:unless="${book.key.remainingStock}!=0" th:utext="${book.key.totalPreBooking}">...</td>
+												  <td th:if="${book.value}==null">Aucun Emprunt en cours</td>
+												  <td th:unless="${book.value}==null" th:utext="${#temporals.format(book.value, 'dd-MM-yyyy')}"></td>
+												  <td th:if="${book.key.remainingStock}==0  and ${book.key.totalPreBooking}<2*${book.key.fullStock}">
+													  <form action="#" th:action="@{/preBooking}" th:method="post">
+														  <input type="hidden" name="id" th:value = "${book.key.id}"/>
+														  <input type="hidden" name="title" th:value = "${book.key.title}"/>
+														  <input type="hidden" name="author" th:value = "${book.key.author}"/>
+														  <input type="hidden" name="remainingStock" th:value = "${book.key.remainingStock}"/>
+														  <input type="hidden" name="fullStock" th:value = "${book.key.fullStock}"/>
+														  <input type="hidden" name="totalPreBooking" th:value = "${book.key.totalPreBooking}"/>
+														  <button type="submit"><img src="https://img.icons8.com/bubbles/50/000000/book.png"/></button>
+													  </form>
+												  </td>
+												  <td th:unless="${book.key.remainingStock}==0 and ${book.key.totalPreBooking}<2*${book.key.fullStock}">Indisponible</td>
+											  </tr>
+										  </tbody>
+										</table>
+									</div>
+								   </div>   
+				                </div>
+				              </div>
+				         </div>
+						</div>
+						
+						<div class="text-center">
+				           	Page : [[${currentPage}]]/[[${totalPages}]]&nbsp; - &nbsp;
+				            <span>
+				            	<a th:if="${currentPage > 1}" th:href="@{/showBooks/{pageNumber}(pageNumber=${currentPage - 1}, keyword=${keyword})}">Précédent</a>
+				            	<span th:unless="${currentPage > 1}">Précédent</span> &nbsp; - &nbsp;
+				            </span>
+				            <span th:each="i: ${#numbers.sequence(1,totalPages)}">
+				            	<a th:if="${i != currentPage}" th:href="@{/showBooks/{pageNumber}(pageNumber=${i}, keyword=${keyword})}">[[${i}]]</a>
+				            	<span th:unless="${i != currentPage}">[[${i}]]</span> &nbsp; - &nbsp;
+				            </span>
+				            <span>
+				            	<a th:if="${currentPage != totalPages}" th:href="@{/showBooks/{pageNumber}(pageNumber=${currentPage + 1}, keyword=${keyword})}">Suivant</a>
+				                <span th:unless="${currentPage != totalPages}">Suivant</span> &nbsp; - &nbsp;
+				            </span>
+				            <span>
+				             	<a th:if="${currentPage != totalPages}" th:href="@{/showBooks/{pageNumber}(pageNumber=${totalPages}, keyword=${keyword})}">Dernier</a>
+				                <span th:unless="${currentPage != totalPages}">Dernier</span> &nbsp; - &nbsp;
+				            </span>
+				         </div>
+					</section>      
+	      <!-- <section> close ============================-->
+	      <!-- ============================================-->
+		   		</div>
+		   	</div>
+	        	
+
+      	</section>
+      
+      <!-- ============================================-->
+      <!-- <section> begin ============================-->
+      <footer class="text-center border-top footer-text py-3 bg-dark d-flex vertical-align" th:insert="fragments/ressources.html :: footerConnected"></footer>
+	</main>
+	<!-- JavaScript files-->
+    <th:block th:replace="fragments/ressources.html :: js-script"></th:block>	   	
+   	<script type="text/javascript">
+    	function clearFilter() {
+    		window.location ='/showBooks/1';
+    	}    	
+    </script>
+</body>
+</html>
