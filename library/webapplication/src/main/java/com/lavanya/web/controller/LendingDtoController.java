@@ -64,8 +64,8 @@ public class LendingDtoController {
 //		 LocalDate dueDate = lendingProxy.showDueDateByBookId(booksList.get(0).getBook(),token);
 //		 model.addAttribute("dueDateList",dueDate);
 
-	     List<PreBookingDto> preBookingsList = preBookingProxy.showListOfUserPreBookings(token);
-	     model.addAttribute("listOfPreBookings", preBookingsList);
+//	     List<PreBookingDto> preBookingsList = preBookingProxy.showListOfUserPreBookings(token);
+//	     model.addAttribute("listOfPreBookings", preBookingsList);
 
 	     return "userDashboard";
 	 }

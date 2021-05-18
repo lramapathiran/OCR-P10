@@ -80,5 +80,25 @@ public class PreBookingController {
 //        return preBookingService.getTotalPrebookingByBookId(book);
 //    }
 
+    /**
+     * GET requests for /user/prebookings endpoint.
+     * This controller-method retrieves from database all pre-bookings a authenticated user made.
+     * @return List<PreBooking>.
+     */
+    @GetMapping("book/prebookings")
+    public List<PreBookingDto> showListOfPreBookingsByBookId(){
+
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        try {
+
+            User user = userService.findUserByUsername(username);
+
+            return preBookingService.getListOfPreBookingByBookId(1);
+
+        } catch (JWTDecodeException e){
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }

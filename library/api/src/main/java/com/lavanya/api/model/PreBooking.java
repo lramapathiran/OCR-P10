@@ -31,8 +31,7 @@ public class PreBooking {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id", referencedColumnName = "id")
-    @JsonManagedReference
+    @JoinColumn(name = "book_id")
     private Book book;
 
     public PreBooking() {

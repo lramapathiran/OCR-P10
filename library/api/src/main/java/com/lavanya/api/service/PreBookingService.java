@@ -52,6 +52,7 @@ public class PreBookingService {
 
         for (PreBooking preBooking: listPreBooking
              ) {
+
             PreBookingDto preBookingDto = mapper.preBookingToPreBookingDto(preBooking);
             listPreBookingDto.add(preBookingDto);
         }
@@ -95,5 +96,25 @@ public class PreBookingService {
 
     public Integer getTotalPrebookingByBookId(Book book){
        return preBookingRepository.numberOfPreBookingByBookId(book);
+    }
+
+    /**
+     * method to retrieve all pre-bookings made for a particular book from database.
+     * @param bookId id of the book of interest for which we need the list of pre-bookings.
+     * @return list of PreBooking.
+     */
+    public List<PreBookingDto> getListOfPreBookingByBookId(int bookId){
+
+        List<PreBooking> listPreBooking = preBookingRepository.findAllByBookId(bookId);
+        List<PreBookingDto> listPreBookingDto = new ArrayList<>();
+
+        for (PreBooking preBooking: listPreBooking
+        ) {
+
+            PreBookingDto preBookingDto = mapper.preBookingToPreBookingDto(preBooking);
+            listPreBookingDto.add(preBookingDto);
+        }
+        return listPreBookingDto;
+
     }
 }
