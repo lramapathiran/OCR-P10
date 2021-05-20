@@ -22,7 +22,7 @@ public class PreBooking {
     private Integer id;
 
     @Column(name="time")
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss Z", timezone = "Europe/Budapest")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime time;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,7 +31,8 @@ public class PreBooking {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "book_id")
+    @JoinColumn(name = "book_id", nullable=false, referencedColumnName = "id")
+    @JsonBackReference
     private Book book;
 
     public PreBooking() {

@@ -4,11 +4,17 @@ import com.lavanya.web.dto.BookDto;
 import com.lavanya.web.dto.PreBookingDto;
 import com.lavanya.web.proxies.PreBookingProxy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Controller used in MVC architecture to control all the requests related to PreBookingDto object.
@@ -48,4 +54,16 @@ public class PreBookingDtoController {
 
     }
 
+    @PostMapping("/preBooking/delete")
+    public String deletePreBookingDto (@RequestParam (value="id") int id,HttpSession session) {
+
+        String token = (String) session.getAttribute("token");
+        if(token==null) {
+            return "redirect:/homePage#sign-in";
+        }
+
+        preBookingProxy.deletePreBooking(id, token);
+
+        return "redirect:/user/lendings";
+    }
 }

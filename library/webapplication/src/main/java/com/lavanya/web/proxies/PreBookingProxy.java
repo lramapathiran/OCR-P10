@@ -23,4 +23,10 @@ public interface PreBookingProxy {
 
     @PostMapping(value = "/user/preBooking", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     void savePreBooking(@RequestBody PreBookingDto preBookingDto, @RequestHeader(name = "Authorization") String token);
+
+    @GetMapping(value = "/book/prebookings")
+    List<PreBookingDto> showListOfPreBookingsByBookId(@RequestParam("id") int bookId, @RequestHeader(name = "Authorization") String token);
+
+    @PostMapping("/preBooking/delete")
+    public void deletePreBooking(@RequestParam (value="id") int id, @RequestHeader(name = "Authorization") String token);
 }

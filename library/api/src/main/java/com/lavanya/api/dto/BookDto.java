@@ -15,7 +15,7 @@ public class BookDto {
 	private Integer remainingStock;
 	private Integer fullStock;
 	private Integer totalPreBooking;
-	private List<LendingDto> lendingDtos;
+//	private List<LendingDto> lendingDtos;
 	private List<PreBookingDto> preBookingDtos;
 	
 	public BookDto() {
@@ -61,13 +61,13 @@ public class BookDto {
 		this.fullStock = fullStock;
 	}
 
-	public List<LendingDto> getLendings() {
-		return lendingDtos;
-	}
-
-	public void setLendings(List<LendingDto> lendingDtos) {
-		this.lendingDtos = lendingDtos;
-	}
+//	public List<LendingDto> getLendings() {
+//		return lendingDtos;
+//	}
+//
+//	public void setLendings(List<LendingDto> lendingDtos) {
+//		this.lendingDtos = lendingDtos;
+//	}
 
 	public List<PreBookingDto> getPreBookingDtos() {
 		return preBookingDtos;
@@ -94,7 +94,7 @@ public class BookDto {
 				", remainingStock=" + remainingStock +
 				", fullStock=" + fullStock +
 				", totalPreBooking=" + totalPreBooking +
-				", lendingDtos=" + lendingDtos +
+//				", lendingDtos=" + lendingDtos +
 				", preBookingDtos=" + preBookingDtos +
 				'}';
 	}

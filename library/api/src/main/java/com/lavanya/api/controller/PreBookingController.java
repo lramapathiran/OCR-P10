@@ -12,11 +12,10 @@ import com.lavanya.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class PreBookingController {
@@ -81,23 +80,28 @@ public class PreBookingController {
 //    }
 
     /**
-     * GET requests for /user/prebookings endpoint.
-     * This controller-method retrieves from database all pre-bookings a authenticated user made.
+     * GET requests for /book/prebookings endpoint.
+     * This controller-method retrieves from database all pre-bookings for a particular book.
      * @return List<PreBooking>.
      */
     @GetMapping("book/prebookings")
-    public List<PreBookingDto> showListOfPreBookingsByBookId(){
+    public List<PreBookingDto> showListOfPreBookingsByBookId(@RequestParam("id") int bookId){
 
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
         try {
 
             User user = userService.findUserByUsername(username);
 
-            return preBookingService.getListOfPreBookingByBookId(1);
+            return preBookingService.getListOfPreBookingByBookId(bookId);
 
         } catch (JWTDecodeException e){
             throw new RuntimeException(e);
         }
+    }
+
+    @PostMapping("/preBooking/delete")
+    public void deletePreBooking(@RequestParam("id") int id){
+        preBookingService.deletePreBooking(id);
     }
 
 

@@ -25,11 +25,11 @@ public interface PreBookingRepository extends JpaRepository<PreBooking, Integer>
     List<PreBooking> findAllByUserIdOrderByTime(int userId);
 
     /**
-     * Query to retrieve the list of all pre-bookings made a particuler book.
-     * @param bookId for id of the user of interest.
+     * Query to retrieve the list of all pre-bookings made for a particuler book ordered by timestamp.
+     * @param bookId id of the book of interest
      * @return List of pre-bookings.
      */
-    List<PreBooking> findAllByBookId(int bookId);
+    List<PreBooking> findALlByBookIdOrderByTime(int bookId);
 
     /**
      * Query to retrieve the total amount made for a particular book.
@@ -38,7 +38,6 @@ public interface PreBookingRepository extends JpaRepository<PreBooking, Integer>
      */
     @Query(value = "select count(*) from PreBooking u where u.book = ?1")
     Integer numberOfPreBookingByBookId(Book book);
-
 
 }
 

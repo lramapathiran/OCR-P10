@@ -18,7 +18,7 @@ public interface BatchRepository extends JpaRepository<Lending, Integer>{
 	
 	/**
 	 * Query to retrieve the list of lending of overdue books .
-	 * @param todaydate date of today used to compared to lending due date.
+	 * @param todayDate date of today used to compared to lending due date.
 	 * @return List of lending not returned.
 	 */
 	@Query("select u from Lending u where ?1 > u.dueDate")

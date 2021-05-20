@@ -39,12 +39,12 @@ public class Book {
 	@Column(name="total_pre_booking")
     private Integer totalPreBooking;
 	
-	@OneToMany(mappedBy = "book", fetch = FetchType.LAZY, 
+	@OneToMany(mappedBy = "book", fetch = FetchType.LAZY,
 			cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<Lending> lendings;
 
-    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY,
+    @OneToMany(mappedBy = "book",
             cascade = CascadeType.ALL)
     @JsonIgnore
     private List<PreBooking> preBookings;

@@ -1,10 +1,18 @@
 package com.lavanya.web.controller;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.OptionalInt;
+import java.util.TreeMap;
+import java.util.stream.IntStream;
 
 import javax.servlet.http.HttpSession;
 
+import com.lavanya.web.comparator.BookDtoTitleComparator;
+import com.lavanya.web.dto.BookDto;
 import com.lavanya.web.dto.PreBookingDto;
+import com.lavanya.web.dto.UserPreBookingData;
 import com.lavanya.web.proxies.PreBookingProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -61,11 +69,25 @@ public class LendingDtoController {
 		 List<LendingDto> booksList = lendingProxy.showListOfUserLendings(token);
 	     model.addAttribute("list", booksList);
 
-//		 LocalDate dueDate = lendingProxy.showDueDateByBookId(booksList.get(0).getBook(),token);
-//		 model.addAttribute("dueDateList",dueDate);
+	     List<PreBookingDto> userPreBookingsList = preBookingProxy.showListOfUserPreBookings(token);
+	     List<UserPreBookingData> preBookingDataList = new ArrayList<>();
 
-//	     List<PreBookingDto> preBookingsList = preBookingProxy.showListOfUserPreBookings(token);
-//	     model.addAttribute("listOfPreBookings", preBookingsList);
+		 for (PreBookingDto preBookingDto: userPreBookingsList
+		 ) {
+		 	 BookDto bookDto = preBookingDto.getBookDto();
+			 List<PreBookingDto> listOfPreBookingsForBook = preBookingProxy.showListOfPreBookingsByBookId(bookDto.getId(),token);
+			 int position = (IntStream.range(0, listOfPreBookingsForBook.size())
+					 .filter(i -> listOfPreBookingsForBook.get(i).getId().equals(preBookingDto.getId()))
+					 .findFirst()
+					 .getAsInt()) +1;
+
+			 LocalDate dueDate = lendingProxy.showDueDateByBookId(bookDto,token);
+			 UserPreBookingData data = new UserPreBookingData(dueDate,position,preBookingDto);
+			 preBookingDataList.add(data);
+
+		 }
+
+	     model.addAttribute("preBookingList", preBookingDataList);
 
 	     return "userDashboard";
 	 }

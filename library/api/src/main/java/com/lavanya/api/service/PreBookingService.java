@@ -2,7 +2,6 @@ package com.lavanya.api.service;
 
 import com.lavanya.api.dto.PreBookingDto;
 import com.lavanya.api.error.SaveBookingFailed;
-import com.lavanya.api.error.SaveLendingFailed;
 import com.lavanya.api.model.Book;
 import com.lavanya.api.model.Lending;
 import com.lavanya.api.model.PreBooking;
@@ -15,7 +14,6 @@ import com.lavanya.api.mapper.PreBookingMapper;
 import com.lavanya.api.mapper.PreBookingMapperImpl;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,14 +46,9 @@ public class PreBookingService {
     public List<PreBookingDto> getListOfPreBookingByUserId(int userId){
 
         List<PreBooking> listPreBooking = preBookingRepository.findAllByUserIdOrderByTime(userId);
-        List<PreBookingDto> listPreBookingDto = new ArrayList<>();
 
-        for (PreBooking preBooking: listPreBooking
-             ) {
+        List<PreBookingDto> listPreBookingDto = mapper.listPreBookingToListPreBookingDto(listPreBooking);
 
-            PreBookingDto preBookingDto = mapper.preBookingToPreBookingDto(preBooking);
-            listPreBookingDto.add(preBookingDto);
-        }
         return listPreBookingDto;
 
     }
@@ -94,27 +87,38 @@ public class PreBookingService {
         return preBooking;
     }
 
+    /**
+     * method to retrieve the total number of pre-bookings made for a particular book from database.
+     * @param book for which we need the total amount of pre-booking made
+     * @return Integer.
+     */
     public Integer getTotalPrebookingByBookId(Book book){
        return preBookingRepository.numberOfPreBookingByBookId(book);
     }
 
     /**
      * method to retrieve all pre-bookings made for a particular book from database.
-     * @param bookId id of the book of interest for which we need the list of pre-bookings.
+     * @param bookId id of the book for which we need the list of pre-booking made
      * @return list of PreBooking.
      */
     public List<PreBookingDto> getListOfPreBookingByBookId(int bookId){
 
-        List<PreBooking> listPreBooking = preBookingRepository.findAllByBookId(bookId);
-        List<PreBookingDto> listPreBookingDto = new ArrayList<>();
+        List<PreBooking> listPreBooking = preBookingRepository.findALlByBookIdOrderByTime(bookId);
+        List<PreBookingDto> listPreBookingDto = mapper.listPreBookingToListPreBookingDto(listPreBooking);
 
-        for (PreBooking preBooking: listPreBooking
-        ) {
 
-            PreBookingDto preBookingDto = mapper.preBookingToPreBookingDto(preBooking);
-            listPreBookingDto.add(preBookingDto);
-        }
         return listPreBookingDto;
+    }
 
+    /**
+     * method to delete a pre-booking by its user from database.
+     * @param id of the pre-Booking to delete.
+     */
+    public void deletePreBooking(int id) {
+        Optional<PreBooking> optional = preBookingRepository.findById(id);
+
+        optional.ifPresent(preBooking -> {
+            preBookingRepository.delete(preBooking);
+        });
     }
 }
