@@ -19,6 +19,8 @@ public class PreBookingDto {
 
     private BookDto bookDto;
 
+    private UserDto userDto;
+
     public PreBookingDto() {
     }
 
@@ -46,4 +48,11 @@ public class PreBookingDto {
         this.bookDto = bookDto;
     }
 
+    public UserDto getUserDto() {
+        return userDto;
+    }
+
+    public void setUserDto(UserDto userDto) {
+        this.userDto = userDto;
+    }
 }

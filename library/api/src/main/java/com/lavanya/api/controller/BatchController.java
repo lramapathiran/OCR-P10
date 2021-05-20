@@ -39,4 +39,24 @@ public class BatchController {
 		return notifications;
 	}
 
+	/**
+	 * GET requests for /notifications/reservation.
+	 *
+	 * @return list of Notifications object which is the list of users that have a book pre-booked ready to lend and are in position in waiting list.
+	 */
+	@GetMapping("/notifications/reservation")
+	public List<Notification> getListOfUsersToWarnForBooksAvailable() {
+
+		List<Notification> notifications = new ArrayList<>();
+
+		notifications = batchService.getListOfUsersWithBooksReadyToLend();
+
+		if(notifications == null) {
+			System.out.println("Aucun ouvrage pré-réservé disponible à l'emprunt!");
+		}
+
+		return notifications;
+
+	}
+
 }

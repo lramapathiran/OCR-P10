@@ -17,15 +17,15 @@ public interface PreBookingMapper {
     PreBookingMapper INSTANCE = Mappers.getMapper(PreBookingMapper.class);
 
     @Mapping(source = "bookDto", target = "book")
+    @Mapping(source = "userDto", target = "user")
     PreBooking preBookingDtoToPreBooking(PreBookingDto preBookingDto);
 
     @Mapping(source = "book", target = "bookDto")
+    @Mapping(source = "user", target = "userDto")
     PreBookingDto preBookingToPreBookingDto(PreBooking preBooking);
 
     @Mapping(source = "book", target = "bookDto")
+    @Mapping(source = "user", target = "userDto")
     List<PreBookingDto> listPreBookingToListPreBookingDto(List<PreBooking> listPreBooking);
 
-//    @Named("mapWithoutLendings")
-//    @Mapping(target = "book.lendings", ignore = true)
-//    PreBookingDto mapWithoutLendings(PreBooking source);
 }

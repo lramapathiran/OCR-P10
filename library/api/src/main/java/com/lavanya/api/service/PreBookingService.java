@@ -121,4 +121,8 @@ public class PreBookingService {
             preBookingRepository.delete(preBooking);
         });
     }
+
+    public List<Book> getListOfDistinctBooksPreBooked() {
+        return preBookingRepository.findDistinctBook();
+    }
 }

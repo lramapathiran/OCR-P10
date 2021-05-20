@@ -12,6 +12,7 @@ public class UserDto {
 	private Integer id;
 	private String firstName;
 	private String lastName;
+	private String email;
 	private String roles;
 
     private List<LendingDto> lendingDto;
@@ -45,7 +46,14 @@ public class UserDto {
 		this.lastName = lastName;
 	}
 
-	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public String getRoles() {
 		return roles;
 	}
@@ -76,6 +84,7 @@ public class UserDto {
 				"id=" + id +
 				", firstName='" + firstName + '\'' +
 				", lastName='" + lastName + '\'' +
+				", email='" + email + '\'' +
 				", roles='" + roles + '\'' +
 				", lendingDto=" + lendingDto +
 				", preBookingDtos=" + preBookingDtos +

@@ -41,31 +41,31 @@ public class NotificationController {
 	
 	/**
 	 * POST requests for /send.
-	 * this method is used to send email notification via gmail smtp to recipients wo have not returned books on time.
+	 * this method is used to send email notification via gmail smtp to recipients who have not returned books on time.
 	 */
-	@Scheduled(cron = "${cron.expression}")
-	@PostMapping("/send")
-    public void createMail(){
-        
-		List<NotificationDto> list = notificationProxy.getListOfUsersToWarn();
-		if(list != null) { 
-			for(NotificationDto notice:list) {
-					
-				String email = notice.getEmail();
-				String name = notice.getFullId();
-				String title = notice.getTitle();
-				String author = notice.getAuthor();
-				String subject ="Alerte: Vous n'avez pas rendu votre emprunt!";
-				String text = "Bonjour" + name + ", \n" + 
-				"La date retour de l'ouvrage " + title + ", " + author + " est dépassée. \n" +
-				"Merci de le retourner au plus vite! \n" + "L'équipe de la Bibliothèque Erik Orsenna";
-				
-				emailService.sendSimpleMessage(email,subject, text);
-				
-			}
-		}
-
-    }
+//	@Scheduled(cron = "${cron.expression}")
+//	@PostMapping("/send")
+//    public void createMail(){
+//
+//		List<NotificationDto> list = notificationProxy.getListOfUsersToWarn();
+//		if(list != null) {
+//			for(NotificationDto notice:list) {
+//
+//				String email = notice.getEmail();
+//				String name = notice.getFullId();
+//				String title = notice.getTitle();
+//				String author = notice.getAuthor();
+//				String subject ="Alerte: Vous n'avez pas rendu votre emprunt!";
+//				String text = "Bonjour" + name + ", \n" +
+//				"La date retour de l'ouvrage " + title + ", " + author + " est dépassée. \n" +
+//				"Merci de le retourner au plus vite! \n" + "L'équipe de la Bibliothèque Erik Orsenna";
+//
+//				emailService.sendSimpleMessage(email,subject, text);
+//
+//			}
+//		}
+//
+//    }
 	
 //	@Scheduled(cron = "${cron.expression}")
 //	@GetMapping("/alerte")
@@ -87,6 +87,36 @@ public class NotificationController {
 //			System.out.println("Aucun utilisateur n'a de retard dans les retours de ses livres!");
 //		}
 //	}
+
+	/**
+	 * POST requests for /send/notifications/reservation.
+	 * this method is used to send email notification via gmail smtp to recipients who have pre-booked a book now available for lending.
+	 */
+	@Scheduled(cron = "${cron.expression}")
+	@PostMapping("/send/notifications/reservation")
+	public void alertEmailForBookAvailable(){
+
+		List<NotificationDto> list = notificationProxy.getListOfUsersToWarnForBooksAvailable();
+		if(list != null) {
+			for(NotificationDto notice:list) {
+
+				String email = notice.getEmail();
+				String name = notice.getFullId();
+				String title = notice.getTitle();
+				String author = notice.getAuthor();
+				String subject ="Alerte: Votre ouvrage vous attend en bibliothèque!";
+				String text = "Bonjour" + name + ", \n" +
+						"L'ouvrage " + title + ", " + author + " est maintenant disponible pour emprunt. \n" +
+						"Attention: Vous disposez de 48h pour venir le récupérer! Passé ce délai votre réservation sera annulée! \n" +
+						"L'équipe de la Bibliothèque Erik Orsenna";
+
+				emailService.sendSimpleMessage(email,subject, text);
+
+			}
+		}
+
+	}
+
 	
 	
 	
