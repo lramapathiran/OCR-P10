@@ -1,8 +1,13 @@
 package com.lavanya.web.controller;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.TreeMap;
 import javax.servlet.http.HttpSession;
 
+import com.lavanya.web.comparator.BookDtoTitleComparator;
+import com.lavanya.web.dto.PreBookingDto;
+import com.lavanya.web.proxies.LendingProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -29,6 +34,9 @@ public class BookDtoController {
 	
 	@Autowired
 	UserProxy userProxy;
+
+	@Autowired
+	LendingProxy lendingProxy;
 	
 	
 	/**
@@ -43,8 +51,8 @@ public class BookDtoController {
      * @return "searchBook.html".
      */	
 	@GetMapping("/showBooks/{pageNumber}")
-	public String showBooksListFiltered(@PathVariable(value = "pageNumber") int currentPage, HttpSession session,
-			@RequestParam(name="keyword", required=false) String keyword, Model model) {
+	public String showBooksListFiltered(@RequestParam(value = "error", required = false) String error, @PathVariable(value = "pageNumber") int currentPage,
+										HttpSession session, @RequestParam(name="keyword", required=false) String keyword, Model model) {
 		
 		
 		String token = (String) session.getAttribute("token");
@@ -66,14 +74,37 @@ public class BookDtoController {
 		model.addAttribute("keyword", keyword);
 		
 		List<BookDto> booksPage = pageOfBooksFiltered.getContent();
+
+		TreeMap<BookDto, LocalDate> mapOfBooksWithDueDates = new TreeMap<>(new BookDtoTitleComparator());
+
+
+		for (BookDto bookDto: booksPage
+			 ) {
+
+			LocalDate dueDate = lendingProxy.showDueDateByBookId(bookDto,token);
+			mapOfBooksWithDueDates.put(bookDto,dueDate);
+			
+		}
+		
+		
 		int totalPages = pageOfBooksFiltered.getTotalPages();
 		long totalBooks = pageOfBooksFiltered.getTotalElements();
+
+		PreBookingDto preBookingDto = new PreBookingDto();
+
+		String errorMessage = null;
+		if(error != null) {
+			errorMessage = "Vous ne pouvez réserver un ouvrage déjà en cours d'emprunt sous votre nom!";
+		}
+		model.addAttribute("errorMessage", errorMessage);
 		
 		model.addAttribute("booksPage", booksPage);
+		model.addAttribute("map", mapOfBooksWithDueDates);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("totalBooks", totalBooks);
 		model.addAttribute("lendingDto", lendingDto);
+		model.addAttribute("preBookingDto", preBookingDto);
 		
 		return "searchBook";
 	}

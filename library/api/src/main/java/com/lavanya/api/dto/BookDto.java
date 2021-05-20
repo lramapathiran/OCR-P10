@@ -1,4 +1,4 @@
-package com.lavanya.web.dto;
+package com.lavanya.api.dto;
 
 import java.util.List;
 
@@ -61,14 +61,6 @@ public class BookDto {
 		this.fullStock = fullStock;
 	}
 
-	public Integer getTotalPreBooking() {
-		return totalPreBooking;
-	}
-
-	public void setTotalPreBooking(Integer totalPreBooking) {
-		this.totalPreBooking = totalPreBooking;
-	}
-
 //	public List<LendingDto> getLendings() {
 //		return lendingDtos;
 //	}
@@ -83,6 +75,14 @@ public class BookDto {
 
 	public void setPreBookingDtos(List<PreBookingDto> preBookingDtos) {
 		this.preBookingDtos = preBookingDtos;
+	}
+
+	public Integer getTotalPreBooking() {
+		return totalPreBooking;
+	}
+
+	public void setTotalPreBooking(Integer totalPreBooking) {
+		this.totalPreBooking = totalPreBooking;
 	}
 
 	@Override

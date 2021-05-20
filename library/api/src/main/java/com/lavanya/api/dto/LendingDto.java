@@ -1,8 +1,8 @@
-package com.lavanya.web.dto;
-
-import java.time.LocalDate;
+package com.lavanya.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.time.LocalDate;
 
 /**
  * Bean representing a data transfer Object LendingDto.
