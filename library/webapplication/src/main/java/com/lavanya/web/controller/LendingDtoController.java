@@ -24,6 +24,7 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.lavanya.web.dto.LendingDto;
 import com.lavanya.web.proxies.LendingProxy;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 /**
@@ -47,7 +48,7 @@ public class LendingDtoController {
 	  * @return userDashboard.html
 	  */	
 	 @GetMapping("/user/lendings")
-	 public String showUserLendingsList(HttpSession session, Model model){
+	 public String showUserLendingsList(@RequestParam(value = "error", required = false) String error, HttpSession session, Model model){
 	
 		 String token = (String) session.getAttribute("token");
 		 
@@ -65,6 +66,12 @@ public class LendingDtoController {
 			} catch (JWTDecodeException e){
 				throw new RuntimeException(e);
 			}
+
+		 String errorMessage = null;
+		 if(error != null) {
+			 errorMessage = "La date limite de retour est dépassée, vous n'êtes plus autorisé à la prolonger!";
+		 }
+		 model.addAttribute("errorMessage", errorMessage);
 		 
 		 List<LendingDto> booksList = lendingProxy.showListOfUserLendings(token);
 	     model.addAttribute("list", booksList);
@@ -107,9 +114,15 @@ public class LendingDtoController {
 		 if(token==null) {
 			 return "redirect:/homePage#sign-in";
 		 }
+
+		 try{
+			 lendingProxy.updateLending(lendingDtoId, token);
+			 return "redirect:/user/lendings";
+		 }catch(Exception e){
+		 	return "redirect:/user/lendings?error=true";
+		 }
+
 		 
-		 lendingProxy.updateLending(lendingDtoId, token);
-		 
-		 return "redirect:/user/lendings";
+
 	 }
 }
