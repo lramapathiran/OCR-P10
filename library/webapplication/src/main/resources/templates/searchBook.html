@@ -61,8 +61,8 @@
 												  <td th:utext="${book.key.title}"></td>
 												  <td th:utext="${book.key.author}"></td>
 												  <td th:utext="${book.key.remainingStock}"></td>
-												  <td th:if="${book.key.remainingStock}!=0">Aucun</td>
-												  <td th:unless="${book.key.remainingStock}!=0" th:utext="${book.key.totalPreBooking}">...</td>
+												  <td th:if="${book.key.totalPreBooking}==0">Aucun</td>
+												  <td th:unless="${book.key.totalPreBooking}==0" th:utext="${book.key.totalPreBooking}">...</td>
 												  <td th:if="${book.value}==null">Aucun Emprunt en cours</td>
 												  <td th:unless="${book.value}==null" th:utext="${#temporals.format(book.value, 'dd-MM-yyyy')}"></td>
 												  <td th:if="${book.key.remainingStock}==0  and ${book.key.totalPreBooking}<2*${book.key.fullStock}">

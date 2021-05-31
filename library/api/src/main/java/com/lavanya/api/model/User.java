@@ -59,13 +59,15 @@ public class User {
 
 	public User() {
 	}
-	
-	public User(String username, String email, String password, String firstName, String lastName,boolean enabled,String role, Integer id) {
-		this.username = email;
+
+	public User(String username, String email, String password, String firstName, String lastName, boolean enabled, String roles, Integer id) {
+		this.username = username;
+		this.email = email;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.password = password;
 		this.enabled = isEnabled();
+		this.roles = roles;
 		this.id = id;
 	}
 

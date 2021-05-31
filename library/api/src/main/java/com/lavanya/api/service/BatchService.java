@@ -48,7 +48,7 @@ public class BatchService {
 	 * @return list of Notification.
 	 */
 	public List<Notification> getListOfUserNotInTime() {
-		List<Lending> lendings = getLendingsNotReturned();
+		List<Lending> lendings = this.getLendingsNotReturned();
 		
 		List<Notification> notifications = new ArrayList<>();
 		
@@ -100,7 +100,9 @@ public class BatchService {
 				List<PreBookingDto> preBookingDtoList1 = preBookingService.getListOfPreBookingByBookId(book.getId());
 				PreBooking preBooking1  = mapper.preBookingDtoToPreBooking(preBookingDtoList1.get(0));
 
-				if(!optional.isPresent()){
+				Optional<Notified> optional1 = notifiedService.getNotifiedByPreBookingId(preBooking1.getId());
+
+				if(!optional1.isPresent()){
 					User user = preBooking1.getUser();
 					String firstName = user.getFirstName();
 					String lastName = user.getLastName();

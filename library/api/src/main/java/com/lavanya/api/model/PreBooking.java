@@ -38,6 +38,13 @@ public class PreBooking {
     public PreBooking() {
     }
 
+    public PreBooking(Integer id, LocalDateTime time, User user, Book book) {
+        this.id = id;
+        this.time = time;
+        this.user = user;
+        this.book = book;
+    }
+
     public Integer getId() {
         return id;
     }

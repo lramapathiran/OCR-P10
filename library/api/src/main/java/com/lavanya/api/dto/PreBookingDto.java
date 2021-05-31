@@ -24,6 +24,13 @@ public class PreBookingDto {
     public PreBookingDto() {
     }
 
+    public  PreBookingDto(Integer id, LocalDateTime time, UserDto userDto, BookDto bookDto) {
+        this.id = id;
+        this.time = time;
+        this.userDto = userDto;
+        this.bookDto = bookDto;
+    }
+
     public Integer getId() {
         return id;
     }

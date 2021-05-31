@@ -60,6 +60,15 @@ public class Book {
 	public Book() {
 	}
 
+	public Book(Integer id, String title, String author, Integer remainingStock, Integer fullStock, Integer totalPreBooking) {
+		this.id = id;
+		this.title = title;
+		this.author = author;
+		this.remainingStock = remainingStock;
+		this.fullStock = fullStock;
+		this.totalPreBooking = totalPreBooking;
+	}
+
 	public Integer getId() {
 		return id;
 	}

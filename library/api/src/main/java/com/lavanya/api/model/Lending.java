@@ -51,6 +51,15 @@ public class Lending {
 	public Lending() {
 	}
 
+	public Lending(Integer id, LocalDate lendingDate, LocalDate dueDate, Boolean isExtended, User user, Book book) {
+		this.id = id;
+		this.lendingDate = lendingDate;
+		this.dueDate = dueDate;
+		this.isExtended = isExtended;
+		this.user = user;
+		this.book = book;
+	}
+
 	public Integer getId() {
 		return id;
 	}
