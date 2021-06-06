@@ -119,30 +119,9 @@ public class PreBookingServiceITest {
         Assert.assertEquals(expectedTitle,actualTitle);
     }
 
-    //    On teste ici que la méthode mapper permet bien la conversion du dto versp reBooking
-    @Test
-    public void saveFromDtoTest() {
-
-        preBookingDto.setBookDto(bookDto);
-        preBookingDto.setId(1);
-        preBookingDto.setTime(LocalDateTime.now());
-        preBookingDto.setUserDto(userDto);
-
-        lending = new Lending(1,LocalDate.of(2021, 04,21), LocalDate.now().plusDays(2),false, user, book);
-        Optional<Lending> optional = Optional.of(lending);
-
-        when(lendingService.getLendingByUserIdAndBookId(user.getId(),book.getId())).thenReturn(optional);
-
-        preBooking = preBookingService.save(preBookingDto,user);
-
-        int id = preBooking.getId();
-
-        Assert.assertEquals(1,id);
-    }
-
     //    On teste ici que la réservation n'est pas enregistré quand l'utilisateur tente de réserver un
 //    ouvrage qui est déjà en cours d'emprunt par celui-ci!
-    @Test
+    @Test(expected = SaveBookingFailed.class)
             public void saveFailedTest() {
 
         preBookingDto.setBookDto(bookDto);
@@ -156,10 +135,6 @@ public class PreBookingServiceITest {
         when(lendingService.getLendingByUserIdAndBookId(user.getId(),book.getId())).thenReturn(optional);
 
         preBooking = preBookingService.save(preBookingDto,user);
-        int totalPreBookingActual = preBooking.getBook().getTotalPreBooking();
-        int totalPreBookingExpected = bookDto.getTotalPreBooking();
-
-        Assert.assertEquals(totalPreBookingExpected,totalPreBookingActual);
     }
 
     //    On teste ici que la réservation s'enregistre bien quand l'utilisateur n'a pas d'emprunt en cours sur l'ouvrage à réserver!

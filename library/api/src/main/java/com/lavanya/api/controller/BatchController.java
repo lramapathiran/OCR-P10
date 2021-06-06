@@ -42,7 +42,7 @@ public class BatchController {
 	/**
 	 * GET requests for /notifications/reservation.
 	 *
-	 * @return list of Notifications object which is the list of users that have a book pre-booked ready to lend and are in position in waiting list.
+	 * @return list of Notifications object which is the list of users that have a book pre-booked ready to lend and are in position 1 in waiting list.
 	 */
 	@GetMapping("/notifications/reservation")
 	public List<Notification> getListOfUsersToWarnForBooksAvailable() {
