@@ -71,7 +71,6 @@ public class PreBookingService {
         Integer userId = user.getId();
         Optional<Lending> lending = lendingService.getLendingByUserIdAndBookId(userId,bookId);
 
-        try{
             if(!lending.isPresent()){
                 PreBooking preBookingSaved = preBookingRepository.save(preBooking);
                 book.setTotalPreBooking(book.getTotalPreBooking() + 1);
@@ -79,12 +78,9 @@ public class PreBookingService {
                 bookRepository.save(book);
 
                 return preBookingSaved;
+            }else{
+                throw new SaveBookingFailed("Un exemplaire de cette ouvrage est déjà en cours d'emprunt sous votre nom, vous ne pouvez le réserver!");
             }
-        }catch(Exception e){
-            throw new SaveBookingFailed("Un exemplaire de cette ouvrage est déjà en cours d'emprunt sous votre nom, vous ne pouvez le réserver!");
-        }
-
-        return preBooking;
     }
 
     /**

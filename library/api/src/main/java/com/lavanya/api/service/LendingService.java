@@ -81,7 +81,7 @@ public class LendingService {
 		lending.setLendingDate(LocalDate.now());
 		lending.setDueDate(lending.getLendingDate().plusWeeks(4));
 		lending.setIsExtended(false);
-		Integer id = lending.getBook().getId();
+
 			
 		lendingRepository.save(lending);
 		
@@ -90,7 +90,7 @@ public class LendingService {
 			throw new SaveLendingFailed(
 		              "L'emprunt a échoué, veuillez recommencer");
 		}
-		
+		Integer id = lending.getBook().getId();
 		bookService.updateBookStock(id); 
 		
 		return lending;

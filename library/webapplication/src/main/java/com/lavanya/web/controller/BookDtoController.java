@@ -54,13 +54,11 @@ public class BookDtoController {
 	public String showBooksListFiltered(@RequestParam(value = "error", required = false) String error, @PathVariable(value = "pageNumber") int currentPage,
 										HttpSession session, @RequestParam(name="keyword", required=false) String keyword, Model model) {
 		
-		
 		String token = (String) session.getAttribute("token");
 		if(token==null) {
 			 return "redirect:/homePage#sign-in";
 		 }
-		
-		
+
 		String subToken = token.substring(7);
 		DecodedJWT jwt = JWT.decode(subToken);
 		String fullname = jwt.getClaim("fullname").asString();
@@ -77,7 +75,6 @@ public class BookDtoController {
 
 		TreeMap<BookDto, LocalDate> mapOfBooksWithDueDates = new TreeMap<>(new BookDtoTitleComparator());
 
-
 		for (BookDto bookDto: booksPage
 			 ) {
 
@@ -85,7 +82,6 @@ public class BookDtoController {
 			mapOfBooksWithDueDates.put(bookDto,dueDate);
 			
 		}
-		
 		
 		int totalPages = pageOfBooksFiltered.getTotalPages();
 		long totalBooks = pageOfBooksFiltered.getTotalElements();
