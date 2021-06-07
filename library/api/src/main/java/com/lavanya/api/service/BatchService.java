@@ -80,7 +80,6 @@ public class BatchService {
 		List<Book> bookList = preBookingService.getListOfDistinctBooksPreBooked();
 		List<Notification> notifications = new ArrayList<>();
 
-
 		for (Book book: bookList
 			 ) {
 			int stock = book.getRemainingStock();
@@ -117,10 +116,8 @@ public class BatchService {
 					Notified notified = new Notified(user.getId(),preBooking1.getId(),LocalDate.now());
 					notifiedService.saveNotified(notified);
 				}
-
 			}
 		}
-
 		return notifications;
     }
 }

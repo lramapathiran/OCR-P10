@@ -39,6 +39,10 @@ public interface PreBookingRepository extends JpaRepository<PreBooking, Integer>
     @Query(value = "select count(*) from PreBooking u where u.book = ?1")
     Integer numberOfPreBookingByBookId(Book book);
 
+    /**
+     * Query to retrieve the list of books currently booked at least once.
+     * @return List of Book.
+     */
     @Query("select distinct u.book from PreBooking u")
     List<Book> findDistinctBook();
 
