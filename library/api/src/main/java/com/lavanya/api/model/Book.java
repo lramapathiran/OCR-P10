@@ -10,8 +10,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Bean representing a Book.
@@ -23,21 +25,29 @@ public class Book {
 	
 	@Id
 	@GeneratedValue (strategy=GenerationType.AUTO)
-	Integer id;
-	
-	String title;
-	String author;
+	private Integer id;
+
+    private String title;
+    private String author;
 	
 	@Column(name="remaining_stock")
-	Integer remainingStock;
+    private Integer remainingStock;
 	
 	@Column(name="full_stock")
-	Integer fullStock;
+    private Integer fullStock;
+
+	@Column(name="total_pre_booking")
+    private Integer totalPreBooking;
 	
-	@OneToMany(mappedBy = "book", fetch = FetchType.LAZY, 
+	@OneToMany(mappedBy = "book", fetch = FetchType.LAZY,
 			cascade = CascadeType.ALL)
-	@JsonBackReference
+	@JsonIgnore
 	private List<Lending> lendings;
+
+    @OneToMany(mappedBy = "book",
+            cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<PreBooking> preBookings;
 	
 	public List<Lending> getLendings() {
 		return lendings;
@@ -48,6 +58,15 @@ public class Book {
 	}
 
 	public Book() {
+	}
+
+	public Book(Integer id, String title, String author, Integer remainingStock, Integer fullStock, Integer totalPreBooking) {
+		this.id = id;
+		this.title = title;
+		this.author = author;
+		this.remainingStock = remainingStock;
+		this.fullStock = fullStock;
+		this.totalPreBooking = totalPreBooking;
 	}
 
 	public Integer getId() {
@@ -90,14 +109,21 @@ public class Book {
 		this.fullStock = fullStock;
 	}
 
-	@Override
-	public String toString() {
-		return "Book [id=" + id + ", title=" + title + ", author=" + author + ", remainingStock=" + remainingStock
-				+ ", fullStock=" + fullStock + ", lendings=" + lendings + "]";
+	public Integer getTotalPreBooking() {
+		return totalPreBooking;
 	}
 
-	
-	
-	
+	public void setTotalPreBooking(Integer totalPreBooking) {
+		this.totalPreBooking = totalPreBooking;
+	}
+
+    public List<PreBooking> getPreBookings() {
+        return preBookings;
+    }
+
+    public void setPreBookings(List<PreBooking> preBookings) {
+        this.preBookings = preBookings;
+    }
+
 
 }

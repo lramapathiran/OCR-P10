@@ -94,7 +94,7 @@ public class UserService implements UserDetailsService{
 
 	/**
 	 * method to generate the UserDetails after authentication.
-	 * @param list of GrantedAuthority associated to the user connected.
+	 * @param authorities as list of GrantedAuthority associated to the user connected.
 	 * @param user that is authenticated.
 	 * @return UserDetails.
 	 */

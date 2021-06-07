@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.lavanya.api.error.SaveLendingFailed;
 import com.lavanya.api.model.Lending;
+import com.lavanya.api.model.Book;
 import com.lavanya.api.model.User;
 import com.lavanya.api.repository.LendingRepository;
 
@@ -80,7 +81,7 @@ public class LendingService {
 		lending.setLendingDate(LocalDate.now());
 		lending.setDueDate(lending.getLendingDate().plusWeeks(4));
 		lending.setIsExtended(false);
-		Integer id = lending.getBook().getId();
+
 			
 		lendingRepository.save(lending);
 		
@@ -89,11 +90,31 @@ public class LendingService {
 			throw new SaveLendingFailed(
 		              "L'emprunt a échoué, veuillez recommencer");
 		}
-		
+		Integer id = lending.getBook().getId();
 		bookService.updateBookStock(id); 
 		
 		return lending;
 	
+	}
+
+	/**
+	 * method to retrieve a particular lending identified by the bookId and the userId for which the lending was made.
+	 * @param userId, id of the user who made the lending.
+	 * @param bookId, id of the book which was lent.
+	 * @return Optional Lending object.
+	 */
+    public Optional<Lending> getLendingByUserIdAndBookId(int userId, int bookId) {
+		Optional<Lending> lending = lendingRepository.findByUserIdAndBookId(userId, bookId);
+		return lending;
+    }
+
+	/**
+	 * method to retrieve the earliest due date of lendings made for a particular book.
+	 * @param book to establish which due dates of wich lendings we are looking for.
+	 * @return LocalDate for the earliest due date amoung all the copies of a book borrowed.
+	 */
+	public LocalDate getLendingsByEarliestDueDate(Book book){
+		return lendingRepository.getEarliestDueDateByBookId(book);
 	}
 	
 }

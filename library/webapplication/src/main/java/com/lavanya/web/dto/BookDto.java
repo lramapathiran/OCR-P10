@@ -8,13 +8,15 @@ import java.util.List;
  * @author lavanya
  */
 public class BookDto {
-	
-	Integer id;	
-	String title;
-	String author;
-	Integer remainingStock;
-	Integer fullStock;
-	private List<LendingDto> lendingDtos;
+
+	private Integer id;
+	private String title;
+	private String author;
+	private Integer remainingStock;
+	private Integer fullStock;
+	private Integer totalPreBooking;
+//	private List<LendingDto> lendingDtos;
+	private List<PreBookingDto> preBookingDtos;
 	
 	public BookDto() {
 	}
@@ -59,18 +61,42 @@ public class BookDto {
 		this.fullStock = fullStock;
 	}
 
-	public List<LendingDto> getLendings() {
-		return lendingDtos;
+	public Integer getTotalPreBooking() {
+		return totalPreBooking;
 	}
 
-	public void setLendings(List<LendingDto> lendingDtos) {
-		this.lendingDtos = lendingDtos;
+	public void setTotalPreBooking(Integer totalPreBooking) {
+		this.totalPreBooking = totalPreBooking;
+	}
+
+//	public List<LendingDto> getLendings() {
+//		return lendingDtos;
+//	}
+//
+//	public void setLendings(List<LendingDto> lendingDtos) {
+//		this.lendingDtos = lendingDtos;
+//	}
+
+	public List<PreBookingDto> getPreBookingDtos() {
+		return preBookingDtos;
+	}
+
+	public void setPreBookingDtos(List<PreBookingDto> preBookingDtos) {
+		this.preBookingDtos = preBookingDtos;
 	}
 
 	@Override
 	public String toString() {
-		return "Book [id=" + id + ", title=" + title + ", author=" + author + ", remainingStock=" + remainingStock
-				+ ", fullStock=" + fullStock + ", lendings=" + lendingDtos + "]";
+		return "BookDto{" +
+				"id=" + id +
+				", title='" + title + '\'' +
+				", author='" + author + '\'' +
+				", remainingStock=" + remainingStock +
+				", fullStock=" + fullStock +
+				", totalPreBooking=" + totalPreBooking +
+//				", lendingDtos=" + lendingDtos +
+				", preBookingDtos=" + preBookingDtos +
+				'}';
 	}
-	
+
 }

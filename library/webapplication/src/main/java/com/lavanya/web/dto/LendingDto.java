@@ -10,16 +10,16 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  * @author lavanya
  */
 public class LendingDto {
-	
-	Integer id;
-	
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
-	LocalDate lendingDate;
+
+	private Integer id;
 	
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
-	LocalDate dueDate;
+	private LocalDate lendingDate;
 	
-	Boolean isExtended;	
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+	private LocalDate dueDate;
+
+	private Boolean isExtended;
 	
 	private BookDto bookDto;
 	

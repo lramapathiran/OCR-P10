@@ -1,0 +1,102 @@
+package com.lavanya.api.dto;
+
+import java.util.List;
+
+/**
+ * Bean representing a data transfer Object BookDto.
+ * BookDto has all attributes to characterized a book.
+ * @author lavanya
+ */
+public class BookDto {
+
+	private Integer id;
+	private String title;
+	private String author;
+	private Integer remainingStock;
+	private Integer fullStock;
+	private Integer totalPreBooking;
+//	private List<LendingDto> lendingDtos;
+	private List<PreBookingDto> preBookingDtos;
+	
+	public BookDto() {
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	public Integer getRemainingStock() {
+		return remainingStock;
+	}
+
+	public void setRemainingStock(Integer remainingStock) {
+		this.remainingStock = remainingStock;
+	}
+
+	public Integer getFullStock() {
+		return fullStock;
+	}
+
+	public void setFullStock(Integer fullStock) {
+		this.fullStock = fullStock;
+	}
+
+//	public List<LendingDto> getLendings() {
+//		return lendingDtos;
+//	}
+//
+//	public void setLendings(List<LendingDto> lendingDtos) {
+//		this.lendingDtos = lendingDtos;
+//	}
+
+	public List<PreBookingDto> getPreBookingDtos() {
+		return preBookingDtos;
+	}
+
+	public void setPreBookingDtos(List<PreBookingDto> preBookingDtos) {
+		this.preBookingDtos = preBookingDtos;
+	}
+
+	public Integer getTotalPreBooking() {
+		return totalPreBooking;
+	}
+
+	public void setTotalPreBooking(Integer totalPreBooking) {
+		this.totalPreBooking = totalPreBooking;
+	}
+
+	@Override
+	public String toString() {
+		return "BookDto{" +
+				"id=" + id +
+				", title='" + title + '\'' +
+				", author='" + author + '\'' +
+				", remainingStock=" + remainingStock +
+				", fullStock=" + fullStock +
+				", totalPreBooking=" + totalPreBooking +
+//				", lendingDtos=" + lendingDtos +
+				", preBookingDtos=" + preBookingDtos +
+				'}';
+	}
+
+}

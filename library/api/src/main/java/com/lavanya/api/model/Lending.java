@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * Bean representing a Lending.
@@ -23,19 +24,19 @@ public class Lending {
 	
 	@Id
 	@GeneratedValue (strategy=GenerationType.AUTO)
-	Integer id;
+	private Integer id;
 	
 	@Column(name="lending_date")
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
-	LocalDate lendingDate;
-	
+	private LocalDate lendingDate;
+
 	@Column(name="due_date")
-	LocalDate dueDate;
-	
+	private LocalDate dueDate;
+
 	@Column(name="is_extended")
-	Boolean isExtended;
-	
-	
+	private Boolean isExtended;
+
+
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id", nullable=false, referencedColumnName = "id")
 	@JsonBackReference
@@ -44,9 +45,19 @@ public class Lending {
 	
 	@ManyToOne
     @JoinColumn(name = "book_id", referencedColumnName = "id")
+	@JsonManagedReference
 	private Book book;
 	
 	public Lending() {
+	}
+
+	public Lending(Integer id, LocalDate lendingDate, LocalDate dueDate, Boolean isExtended, User user, Book book) {
+		this.id = id;
+		this.lendingDate = lendingDate;
+		this.dueDate = dueDate;
+		this.isExtended = isExtended;
+		this.user = user;
+		this.book = book;
 	}
 
 	public Integer getId() {

@@ -1,10 +1,13 @@
 package com.lavanya.api.controller;
 
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import com.lavanya.api.service.BookService;
 import com.lavanya.api.error.ExtendDueDateFailed;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.lavanya.api.model.Lending;
 import com.lavanya.api.model.User;
+import com.lavanya.api.model.Book;
 import com.lavanya.api.service.LendingService;
 import com.lavanya.api.service.UserService;
 
@@ -31,6 +35,9 @@ public class LendingController {
 	
 	@Autowired
 	LendingService lendingService;
+
+	@Autowired
+	BookService bookService;
 	
 	@Autowired
 	UserService userService;
@@ -98,10 +105,21 @@ public class LendingController {
 	  */	
 	@PostMapping("/user/lending/extendDate/{id}")
 	public void updateLending(@PathVariable ("id") Integer lendingId) {
+
 		try{
 			lendingService.getBookDueDateExtended(lendingId);
 		}catch(Exception e){
 			throw new ExtendDueDateFailed("La date limite de retour est dépassée, vous n'êtes plus autorisé à la prolonger!");
 		}
+	}
+
+	/**
+	 * method to retrieve the earliest due date of lendings made for a particular book.
+	 * @param book to establish which due dates of wich lendings we are looking for.
+	 * @return LocalDate for the earliest due date amoung all the copies of a book borrowed.
+	 */
+	@PostMapping("/lending/dueDate")
+	public LocalDate showDueDateByBookId(@RequestBody Book book){
+		return lendingService.getLendingsByEarliestDueDate(book);
 	}
 }
