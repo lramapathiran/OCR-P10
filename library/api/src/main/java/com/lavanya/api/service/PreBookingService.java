@@ -115,6 +115,10 @@ public class PreBookingService {
 
         optional.ifPresent(preBooking -> {
             preBookingRepository.delete(preBooking);
+            Book book = preBooking.getBook();
+            book.setTotalPreBooking(book.getTotalPreBooking() - 1);
+
+            bookRepository.save(book);
         });
     }
 
