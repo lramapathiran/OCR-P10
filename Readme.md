@@ -52,10 +52,8 @@ Les tests unitaires peuvent être lancé directement sur le module api à l'aide
 
 ## Tests d'intégration
 
-1- Importer dans postman la collection de tests et les variables globales à l'aide des 2 fichiers json présents dans le dossier "Integration_Tests"
+1- Importer dans postman la collection de tests et les variables globales à l'aide des 2 fichiers json présents dans le dossier "Integration_Tests". La collection importée porte le nom, "library api test".
 
-2- La collection importée porte le nom, "library api test".
+2- Bien s'assurer que le module api est bien démarré soit sur son ide ou en ligne de commande avec ``mvn spring-boot:run``.
 
-3- Bien s'assurer que le module api est bien démarrer soit sur son ide ou en ligne de commande avec ``mvn spring-boot:run``.
-
-4- Lancer la collection sur postman avec la commande ``run collection``.
+3- Lancer la collection sur postman avec la commande ``run collection``.
