@@ -1,0 +1,19 @@
+{
+	"id": "701aa142-713f-4296-8345-d40b6e48e8a9",
+	"values": [
+		{
+			"key": "jwt_token",
+			"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NUlEIiwiZnVsbG5hbWUiOiJMaW5kYSBNb3LDqnQiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE2MjI1NjExNjAsImV4cCI6MTYyMjU2NDc2MH0.NmA6PD1xbLN_7GD1a52dvQ8BxCbAnCwH_0Aq_qM57p0",
+			"enabled": true
+		},
+		{
+			"key": "preBooking_id_to_delete",
+			"value": "1",
+			"enabled": true
+		}
+	],
+	"name": "My Workspace Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2021-06-15T08:20:02.878Z",
+	"_postman_exported_using": "Postman/8.5.1"
+}

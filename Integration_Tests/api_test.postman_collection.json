@@ -1,0 +1,1279 @@
+{
+	"info": {
+		"_postman_id": "b13c4795-ff07-4c19-bc9f-0dd5ad3955dc",
+		"name": "library api test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentification",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Authentification succeeded\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = responseBody;\r",
+							"postman.setEnvironmentVariable(\"jwt_token\", jsonData);\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"12345ID\",\r\n    \"password\": \"lindamoret8@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/api/auth/login",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Page de Recherche des livres",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Affichage de la liste des ouvrages réussie\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "tokenType",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "accessToken",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:9090/user/showBooks/1",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"user",
+						"showBooks",
+						"1"
+					]
+				},
+				"description": "Affichage de la liste des livres"
+			},
+			"response": []
+		},
+		{
+			"name": "Page de Recherche avec keyword",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verify the number of records\",function()\r",
+							" {\r",
+							"   var response = JSON.parse(responseBody); \r",
+							"   pm.expect(Object.keys(response.content).length).to.eql(1);\r",
+							" });\r",
+							"\r",
+							" pm.test(\"Search result is Sami et Julie, L'anniversaire de Julie\", () => {\r",
+							"    var responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson.content[0].title).to.include('Sami et Julie, L\\'anniversaire de Julie');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:9090/user/showBooks/1?keyword=anniversaire",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"user",
+						"showBooks",
+						"1"
+					],
+					"query": [
+						{
+							"key": "keyword",
+							"value": "anniversaire"
+						}
+					]
+				},
+				"description": "Affichage de la liste des livres"
+			},
+			"response": []
+		},
+		{
+			"name": "récupérer un livre par son id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Affichage avec succès d'un ouvrage par son id\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							" pm.test(\"Expected result is L'Etranger\", () => {\r",
+							"    var responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson.title).to.include('L\\'étranger');\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/user/book/1",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"user",
+						"book",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "récupérer un emprunt par son id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Affichage avec succès de l'emprunt par son id\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							" pm.test(\"Expected result has a lending date of 2020-12-11\", () => {\r",
+							"    var responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson.lendingDate).to.include('2020-12-11');\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/user/lending?id=1",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"user",
+						"lending"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "récupérer la liste d'emprunts d'un utilisateur",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Affichage avec succès de la liste d'emprunts\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							" pm.test(\"Verify the number of records of user\",function()\r",
+							" {\r",
+							"   var response = JSON.parse(responseBody); \r",
+							"   pm.expect(Object.keys(response).length).to.eql(2);\r",
+							" });\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/user/lendings",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"user",
+						"lendings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "prolongation de la date de retour",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"prolongation de la date de retour avec succès\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							" \r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/user/lending/extendDate/50",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"user",
+						"lending",
+						"extendDate",
+						"50"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "échec de la prolongation de la date de retour",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"échec de la prolongation car la date de retour est déjà dépassée\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});\r",
+							"\r",
+							" \r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/user/lending/extendDate/1",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"user",
+						"lending",
+						"extendDate",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "récupérer la date de retour la plus proche par ouvrage",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"date de retour plus proche récupérée avec succès\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							" \r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 1,\r\n    \"title\": \"L'étranger\",\r\n    \"author\": \"Albert Camus\",\r\n    \"remainingStock\": 3,\r\n    \"fullStock\": 10,\r\n    \"totalPreBooking\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/lending/dueDate",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"lending",
+						"dueDate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Liste des notifications d'utilisateurs en retard",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Affichage avec succès des notifications\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/notifications",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"notifications"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Liste des notifications d'ouvrages réempruntables",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Affichage avec succès des notifications pour les livres prêt à l'emprunt\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify the number of notifications generated for book ready to borrow\",function()\r",
+							" {\r",
+							"   var response = JSON.parse(responseBody); \r",
+							"   pm.expect(Object.keys(response).length).to.eql(1);\r",
+							" });\r",
+							"\r",
+							"pm.test(\"Verify the notification contains fullId information\",function()\r",
+							" {\r",
+							"   var response = JSON.parse(responseBody); \r",
+							"   pm.expect(response[0]).to.have.property(\"fullId\");\r",
+							" });\r",
+							"\r",
+							" pm.test(\"Verify the name of the user to warn for a book ready to borrow\",function()\r",
+							" {\r",
+							"   var response = JSON.parse(responseBody); \r",
+							"   pm.expect(response[0].fullId).to.include(\"Linda Morêt\");\r",
+							" });\r",
+							"\r",
+							" pm.test(\"Verify the title of the book ready to borrow\",function()\r",
+							" {\r",
+							"   var response = JSON.parse(responseBody); \r",
+							"   pm.expect(response[0].title).to.include(\"Sami et Julie, L'anniversaire de Julie\");\r",
+							" });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/notifications/reservation",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"notifications",
+						"reservation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Liste des notifications d'ouvrages nulle après 1ère phase de notifications",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Affichage avec succès des notifications pour les livres prêt à l'emprunt\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify there is no new notifications generated once users already notified\",function()\r",
+							" {\r",
+							"   var response = JSON.parse(responseBody); \r",
+							"   pm.expect(response).to.be.empty;\r",
+							" });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/notifications/reservation",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"notifications",
+						"reservation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Liste des réservations d'un utilisateur",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Affichage avec succès des notifications\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify the booking has id 155\",function()\r",
+							" {\r",
+							"   var response = JSON.parse(responseBody); \r",
+							"   pm.expect(response[0].id).to.eql(155);\r",
+							" });\r",
+							"\r",
+							"pm.test(\"Verify the list contains one booking\",function()\r",
+							" {\r",
+							"   var response = JSON.parse(responseBody); \r",
+							"   pm.expect(Object.keys(response).length).to.eql(1);\r",
+							" });\r",
+							"\r",
+							" pm.test(\"Verify the booking is associated to the user connected\",function()\r",
+							" {\r",
+							"   var response = JSON.parse(responseBody); \r",
+							"   pm.expect(response[0].userDto.id).to.eql(1);\r",
+							" });\r",
+							"\r",
+							" pm.test(\"Verify the booking concerns the book of id 4\",function()\r",
+							" {\r",
+							"   var response = JSON.parse(responseBody); \r",
+							"   pm.expect(response[0].bookDto.id).to.eql(4);\r",
+							" });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/user/prebookings",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"user",
+						"prebookings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Liste des réservations pour un livre",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Affichage avec succès des notifications\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify the list contains one booking\",function()\r",
+							" {\r",
+							"   var response = JSON.parse(responseBody); \r",
+							"   pm.expect(Object.keys(response).length).to.eql(2);\r",
+							" });\r",
+							"\r",
+							"pm.test(\"Verify the booking has id 155\",function()\r",
+							" {\r",
+							"   var response = JSON.parse(responseBody); \r",
+							"   pm.expect(response[0].id).to.eql(155);\r",
+							" });\r",
+							"\r",
+							" pm.test(\"Verify the booking is associated to the user connected\",function()\r",
+							" {\r",
+							"   var response = JSON.parse(responseBody); \r",
+							"   pm.expect(response[0].userDto.id).to.eql(1);\r",
+							" });\r",
+							"\r",
+							" pm.test(\"Verify the booking concerns the book of id 4\",function()\r",
+							" {\r",
+							"   var response = JSON.parse(responseBody); \r",
+							"   pm.expect(response[0].bookDto.id).to.eql(4);\r",
+							" });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/book/prebookings?id=4",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"book",
+						"prebookings"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "créer une réservation de livre",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"prolongation de la date de retour avec succès\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							" \r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n        \"id\": null,\r\n        \"time\": null,\r\n        \"bookDto\": {\r\n            \"id\": 2,\r\n            \"title\": \"Bel-Ami\",\r\n            \"author\": \"Guy de Maupassant\",\r\n            \"remainingStock\": 0,\r\n            \"fullStock\": 3,\r\n            \"totalPreBooking\": 0,\r\n            \"preBookingDtos\": null\r\n        },\r\n        \"userDto\": {\r\n            \"id\": null,\r\n            \"firstName\": null,\r\n            \"lastName\": null,\r\n            \"email\": null,\r\n            \"roles\": null,\r\n            \"lendingDto\": null,\r\n            \"preBookingDtos\": null\r\n        }\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/user/preBooking",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"user",
+						"preBooking"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Liste des réservations +1 après nouvelle réservation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Affichage avec succès des notifications\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify the list contains two bookings after new booking \",function()\r",
+							" {\r",
+							"   var response = JSON.parse(responseBody); \r",
+							"   pm.expect(Object.keys(response).length).to.eql(2);\r",
+							" });\r",
+							"\r",
+							" pm.test(\"Verify the booking is associated to the user connected\",function()\r",
+							" {\r",
+							"   var response = JSON.parse(responseBody); \r",
+							"   pm.expect(response[1].userDto.id).to.eql(1);\r",
+							" });\r",
+							"\r",
+							" pm.test(\"Verify the booking concerns the book of id 2\",function()\r",
+							" {\r",
+							"   var response = JSON.parse(responseBody); \r",
+							"   pm.expect(response[1].bookDto.id).to.eql(2);\r",
+							" });\r",
+							"\r",
+							"const response = JSON.parse(responseBody)\r",
+							"postman.setEnvironmentVariable(\"preBooking_id_to_delete\", response[1].id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/user/prebookings",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"user",
+						"prebookings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "supprimer une réservation de livre",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"prolongation de la date de retour avec succès\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							" \r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n        \"id\": null,\r\n        \"time\": null,\r\n        \"bookDto\": {\r\n            \"id\": 6,\r\n            \"title\": \"On va déguster l'Italie\",\r\n            \"author\": \"François-Régis Gaudry\",\r\n            \"remainingStock\": 0,\r\n            \"fullStock\": 3,\r\n            \"totalPreBooking\": 0,\r\n            \"preBookingDtos\": null\r\n        },\r\n        \"userDto\": {\r\n            \"id\": null,\r\n            \"firstName\": null,\r\n            \"lastName\": null,\r\n            \"email\": null,\r\n            \"roles\": null,\r\n            \"lendingDto\": null,\r\n            \"preBookingDtos\": null\r\n        }\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/preBooking/delete?id={{preBooking_id_to_delete}}",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"preBooking",
+						"delete"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{preBooking_id_to_delete}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Liste des réservations -1 après nouvelle réservation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Affichage avec succès des notifications\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify the list contains one booking after booking deletion\",function()\r",
+							" {\r",
+							"   var response = JSON.parse(responseBody); \r",
+							"   pm.expect(Object.keys(response).length).to.eql(1);\r",
+							" });\r",
+							"\r",
+							" pm.test(\"Verify the booking isn't the book of id 2\",function()\r",
+							" {\r",
+							"   var response = JSON.parse(responseBody); \r",
+							"   pm.expect(response[0].bookDto.id).to.eql(4);\r",
+							"   pm.expect(response[0].bookDto.id).to.not.eq(2);\r",
+							" });\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/user/prebookings",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"user",
+						"prebookings"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "jwt_token",
+			"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NUlEIiwiZnVsbG5hbWUiOiJMaW5kYSBNb3LDqnQiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE2MjI1NjExNjAsImV4cCI6MTYyMjU2NDc2MH0.NmA6PD1xbLN_7GD1a52dvQ8BxCbAnCwH_0Aq_qM57p0"
+		}
+	]
+}
